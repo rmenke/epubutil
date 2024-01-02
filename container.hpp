@@ -1,14 +1,10 @@
 #ifndef _container_hpp_
 #define _container_hpp_
 
+#include "package.hpp"
+
 #include <filesystem>
-#include <fstream>
-#include <future>
-#include <ios>
-#include <iostream>
 #include <map>
-#include <stdexcept>
-#include <system_error>
 
 namespace epub {
 
@@ -22,8 +18,11 @@ class duplicate_error : public std::filesystem::filesystem_error {
 };
 
 class container {
-    /// @brief Mapping from local (container) files to source files.
+    /// @brief Mapping from local (container) paths to source paths.
     std::map<std::filesystem::path, std::filesystem::path> _files;
+
+    /// @brief The EPUB package document.
+    class package _package;
 
   public:
     /// @brief Add a file to the container.

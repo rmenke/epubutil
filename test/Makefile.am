@@ -1,4 +1,4 @@
-TESTS = 01-container.test
+TESTS = 01-container.test 02-package.test
 
 TEST_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) \
 	$(top_srcdir)/build-aux/tap-driver.sh
