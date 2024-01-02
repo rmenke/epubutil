@@ -1,7 +1,6 @@
 #include "container.hpp"
 
-#include <filesystem>
-#include <ios>
+#include <fstream>
 
 namespace fs = std::filesystem;
 
@@ -45,7 +44,7 @@ void container::write(const fs::path &path) const {
     auto contents_dir = path / "Contents";
     fs::create_directory(contents_dir);
 
-    write_file(contents_dir/"package.opf", "<package version='3.0' xmlns='http://www.idpf.org/2007/opf'/>");
+    _package.write(contents_dir/"package.opf");
 
     for (auto &[key, source] : _files) {
         auto local = path / key;

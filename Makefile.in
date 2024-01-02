@@ -114,7 +114,7 @@ CONFIG_CLEAN_FILES = Doxyfile
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libepubutil_la_LIBADD =
-am_libepubutil_la_OBJECTS = container.lo
+am_libepubutil_la_OBJECTS = container.lo package.lo
 libepubutil_la_OBJECTS = $(am_libepubutil_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -135,7 +135,8 @@ am__v_at_1 =
 DEFAULT_INCLUDES = 
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/container.Plo
+am__depfiles_remade = ./$(DEPDIR)/container.Plo \
+	./$(DEPDIR)/package.Plo
 am__mv = mv -f
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -428,7 +429,9 @@ ACLOCAL_AMFLAGS = -I m4 --install
 SUBDIRS = . test
 EXTRA_DIST = git-semver
 noinst_LTLIBRARIES = libepubutil.la
-libepubutil_la_SOURCES = container.hpp container.cpp
+libepubutil_la_SOURCES = container.hpp container.cpp package.hpp	\
+                         package.cpp
+
 AM_CPPFLAGS = $(CODE_COVERAGE_CPPFLAGS)
 AM_CXXFLAGS = $(CODE_COVERAGE_CXXFLAGS)
 CODE_COVERAGE_IGNORE_PATTERN = "$(abspath $(abs_top_builddir))/test/*"
@@ -494,6 +497,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/container.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/package.Plo@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -879,6 +883,7 @@ clean-am: clean-generic clean-libtool clean-local \
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 		-rm -f ./$(DEPDIR)/container.Plo
+	-rm -f ./$(DEPDIR)/package.Plo
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-libtool distclean-tags
@@ -927,6 +932,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
 		-rm -f ./$(DEPDIR)/container.Plo
+	-rm -f ./$(DEPDIR)/package.Plo
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

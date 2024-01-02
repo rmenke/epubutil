@@ -87,7 +87,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-TESTS = 01-container.test$(EXEEXT)
+TESTS = 01-container.test$(EXEEXT) 02-package.test$(EXEEXT)
 check_PROGRAMS = $(am__EXEEXT_1)
 subdir = test
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -108,7 +108,7 @@ DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
 mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am__EXEEXT_1 = 01-container.test$(EXEEXT)
+am__EXEEXT_1 = 01-container.test$(EXEEXT) 02-package.test$(EXEEXT)
 01_container_test_SOURCES = 01-container.cpp
 01_container_test_OBJECTS = 01-container.$(OBJEXT)
 01_container_test_LDADD = $(LDADD)
@@ -116,6 +116,9 @@ AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
+02_package_test_SOURCES = 02-package.cpp
+02_package_test_OBJECTS = 02-package.$(OBJEXT)
+02_package_test_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -131,7 +134,8 @@ am__v_at_1 =
 DEFAULT_INCLUDES = 
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/01-container.Po
+am__depfiles_remade = ./$(DEPDIR)/01-container.Po \
+	./$(DEPDIR)/02-package.Po
 am__mv = mv -f
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -151,8 +155,8 @@ AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-SOURCES = 01-container.cpp
-DIST_SOURCES = 01-container.cpp
+SOURCES = 01-container.cpp 02-package.cpp
+DIST_SOURCES = 01-container.cpp 02-package.cpp
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -575,6 +579,10 @@ clean-checkPROGRAMS:
 	@rm -f 01-container.test$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(01_container_test_OBJECTS) $(01_container_test_LDADD) $(LIBS)
 
+02-package.test$(EXEEXT): $(02_package_test_OBJECTS) $(02_package_test_DEPENDENCIES) $(EXTRA_02_package_test_DEPENDENCIES) 
+	@rm -f 02-package.test$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(02_package_test_OBJECTS) $(02_package_test_LDADD) $(LIBS)
+
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 
@@ -582,6 +590,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/01-container.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/02-package.Po@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -905,6 +914,7 @@ clean-am: clean-checkPROGRAMS clean-generic clean-libtool \
 
 distclean: distclean-am
 		-rm -f ./$(DEPDIR)/01-container.Po
+	-rm -f ./$(DEPDIR)/02-package.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -951,6 +961,7 @@ installcheck-am:
 
 maintainer-clean: maintainer-clean-am
 		-rm -f ./$(DEPDIR)/01-container.Po
+	-rm -f ./$(DEPDIR)/02-package.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
