@@ -13,10 +13,13 @@ noinst_LTLIBRARIES = libepubutil.la
 libepubutil_la_SOURCES = container.hpp container.cpp package.hpp	\
                          package.cpp
 
-AM_CPPFLAGS = $(CODE_COVERAGE_CPPFLAGS)
-AM_CXXFLAGS = $(CODE_COVERAGE_CXXFLAGS)
+AM_CPPFLAGS = $(LIBXML2_CPPFLAGS)
+AM_CXXFLAGS =
+LIBS = $(LIBXML2_LIBS)
 
-LIBS = $(CODE_COVERAGE_LIBS)
+AM_CPPFLAGS += $(CODE_COVERAGE_CPPFLAGS)
+AM_CXXFLAGS += $(CODE_COVERAGE_CXXFLAGS)
+LIBS += $(CODE_COVERAGE_LIBS)
 
 CODE_COVERAGE_IGNORE_PATTERN = "$(abspath $(abs_top_builddir))/test/*"
 

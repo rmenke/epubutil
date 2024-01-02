@@ -434,8 +434,12 @@ LCOV = @LCOV@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
-LIBS = $(top_builddir)/libepubutil.la $(CODE_COVERAGE_LIBS)
+LIBS = $(top_builddir)/libepubutil.la $(LIBXML2_LIBS) \
+	$(CODE_COVERAGE_LIBS)
 LIBTOOL = @LIBTOOL@
+LIBXML2_CONFIG = @LIBXML2_CONFIG@
+LIBXML2_CPPFLAGS = @LIBXML2_CPPFLAGS@
+LIBXML2_LIBS = @LIBXML2_LIBS@
 LIPO = @LIPO@
 LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
@@ -525,7 +529,7 @@ TEST_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) \
 
 AM_DEFAULT_SOURCE_EXT = .cpp
 AM_CPPFLAGS = -I$(top_srcdir) -DTESTDIR=\"$(abs_srcdir)\" \
-	$(CODE_COVERAGE_CPPFLAGS)
+	$(LIBXML2_CPPFLAGS) $(CODE_COVERAGE_CPPFLAGS)
 AM_CXXFLAGS = -Wall -Wpedantic $(CODE_COVERAGE_CXXFLAGS)
 AM_TEST_LOG_DRIVER_FLAGS = $(am__test_driver_flags_@AM_V@)
 am__test_driver_flags_ = $(am__test_driver_flags_@AM_DEFAULT_V@)

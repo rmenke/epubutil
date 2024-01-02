@@ -8,6 +8,9 @@ AM_CPPFLAGS = -I$(top_srcdir) -DTESTDIR=\"$(abs_srcdir)\"
 AM_CXXFLAGS = -Wall -Wpedantic
 LIBS = $(top_builddir)/libepubutil.la
 
+AM_CPPFLAGS += $(LIBXML2_CPPFLAGS)
+LIBS += $(LIBXML2_LIBS)
+
 AM_CPPFLAGS += $(CODE_COVERAGE_CPPFLAGS)
 AM_CXXFLAGS += $(CODE_COVERAGE_CXXFLAGS)
 LIBS += $(CODE_COVERAGE_LIBS)
