@@ -34,6 +34,23 @@ AS_IF([test "x$enable_epubcheck" != xno],[
     ])
 ])
 
+AC_ARG_VAR([LIBXML2_CPPFLAGS],[libxml2 preprocessor flags])
+AC_ARG_VAR([LIBXML2_LIBS],[libxml2 preprocessor flags])
+
+need_xml2_configuration=no
+
+for var in LIBXML2_CPPFLAGS LIBXML2_LIBS; do
+    AS_VAR_SET_IF([$var],[],[need_xml2_configuration=yes])
+done
+
+AS_IF([test "x$need_xml2_configuration" != xno],[
+    AC_CHECK_PROGS([LIBXML2_CONFIG],[xml2-config],[:])
+    LIBXML2_CPPFLAGS="`$LIBXML2_CONFIG --cflags`"
+    LIBXML2_LIBS="`$LIBXML2_CONFIG --libs`"
+],[
+    AC_MSG_NOTICE([skipping libxml2 configuration])
+])
+
 AX_CODE_COVERAGE
 
 AC_CONFIG_FILES([Makefile test/Makefile Doxyfile])
