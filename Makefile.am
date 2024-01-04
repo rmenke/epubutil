@@ -10,8 +10,8 @@ SUBDIRS = . test
 EXTRA_DIST = git-semver
 
 noinst_LTLIBRARIES = libepubutil.la
-libepubutil_la_SOURCES = container.hpp container.cpp package.hpp	\
-                         package.cpp
+libepubutil_la_SOURCES = container.hpp container.cpp metadata.hpp	\
+                         metadata.cpp package.hpp xml.hpp xml.cpp
 
 AM_CPPFLAGS = $(LIBXML2_CPPFLAGS)
 AM_CXXFLAGS =

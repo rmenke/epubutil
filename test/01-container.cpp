@@ -24,7 +24,7 @@ int main(int argc, const char **argv) {
     namespace fs = std::filesystem;
 
     auto output_file = fs::path(argv[0]).filename();
-    output_file.replace_extension(".epub");
+    output_file.replace_extension();
     output_file = fs::temp_directory_path() / output_file;
 
     test_plan plan;
@@ -124,5 +124,5 @@ int main(int argc, const char **argv) {
         bail_out(std::current_exception());
     }
 
-    if (plan.status() == 0) fs::remove_all(output_file);
+    // if (plan.status() == 0) fs::remove_all(output_file);
 }
