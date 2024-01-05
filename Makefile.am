@@ -10,8 +10,9 @@ SUBDIRS = . test
 EXTRA_DIST = git-semver
 
 noinst_LTLIBRARIES = libepubutil.la
-libepubutil_la_SOURCES = container.hpp container.cpp metadata.hpp	\
-                         metadata.cpp package.hpp xml.hpp xml.cpp
+libepubutil_la_SOURCES = container.hpp container.cpp manifest.hpp	\
+                         metadata.hpp metadata.cpp package.hpp		\
+                         spine.hpp xml.hpp xml.cpp
 
 AM_CPPFLAGS = $(LIBXML2_CPPFLAGS)
 AM_CXXFLAGS =
@@ -29,7 +30,7 @@ git-add:
 	@(cd "$(top_srcdir)"; find . -name .gitignore -print0 | xargs -0t git add --verbose)
 	$(RM) -r "$(distdir)"
 
-doc: Doxyfile $(include_HEADERS)
+doc: Doxyfile $(libepubutil_la_SOURCES)
 	$(RM) -r "$(top_builddir)/doc"
 	cd "$(top_srcdir)"; doxygen "$(abs_top_builddir)/Doxyfile"
 	@set -x; TMPDIR="`mktemp -d`"; trap "$(RM) -r $${TMPDIR}" 0 1 2 15; mv "$(top_srcdir)/doc" "$${TMPDIR}/doc" && $(RM) -r "$(top_builddir)/doc" && mv "$${TMPDIR}/doc" "$(top_builddir)/doc"
