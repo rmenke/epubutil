@@ -2,6 +2,7 @@
 #define _container_hpp_
 
 #include "package.hpp"
+#include "navigation.hpp"
 
 #include <filesystem>
 #include <map>
@@ -24,7 +25,12 @@ class container {
     /// @brief The EPUB package document.
     class package _package;
 
-  public:
+    /// @brief The EPUB navigation document.
+    class navigation _navigation;
+
+public:
+    container();
+
     /// @brief Add a file to the container.
     ///
     /// Adds @p source to the container as @p local, relative to the
@@ -35,15 +41,7 @@ class container {
     /// @throws duplicate_error if the local name is already in use
     ///
     void add(const std::filesystem::path &source,
-             const std::filesystem::path &local) {
-        auto key = "Contents" / local.lexically_normal();
-
-        if (auto found = _files.find(key); found != _files.end()) {
-            throw duplicate_error(source, found->second);
-        }
-
-        _files.insert({std::move(key), source.lexically_normal()});
-    }
+             const std::filesystem::path &local);
 
     /// @brief Add a file to the container.
     ///

@@ -1,9 +1,13 @@
 #include "xml.hpp"
 
+#include "manifest.hpp"
+#include "navigation.hpp"
 #include "package.hpp"
 
+#include <libxml/encoding.h>
 #include <libxml/tree.h>
-#include <libxml/valid.h>
+#include <libxml/xpath.h>
+#include <libxml/xpathInternals.h>
 
 #include <cstdio>
 #include <ctime>
@@ -12,13 +16,11 @@
 #include <future>
 #include <iomanip>
 #include <memory>
+#include <span>
 #include <sstream>
 #include <string>
 
 namespace epub::xml {
-
-constexpr auto opf_ns_uri = u8"http://www.idpf.org/2007/opf";
-constexpr auto dc_ns_uri = u8"http://purl.org/dc/elements/1.1/";
 
 template <class T>
 struct _xml_deleter;
@@ -31,8 +33,17 @@ struct _xml_deleter;
         }                                  \
     }
 
+template <>
+struct _xml_deleter<xmlChar> {
+    void operator()(xmlChar *ptr) const {
+        xmlFree(ptr);
+    }
+};
+
 DELETER(xml, Doc);
 DELETER(xml, Node);
+DELETER(xmlXPath, Context);
+DELETER(xmlXPath, Object);
 
 template <class T>
 using xml_ptr = std::unique_ptr<T, _xml_deleter<T>>;
@@ -105,9 +116,25 @@ void write_metadata(xmlNodePtr metadata, const class metadata &m) {
     }
 }
 
-void write_manifest(xmlNodePtr manifest, const class manifest &m) {}
+void write_manifest(xmlNodePtr manifest, const class manifest &m) {
+    for (auto &&item : m) {
+        auto node = xmlNewChild(manifest, nullptr, UTF8("item"), nullptr);
+        xmlSetProp(node, UTF8("id"), to_xmlchar(item->id()));
+        xmlSetProp(node, UTF8("href"), to_xmlchar(item->path().u8string()));
+        xmlSetProp(node, UTF8("media-type"),
+                   to_xmlchar(item->metadata().at(u8"media-type")));
+        if (auto props = item->properties(); !props.empty()) {
+            xmlSetProp(node, UTF8("properties"), to_xmlchar(props));
+        }
+    }
+}
 
-void write_spine(xmlNodePtr spine, const class spine &m) {}
+void write_spine(xmlNodePtr spine, const class spine &s) {
+    for (auto &&itemref : s) {
+        auto node = xmlNewChild(spine, nullptr, UTF8("itemref"), nullptr);
+        xmlSetProp(node, UTF8("idref"), to_xmlchar(itemref->id()));
+    }
+}
 
 void write_package(const std::filesystem::path &path, const package &p) {
     auto doc = new_doc();
@@ -130,9 +157,91 @@ void write_package(const std::filesystem::path &path, const package &p) {
     auto spine = xmlNewChild(root, opf_ns, UTF8("spine"), nullptr);
     write_spine(spine, p.spine());
 
-    if (xmlSaveFormatFileEnc(path.c_str(), doc.get(), "utf-8", 1) < 0) {
+    auto encoding = xmlGetCharEncodingName(XML_CHAR_ENCODING_UTF8);
+
+    if (xmlSaveFormatFileEnc(path.c_str(), doc.get(), encoding, 1) < 0) {
         throw std::filesystem::filesystem_error(
             __func__, path, std::make_error_code(std::errc::io_error));
+    }
+}
+
+void write_navigation(const std::filesystem::path &path,
+                      const navigation &n) {
+    auto doc = new_doc();
+
+    auto html = xmlNewDocNode(doc.get(), nullptr, UTF8("html"), nullptr);
+    auto xhtml_ns = xmlNewNs(html, to_xmlchar(xhtml_ns_uri), nullptr);
+    xmlSetNs(html, xhtml_ns);
+
+    xmlDocSetRootElement(doc.get(), html);
+
+    auto head = xmlNewChild(html, xhtml_ns, UTF8("head"), nullptr);
+    auto body = xmlNewChild(html, xhtml_ns, UTF8("body"), nullptr);
+
+    xmlNewChild(head, xhtml_ns, UTF8("title"), UTF8("Table of Contents"));
+
+    auto nav = xmlNewChild(body, xhtml_ns, UTF8("nav"), nullptr);
+    auto ol = xmlNewChild(nav, xhtml_ns, UTF8("ol"), nullptr);
+
+    auto ops_ns = xmlNewNs(nav, to_xmlchar(ops_ns_uri), UTF8("epub"));
+    xmlSetNsProp(nav, ops_ns, UTF8("type"), UTF8("toc"));
+
+    for (auto &&item : n) {
+        auto li = xmlNewChild(ol, xhtml_ns, UTF8("li"), nullptr);
+        auto a = xmlNewChild(li, xhtml_ns, UTF8("a"),
+                             to_xmlchar(item->metadata().at(u8"title")));
+        xmlSetProp(a, UTF8("href"), to_xmlchar(item->path().u8string()));
+    }
+
+    auto encoding = xmlGetCharEncodingName(XML_CHAR_ENCODING_UTF8);
+
+    if (xmlSaveFormatFileEnc(path.c_str(), doc.get(), encoding, 1) < 0) {
+        throw std::filesystem::filesystem_error(
+            __func__, path, std::make_error_code(std::errc::io_error));
+    }
+}
+
+/// @brief Get the node set from an XPath object.
+///
+/// The node set is returned as a sized range.
+///
+/// @param obj a managed pointer to an XPath result
+/// @return a span over the node set
+///
+static inline auto as_list(const xml_ptr<xmlXPathObject> &obj) {
+    const auto ns = obj->nodesetval;
+    return std::span(ns->nodeTab, ns->nodeNr);
+}
+
+void get_xhtml_metadata(const std::filesystem::path &path,
+                        file_metadata &metadata) {
+    auto doc =
+        as_xml_ptr(xmlReadFile(path.c_str(), nullptr, XML_PARSE_NOENT));
+    auto ctx = as_xml_ptr(xmlXPathNewContext(doc.get()));
+
+    xmlXPathRegisterNs(ctx.get(), UTF8("ht"), to_xmlchar(xhtml_ns_uri));
+
+    auto result = as_xml_ptr(
+        xmlXPathEval(UTF8("string(/ht:html/ht:head/ht:title)"), ctx.get()));
+
+    auto title = reinterpret_cast<const char8_t *>(result->stringval);
+
+    metadata[u8"title"] = title;
+
+    result = as_xml_ptr(xmlXPathEval(
+        UTF8("/ht:html/ht:head/ht:meta[starts-with(@name, 'epub:')]"),
+        ctx.get()));
+
+    for (auto &&node : as_list(result)) {
+        auto namep = xmlGetProp(node, UTF8("name"));
+        std::u8string name{reinterpret_cast<const char8_t *>(namep)};
+        xmlFree(namep);
+
+        auto contentp = xmlGetProp(node, UTF8("content"));
+        std::u8string content{reinterpret_cast<const char8_t *>(contentp)};
+        xmlFree(contentp);
+
+        metadata[std::move(name).substr(5)] = std::move(content);
     }
 }
 

@@ -1,44 +1,37 @@
-#ifndef _spine_hpp_
-#define _spine_hpp_
+#ifndef _navigation_hpp_
+#define _navigation_hpp_
 
 #include "manifest.hpp"
+#include "xml.hpp"
 
-#include <functional>
-#include <iostream>
+#include <filesystem>
 #include <memory>
-#include <ranges>
 #include <vector>
 
 namespace epub {
 
-class spine {
+class navigation {
     using item_ptr = std::shared_ptr<manifest::item>;
     using weak_item_ptr = item_ptr::weak_type;
 
+    std::vector<weak_item_ptr> _items;
+
     static constexpr auto as_shared =
         std::views::transform(&weak_item_ptr::lock);
-    static constexpr auto ignore_nulls = std::views::filter(
-        &item_ptr::operator bool);
-
-    std::vector<weak_item_ptr> _items;
+    static constexpr auto ignore_nulls =
+        std::views::filter(&item_ptr::operator bool);
 
 #define AUTO_MEMBER(MEMBER, INIT) decltype(INIT) MEMBER = (INIT)
 
     mutable AUTO_MEMBER(_view, _items | as_shared | ignore_nulls);
 
   public:
-    spine() = default;
-
-    spine(const spine &) = delete;
-    spine(spine &&) = default;
-
-    ~spine() = default;
-
-    spine &operator=(const spine &) = delete;
-    spine &operator=(spine &&) = default;
-
-    void add(weak_item_ptr ptr) {
+    void add(std::weak_ptr<manifest::item> ptr) {
         _items.push_back(std::move(ptr));
+    }
+
+    void write(const std::filesystem::path &path) const {
+        xml::write_navigation(path, *this);
     }
 
     auto begin() const {

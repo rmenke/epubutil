@@ -24,12 +24,14 @@ int main(int argc, const char** argv) {
     try {
         package p;
 
+        p.manifest().add(u8"nav", "nav.xhtml", u8"nav",
+                         {{u8"media-type", u8"application/xhtml+xml"}});
+        p.spine().add(p.manifest().back());
+
         p.write(output_file);
 
         ok(fs::exists(output_file), "file created");
         diag("created ", output_file);
-
-        TODO("finish implementation") {
 
 #ifdef EPUBCHECK
         auto epubcheck_out = fs::path{output_file}.replace_extension("txt");
@@ -48,8 +50,6 @@ int main(int argc, const char** argv) {
 #else
         skip(1, "epubcheck disabled");
 #endif
-
-        }
     }
     catch (...) {
         bail_out(std::current_exception());

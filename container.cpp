@@ -1,8 +1,24 @@
 #include "container.hpp"
+#include "manifest.hpp"
+#include "media-type.hpp"
+#include "xml.hpp"
 
 #include <fstream>
+#include <sstream>
 
 namespace fs = std::filesystem;
+
+static
+std::u8string generate_id() {
+    static unsigned next = 0U;
+
+    std::ostringstream out;
+    out << "g" << std::setw(8) << std::setfill('0') << std::hex << ++next;
+    std::string s = std::move(out).str();
+
+    return std::u8string{s.begin(), s.end()};
+}
+
 
 namespace epub {
 
@@ -16,6 +32,41 @@ static constexpr std::string_view container_xml =
   </rootfiles>
 </container>
 )%%";
+
+container::container() {
+    auto item = _package.manifest().add(
+        u8"nav", u8"nav.xhtml", u8"nav",
+        {{u8"title", u8"Table of Contents"},
+         {u8"media-type", u8"application/xhtml+xml"}});
+    _package.spine().add(item);
+    _navigation.add(item);
+}
+
+void container::add(const std::filesystem::path &source,
+                    const std::filesystem::path &local) {
+    auto key = "Contents" / local.lexically_normal();
+
+    if (auto found = _files.find(key); found != _files.end()) {
+        throw duplicate_error(source, found->second);
+    }
+
+    _files.insert({std::move(key), source.lexically_normal()});
+
+    file_metadata metadata;
+
+    auto media_type = metadata[u8"media-type"] = guess_media_type(local);
+
+    if (media_type == xhtml_media_type) {
+        xml::get_xhtml_metadata(source, metadata);
+        auto item = _package.manifest().add(generate_id(), local, {}, metadata);
+        _package.spine().add(item);
+        _navigation.add(item);
+    }
+    else if (media_type == svg_media_type) {
+        // TODO : xml::get_svg_metadata(source, metadata);
+    }
+}
+
 
 template <class String>
 static void write_file(const fs::path &path, String &&string) {
@@ -44,7 +95,9 @@ void container::write(const fs::path &path) const {
     auto contents_dir = path / "Contents";
     fs::create_directory(contents_dir);
 
-    _package.write(contents_dir/"package.opf");
+    _package.write(contents_dir / "package.opf");
+
+    _navigation.write(contents_dir / "nav.xhtml");
 
     for (auto &[key, source] : _files) {
         auto local = path / key;
