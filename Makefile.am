@@ -11,7 +11,8 @@ EXTRA_DIST = git-semver
 
 noinst_LTLIBRARIES = libepubutil.la
 libepubutil_la_SOURCES = container.hpp container.cpp manifest.hpp	\
-                         metadata.hpp metadata.cpp package.hpp		\
+                         media-type.hpp metadata.hpp metadata.cpp	\
+                         navigation.hpp navigation.cpp package.hpp	\
                          spine.hpp xml.hpp xml.cpp
 
 AM_CPPFLAGS = $(LIBXML2_CPPFLAGS)

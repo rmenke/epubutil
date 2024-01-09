@@ -1,4 +1,5 @@
-TESTS = 01-container.test 02-package.test
+TESTS = 01-container.test 02-package.test 03-manifest.test \
+        04-spine.test
 
 TEST_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) \
 	$(top_srcdir)/build-aux/tap-driver.sh
@@ -6,7 +7,8 @@ TEST_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) \
 AM_DEFAULT_SOURCE_EXT = .cpp
 AM_CPPFLAGS = -I$(top_srcdir) -DTESTDIR=\"$(abs_srcdir)\"
 AM_CXXFLAGS = -Wall -Wpedantic
-LIBS = $(top_builddir)/libepubutil.la
+LIBS =
+LDADD = $(top_builddir)/libepubutil.la
 
 AM_CPPFLAGS += $(LIBXML2_CPPFLAGS)
 LIBS += $(LIBXML2_LIBS)

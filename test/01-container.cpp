@@ -1,6 +1,5 @@
 #include "container.hpp"
 
-#include <exception>
 #include <filesystem>
 #include <fstream>
 #include <ranges>
@@ -90,6 +89,8 @@ int main(int argc, const char **argv) {
         }
 
         file_exists(output_file / "META-INF" / "container.xml");
+        file_exists(output_file / "Contents" / "package.opf");
+        file_exists(output_file / "Contents" / "nav.xhtml");
 
         for (const auto &source : paths) {
             auto path = output_file / "Contents" / source.filename();
@@ -97,8 +98,6 @@ int main(int argc, const char **argv) {
         }
 
         file_exists(output_file / "Contents" / "ch1-redux.xhtml");
-
-        TODO("finish implementation") {
 
 #ifdef EPUBCHECK
         auto epubcheck_out = fs::path{output_file}.replace_extension("txt");
@@ -117,8 +116,6 @@ int main(int argc, const char **argv) {
 #else
         skip(1, "epubcheck disabled");
 #endif
-
-        }
     }
     catch (...) {
         bail_out(std::current_exception());
