@@ -29,6 +29,9 @@ class metadata {
     const std::u8string title() const {
         return _title;
     }
+    void title(std::u8string title) {
+        _title = std::move(title);
+    }
     const std::u8string language() const {
         return _language;
     }
