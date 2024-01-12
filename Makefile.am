@@ -15,6 +15,10 @@ libepubutil_la_SOURCES = container.hpp container.cpp manifest.hpp	\
                          navigation.hpp navigation.cpp package.hpp	\
                          spine.hpp xml.hpp xml.cpp
 
+bin_PROGRAMS = binder
+binder_LDADD = libepubutil.la
+binder_SOURCES = binder.cpp options.hpp
+
 AM_CPPFLAGS = $(LIBXML2_CPPFLAGS)
 AM_CXXFLAGS =
 LIBS = $(LIBXML2_LIBS)

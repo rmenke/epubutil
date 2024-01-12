@@ -22,7 +22,7 @@ class id_in_use : public std::runtime_error {
         : id_in_use(std::string{id.begin(), id.end()}) {}
 };
 
-class manifest : public std::ranges::view_interface<manifest> {
+class manifest {
   public:
     class item {
         std::u8string _id;
@@ -63,12 +63,12 @@ class manifest : public std::ranges::view_interface<manifest> {
     manifest() = default;
 
     manifest(const manifest &) = delete;
-    manifest(manifest &&) = default;
+    manifest(manifest &&) = delete;
 
     ~manifest() = default;
 
     manifest &operator=(const manifest &) = delete;
-    manifest &operator=(manifest &&) = default;
+    manifest &operator=(manifest &&) = delete;
 
     std::shared_ptr<item> add(const std::u8string &id,
                               const std::filesystem::path &path,
@@ -83,9 +83,15 @@ class manifest : public std::ranges::view_interface<manifest> {
     auto begin() const {
         return _view.begin();
     }
-
     auto end() const {
         return _view.end();
+    }
+
+    auto &front() const {
+        return *begin();
+    }
+    auto &back() const {
+        return *std::prev(end());
     }
 
     template<class Key>

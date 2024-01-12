@@ -1,8 +1,8 @@
 #ifndef _container_hpp_
 #define _container_hpp_
 
-#include "package.hpp"
 #include "navigation.hpp"
+#include "package.hpp"
 
 #include <filesystem>
 #include <map>
@@ -28,7 +28,7 @@ class container {
     /// @brief The EPUB navigation document.
     class navigation _navigation;
 
-public:
+  public:
     container();
 
     /// @brief Add a file to the container.
@@ -53,6 +53,13 @@ public:
     ///
     void add(const std::filesystem::path &path) {
         return add(path, path.filename());
+    }
+
+    auto &metadata() {
+        return _package.metadata();
+    }
+    const auto &metadata() const {
+        return _package.metadata();
     }
 
     void write(const std::filesystem::path &path) const;
