@@ -10,10 +10,11 @@ SUBDIRS = . test
 EXTRA_DIST = git-semver
 
 noinst_LTLIBRARIES = libepubutil.la
-libepubutil_la_SOURCES = container.hpp container.cpp manifest.hpp	\
-                         media-type.hpp metadata.hpp metadata.cpp	\
-                         navigation.hpp navigation.cpp package.hpp	\
-                         spine.hpp xml.hpp xml.cpp
+libepubutil_la_SOURCES = container.hpp container.cpp                    \
+                         file_metadata.hpp manifest.hpp                 \
+                         media_type.hpp metadata.hpp metadata.cpp       \
+                         navigation.hpp package.hpp spine.hpp xml.hpp   \
+                         xml.cpp
 
 bin_PROGRAMS = binder
 binder_LDADD = libepubutil.la

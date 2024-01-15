@@ -24,6 +24,12 @@ int main(int argc, const char** argv) {
     try {
         package p;
 
+        std::array<epub::creator, 1> creators{u8"Percy Marks"s};
+        creators.back().file_as(u8"Marks, Percy");
+        creators.back().role(u8"aut");
+
+        p.metadata().creators(creators);
+
         p.manifest().add(u8"nav", "nav.xhtml", u8"nav",
                          {{u8"media-type", u8"application/xhtml+xml"}});
         p.spine().add(p.manifest().back());
@@ -39,9 +45,9 @@ int main(int argc, const char** argv) {
                              epubcheck_out.string() + " 2>&1 "s +
                              output_file.string();
 
-        if (!eq(std::system(epubcheck_cmd.c_str()), 0)) {
-            diag(epubcheck_cmd);
+        diag("Running: ", epubcheck_cmd);
 
+        if (!eq(std::system(epubcheck_cmd.c_str()), 0)) {
             std::ifstream log{epubcheck_out};
             for (std::string s; std::getline(log, s);) {
                 diag("epubcheck: ", s);

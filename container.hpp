@@ -9,8 +9,14 @@
 
 namespace epub {
 
+/// @brief An exception indicating a duplicate local path.
 class duplicate_error : public std::filesystem::filesystem_error {
   public:
+    /// @brief Construct a @c duplicate_error exception.
+    ///
+    /// @param p1 the source path
+    /// @param p2 the local path which triggered the conflict
+    ///
     duplicate_error(const std::filesystem::path &p1,
                     const std::filesystem::path &p2)
         : std::filesystem::filesystem_error(
@@ -18,6 +24,39 @@ class duplicate_error : public std::filesystem::filesystem_error {
               std::make_error_code(std::errc::file_exists)) {}
 };
 
+/// @brief The EPUB container file hierarchy.
+///
+/// XHTML and SVG documents added are parsed for metadata information.
+/// Those @c meta elements that have names prefixed with
+/// @c epub: are loaded into the @c file_metadata map
+/// associated with the file.  Currently, the supported tags are:
+///
+/// - @c epub:spine @n
+///   Controls inclusion of the item in the Spine (reading order)
+///   of the publication.  Items not in the spine are
+///   automatically omitted from the table of contents.
+///   - @c include (default for XHTML)
+///   - @c omit (default for SVG)
+/// - @c epub:toc @n
+///   Controls inclusion of the item in the Table of Contents.
+///   - @c include (default, but see above)
+///   - @c omit
+/// - @c epub:properties @n
+///   A space-separated list of manifest item properties controlling a
+///   content document.  See
+///   https://www.w3.org/TR/epub-33/#sec-item-resource-properties for
+///   a list of common properties.  Common properties are @c svg for
+///   XHTML with embedded SVG and @c scripted for pages with embedded
+///   JavaScript.
+/// .
+///
+/// For SVG documents, metadata is freeform and can be a mixture of
+/// character data and elements with no prescribed structure.  For
+/// locating the relevant elements, the parser will assume that all @c
+/// meta elements from the namespace @c "http://www.w3.org/1999/xhtml"
+/// in the top-level SVG @c metadata element are candidates.  The name
+/// prefix is the same as XHTML.
+///
 class container {
     /// @brief Mapping from local (container) paths to source paths.
     std::map<std::filesystem::path, std::filesystem::path> _files;
@@ -55,13 +94,21 @@ class container {
         return add(path, path.filename());
     }
 
+    /// @brief The metadata of the package document.
     auto &metadata() {
         return _package.metadata();
     }
+    /// @brief The metadata of the package document.
     const auto &metadata() const {
         return _package.metadata();
     }
 
+    /// @brief Write the EPUB container to the given path.
+    ///
+    /// The full prefix of @c path must exist.
+    ///
+    /// @param path the name of the destination directory
+    ///
     void write(const std::filesystem::path &path) const;
 };
 

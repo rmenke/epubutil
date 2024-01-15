@@ -1,14 +1,17 @@
 #include "container.hpp"
+
 #include "manifest.hpp"
-#include "media-type.hpp"
+#include "media_type.hpp"
 #include "xml.hpp"
 
 #include <fstream>
 #include <sstream>
+#include <stdexcept>
 
 namespace fs = std::filesystem;
 
-static
+namespace epub {
+
 std::u8string generate_id() {
     static unsigned next = 0U;
 
@@ -18,9 +21,6 @@ std::u8string generate_id() {
 
     return std::u8string{s.begin(), s.end()};
 }
-
-
-namespace epub {
 
 static constexpr std::string_view container_xml =
     R"%%(<?xml version="1.0" standalone="yes"?>
@@ -58,15 +58,37 @@ void container::add(const std::filesystem::path &source,
 
     if (media_type == xhtml_media_type) {
         xml::get_xhtml_metadata(source, metadata);
-        auto item = _package.manifest().add(generate_id(), local, {}, metadata);
-        _package.spine().add(item);
-        _navigation.add(item);
+
+        auto item =
+            _package.manifest().add(generate_id(), local, {}, metadata);
+
+        if (metadata.get(u8"spine", u8"include") != u8"omit") {
+            _package.spine().add(item);
+
+            if (metadata.get(u8"toc", u8"include") != u8"omit") {
+                _navigation.add(item);
+            }
+        }
     }
     else if (media_type == svg_media_type) {
+        throw std::logic_error("Not yet implemented");
         // TODO : xml::get_svg_metadata(source, metadata);
+
+        auto item =
+            _package.manifest().add(generate_id(), local, {}, metadata);
+
+        if (metadata.get(u8"spine", u8"omit") != u8"omit") {
+            _package.spine().add(item);
+
+            if (metadata.get(u8"toc", u8"include") != u8"omit") {
+                _navigation.add(item);
+            }
+        }
+    }
+    else {
+        _package.manifest().add(generate_id(), local, {}, metadata);
     }
 }
-
 
 template <class String>
 static void write_file(const fs::path &path, String &&string) {

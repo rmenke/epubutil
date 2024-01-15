@@ -118,8 +118,7 @@ am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libepubutil_la_LIBADD =
-am_libepubutil_la_OBJECTS = container.lo metadata.lo navigation.lo \
-	xml.lo
+am_libepubutil_la_OBJECTS = container.lo metadata.lo xml.lo
 libepubutil_la_OBJECTS = $(am_libepubutil_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -144,8 +143,7 @@ DEFAULT_INCLUDES =
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = ./$(DEPDIR)/binder.Po ./$(DEPDIR)/container.Plo \
-	./$(DEPDIR)/metadata.Plo ./$(DEPDIR)/navigation.Plo \
-	./$(DEPDIR)/xml.Plo
+	./$(DEPDIR)/metadata.Plo ./$(DEPDIR)/xml.Plo
 am__mv = mv -f
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -441,10 +439,11 @@ ACLOCAL_AMFLAGS = -I m4 --install
 SUBDIRS = . test
 EXTRA_DIST = git-semver
 noinst_LTLIBRARIES = libepubutil.la
-libepubutil_la_SOURCES = container.hpp container.cpp manifest.hpp	\
-                         media-type.hpp metadata.hpp metadata.cpp	\
-                         navigation.hpp navigation.cpp package.hpp	\
-                         spine.hpp xml.hpp xml.cpp
+libepubutil_la_SOURCES = container.hpp container.cpp                    \
+                         file_metadata.hpp manifest.hpp                 \
+                         media_type.hpp metadata.hpp metadata.cpp       \
+                         navigation.hpp package.hpp spine.hpp xml.hpp   \
+                         xml.cpp
 
 binder_LDADD = libepubutil.la
 binder_SOURCES = binder.cpp options.hpp
@@ -568,7 +567,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/binder.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/container.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/metadata.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/navigation.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xml.Plo@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
@@ -960,7 +958,6 @@ distclean: distclean-recursive
 		-rm -f ./$(DEPDIR)/binder.Po
 	-rm -f ./$(DEPDIR)/container.Plo
 	-rm -f ./$(DEPDIR)/metadata.Plo
-	-rm -f ./$(DEPDIR)/navigation.Plo
 	-rm -f ./$(DEPDIR)/xml.Plo
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
@@ -1012,7 +1009,6 @@ maintainer-clean: maintainer-clean-recursive
 		-rm -f ./$(DEPDIR)/binder.Po
 	-rm -f ./$(DEPDIR)/container.Plo
 	-rm -f ./$(DEPDIR)/metadata.Plo
-	-rm -f ./$(DEPDIR)/navigation.Plo
 	-rm -f ./$(DEPDIR)/xml.Plo
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic

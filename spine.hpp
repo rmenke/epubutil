@@ -15,16 +15,19 @@ class spine {
     using item_ptr = std::shared_ptr<manifest::item>;
     using weak_item_ptr = item_ptr::weak_type;
 
-    static constexpr auto as_shared =
-        std::views::transform(&weak_item_ptr::lock);
-    static constexpr auto ignore_nulls = std::views::filter(
-        &item_ptr::operator bool);
-
     std::vector<weak_item_ptr> _items;
 
-#define AUTO_MEMBER(MEMBER, INIT) decltype(INIT) MEMBER = (INIT)
+    /// @cond implementation
 
-    mutable AUTO_MEMBER(_view, _items | as_shared | ignore_nulls);
+    static constexpr auto as_shared =
+        std::views::transform(&weak_item_ptr::lock);
+    static constexpr auto ignore_nulls =
+        std::views::filter(&item_ptr::operator bool);
+
+    mutable decltype(_items | as_shared | ignore_nulls) _view =
+        _items | as_shared | ignore_nulls;
+
+    /// @endcond
 
   public:
     spine() = default;
