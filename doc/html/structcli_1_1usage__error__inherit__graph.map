@@ -1,0 +1,9 @@
+<map id="cli::usage_error" name="cli::usage_error">
+<area shape="rect" id="Node000001" title=" " alt="" coords="12,333,116,395"/>
+<area shape="rect" id="Node000002" href="$structcli_1_1option__error.html" title=" " alt="" coords="12,224,116,285"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="67,299,67,333,61,333,61,299"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,115,123,176"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="67,190,67,224,61,224,61,190"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="17,5,111,67"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="67,80,67,114,61,114,61,80"/>
+</map>

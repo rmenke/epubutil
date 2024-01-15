@@ -1,0 +1,13 @@
+<map id="spine.hpp" name="spine.hpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="118,5,197,29"/>
+<area shape="rect" id="Node000002" href="$package_8hpp.html" title=" " alt="" coords="109,77,206,101"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,43,160,77,155,77,155,43"/>
+<area shape="rect" id="Node000003" href="$container_8hpp.html" title=" " alt="" coords="53,149,155,173"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="143,114,115,151,110,147,139,111"/>
+<area shape="rect" id="Node000006" href="$xml_8cpp.html" title=" " alt="" coords="178,149,246,173"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="176,111,206,147,201,151,172,114"/>
+<area shape="rect" id="Node000004" href="$binder_8cpp.html" title=" " alt="" coords="5,221,88,245"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="89,186,58,223,54,219,85,182"/>
+<area shape="rect" id="Node000005" href="$container_8cpp.html" title=" " alt="" coords="112,221,213,245"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="124,182,156,219,151,223,120,186"/>
+</map>

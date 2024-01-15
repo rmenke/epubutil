@@ -1,0 +1,22 @@
+<map id="epub::manifest" name="epub::manifest">
+<area shape="rect" id="Node000001" title=" " alt="" coords="157,889,257,1156"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="131,740,283,828"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="210,828,210,873,205,873,205,828"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="193,261,278,323"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="244,323,255,394,263,492,263,604,257,661,246,717,243,726,238,724,241,715,252,660,257,604,258,492,249,394,239,324"/>
+<area shape="rect" id="Node000006" href="$classepub_1_1manifest_1_1item.html" title=" " alt="" coords="86,407,219,543"/>
+<area shape="poly" id="edge6_Node000006_Node000003" title=" " alt="" coords="200,325,175,357,162,392,157,390,170,355,195,322"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="177,128,294,203"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="238,217,238,261,233,261,233,217"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="81,604,224,679"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="167,678,180,715,184,724,179,726,175,717,162,680"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="155,543,155,588,150,588,150,543"/>
+<area shape="rect" id="Node000007" href="$structepub_1_1file__metadata.html" title="A class for managing metadata key&#45;value pairs." alt="" coords="5,252,135,332"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="76,332,89,382,94,391,89,394,84,384,71,333"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="15,135,125,196"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="73,210,73,252,67,252,67,210"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="25,5,46,67"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="35,67,39,103,45,119,40,120,34,105,30,67"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="94,5,115,67"/>
+<area shape="poly" id="edge10_Node000008_Node000010" title=" " alt="" coords="99,67,85,119,80,118,94,66"/>
+</map>
