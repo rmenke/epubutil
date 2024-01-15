@@ -114,6 +114,39 @@ void write_metadata(xmlNodePtr metadata, const class metadata &m) {
 
         xmlAddChild(metadata, modified);
     }
+
+    for (auto &&creator : m.creators()) {
+        auto node = xmlNewDocRawNode(metadata->doc, dc_ns, UTF8("creator"),
+                                     to_xmlchar(creator));
+
+        std::u8string id;
+
+        xmlAddChild(metadata, node);
+
+        if (auto &&role = creator.role(); !role.empty()) {
+            if (id.empty()) id = generate_id();
+            auto meta = xmlNewDocRawNode(metadata->doc, nullptr,
+                                         UTF8("meta"), to_xmlchar(role));
+            xmlSetProp(meta, UTF8("refines"), to_xmlchar(u8'#' + id));
+            xmlSetProp(meta, UTF8("property"), UTF8("role"));
+            xmlSetProp(meta, UTF8("scheme"), UTF8("marc:relators"));
+
+            xmlAddChild(metadata, meta);
+        }
+        if (auto &&file_as = creator.file_as(); !file_as.empty()) {
+            if (id.empty()) id = generate_id();
+            auto meta = xmlNewDocRawNode(metadata->doc, nullptr,
+                                         UTF8("meta"), to_xmlchar(file_as));
+            xmlSetProp(meta, UTF8("refines"), to_xmlchar(u8'#' + id));
+            xmlSetProp(meta, UTF8("property"), UTF8("file-as"));
+
+            xmlAddChild(metadata, meta);
+        }
+
+        if (!id.empty()) {
+            xmlSetProp(node, UTF8("id"), to_xmlchar(id));
+        }
+    }
 }
 
 void write_manifest(xmlNodePtr manifest, const class manifest &m) {
@@ -188,9 +221,13 @@ void write_navigation(const std::filesystem::path &path,
 
     for (auto &&item : n) {
         auto li = xmlNewChild(ol, xhtml_ns, UTF8("li"), nullptr);
-        auto a = xmlNewChild(li, xhtml_ns, UTF8("a"),
+
+        auto a =
+            xmlNewDocRawNode(li->doc, xhtml_ns, UTF8("a"),
                              to_xmlchar(item->metadata().at(u8"title")));
         xmlSetProp(a, UTF8("href"), to_xmlchar(item->path().u8string()));
+
+        xmlAddChild(li, a);
     }
 
     auto encoding = xmlGetCharEncodingName(XML_CHAR_ENCODING_UTF8);

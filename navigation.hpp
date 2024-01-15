@@ -16,14 +16,14 @@ class navigation {
 
     std::vector<weak_item_ptr> _items;
 
-    static constexpr auto as_shared =
-        std::views::transform(&weak_item_ptr::lock);
-    static constexpr auto ignore_nulls =
-        std::views::filter(&item_ptr::operator bool);
+    /// @cond implementation
 
+    /// NOLINTNEXTLINE
 #define AUTO_MEMBER(MEMBER, INIT) decltype(INIT) MEMBER = (INIT)
+    mutable AUTO_MEMBER(_view, _items | std::views::transform(&weak_item_ptr::lock) | std::views::filter(&item_ptr::operator bool));
+#undef AUTO_MEMBER
 
-    mutable AUTO_MEMBER(_view, _items | as_shared | ignore_nulls);
+    /// @endcond
 
   public:
     void add(std::weak_ptr<manifest::item> ptr) {

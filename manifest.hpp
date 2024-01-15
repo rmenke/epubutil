@@ -1,7 +1,7 @@
 #ifndef _manifest_hpp_
 #define _manifest_hpp_
 
-#include <__ranges/view_interface.h>
+#include "file_metadata.hpp"
 
 #include <filesystem>
 #include <map>
@@ -10,8 +10,6 @@
 #include <stdexcept>
 
 namespace epub {
-
-using file_metadata = std::map<std::u8string, std::u8string>;
 
 class id_in_use : public std::runtime_error {
     id_in_use(std::string id)
@@ -55,9 +53,14 @@ class manifest {
   private:
     std::map<std::u8string, std::shared_ptr<item>> _items;
 
-#define AUTO_MEMBER(MEMBER, INIT) decltype(INIT) MEMBER = (INIT)
+    /// @cond implementation
 
+    /// NOLINTNEXTLINE
+#define AUTO_MEMBER(MEMBER, INIT) decltype(INIT) MEMBER = (INIT)
     AUTO_MEMBER(_view, _items | std::views::values);
+#undef AUTO_MEMBER
+
+    /// @endcond
 
   public:
     manifest() = default;
@@ -94,7 +97,7 @@ class manifest {
         return *std::prev(end());
     }
 
-    template<class Key>
+    template <class Key>
     std::shared_ptr<item> at(Key &&key) const {
         return _items.at(std::forward<Key>(key));
     }

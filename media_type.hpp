@@ -17,12 +17,9 @@ constexpr std::u8string_view xhtml_media_type = u8"application/xhtml+xml";
 
 static inline const std::map<std::filesystem::path, std::u8string_view>
     core_media = {
-        {".css", css_media_type},
-        {".gif", gif_media_type},
-        {".jpeg", jpeg_media_type},
-        {".png", png_media_type},
-        {".svg", svg_media_type},
-        {".webp", webp_media_type},
+        {".css", css_media_type},     {".gif", gif_media_type},
+        {".jpeg", jpeg_media_type},   {".png", png_media_type},
+        {".svg", svg_media_type},     {".webp", webp_media_type},
         {".xhtml", xhtml_media_type},
 };
 

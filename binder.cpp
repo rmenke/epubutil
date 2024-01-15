@@ -5,6 +5,7 @@
 #include <iostream>
 #include <optional>
 #include <string_view>
+#include <vector>
 
 int main(int argc, char **argv) {
     epub::container container;
@@ -15,6 +16,8 @@ int main(int argc, char **argv) {
 
     std::filesystem::path output;
     bool overwrite = false;
+
+    std::vector<epub::creator> creators;
 
     opt.add_option('b', "basedir", [&](const std::string &arg) {
         if (basedir.has_value()) {
@@ -32,11 +35,31 @@ int main(int argc, char **argv) {
     opt.add_option('T', "title", [&](const std::string &arg) {
         container.metadata().title(std::u8string{arg.begin(), arg.end()});
     });
+    opt.add_option('C', "creator", [&](const std::string &arg) {
+        creators.emplace_back(std::u8string{arg.begin(), arg.end()});
+    });
+    opt.add_option("file-as", [&](const std::string &arg) {
+        if (creators.empty()) {
+            throw cli::usage_error("file-as must follow a creator");
+        }
+        creators.back().file_as(std::u8string{arg.begin(), arg.end()});
+    });
+    opt.add_option("role", [&](const std::string &arg) {
+        if (creators.empty()) {
+            throw cli::usage_error("role must follow a creator");
+        }
+        if (arg.size() != 3) {
+            throw cli::usage_error("MARC roles are three letters long");
+        }
+        creators.back().role(std::u8string{arg.begin(), arg.end()});
+    });
 
     auto args_begin = argv + 1;
     auto args_end = argv + argc;
 
     args_begin = opt.process(args_begin, args_end);
+
+    container.metadata().creators(std::move(creators));
 
     for (std::string_view arg :
          std::ranges::subrange(args_begin, args_end)) {
