@@ -45,8 +45,8 @@ int main(int argc, const char **argv) {
         creators.back().file_as(u8"Marks, Percy");
         creators.back().role(u8"aut");
 
-        c.metadata().title(u8"The Plastic Age");
-        c.metadata().creators(creators);
+        c.package().metadata().title(u8"The Plastic Age");
+        c.package().metadata().creators(creators);
 
         for (const auto &path : paths) {
             c.add(path);

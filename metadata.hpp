@@ -50,6 +50,7 @@ class metadata {
     std::u8string _language;
 
     std::vector<creator> _creators;
+    bool _pre_paginated = false;
 
   public:
     metadata()
@@ -63,6 +64,9 @@ class metadata {
 
     const std::u8string identifier() const {
         return _identifier;
+    }
+    void identifier(std::u8string identifier) {
+        _identifier = std::move(identifier);
     }
     const std::u8string title() const {
         return _title;
@@ -91,6 +95,34 @@ class metadata {
     }
 
     /// @}
+
+    /// @brief Select the rendition layout controlling reflow.
+    ///
+    /// Calling this disables reflow in the document.  Each content
+    /// document is assumed to be a single page.
+    ///
+    void pre_paginated() {
+        _pre_paginated = true;
+    }
+
+    /// @brief Select the rendition layout controlling reflow.
+    ///
+    /// Calling this enables reflow in the document.  The content
+    /// documents will be separated into individual pages according to
+    /// the user's display options.
+    ///
+    void reflow() {
+        _pre_paginated = false;
+    }
+
+    /// @brief The rendition layout type.
+    ///
+    /// @return a string with the appropriate value for the @c
+    /// rendition:layout property
+    ///
+    std::u8string layout() const {
+        return _pre_paginated ? u8"pre-paginated" : u8"reflowable";
+    }
 };
 
 } // namespace epub

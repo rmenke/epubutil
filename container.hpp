@@ -68,7 +68,7 @@ class container {
     class navigation _navigation;
 
   public:
-    container();
+    container(bool omit_toc = false);
 
     /// @brief Add a file to the container.
     ///
@@ -94,13 +94,22 @@ class container {
         return add(path, path.filename());
     }
 
-    /// @brief The metadata of the package document.
-    auto &metadata() {
-        return _package.metadata();
+    /// @brief The package document.
+    auto &package() {
+        return _package;
     }
-    /// @brief The metadata of the package document.
-    const auto &metadata() const {
-        return _package.metadata();
+    /// @brief The package document.
+    const auto &package() const {
+        return _package;
+    }
+
+    /// @brief The navigation document.
+    auto &navigation() {
+        return _navigation;
+    }
+    /// @brief The navigation document.
+    const auto &navigation() const {
+        return _navigation;
     }
 
     /// @brief Write the EPUB container to the given path.

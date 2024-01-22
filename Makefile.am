@@ -10,15 +10,19 @@ SUBDIRS = . test
 EXTRA_DIST = git-semver
 
 noinst_LTLIBRARIES = libepubutil.la
-libepubutil_la_SOURCES = container.hpp container.cpp                    \
-                         file_metadata.hpp manifest.hpp                 \
-                         media_type.hpp metadata.hpp metadata.cpp       \
-                         navigation.hpp package.hpp spine.hpp xml.hpp   \
-                         xml.cpp
+libepubutil_la_SOURCES = container.hpp container.cpp			\
+                         file_metadata.hpp manifest.hpp			\
+                         media_type.hpp metadata.hpp metadata.cpp	\
+                         navigation.hpp package.hpp spine.hpp xml.hpp	\
+                         xml.cpp minidom.hpp minidom.cpp
 
-bin_PROGRAMS = binder
+bin_PROGRAMS = binder comic
+
 binder_LDADD = libepubutil.la
 binder_SOURCES = binder.cpp options.hpp
+
+comic_LDADD = libepubutil.la
+comic_SOURCES = comic.cpp options.hpp imageinfo/imageinfo.hpp
 
 AM_CPPFLAGS = $(LIBXML2_CPPFLAGS)
 AM_CXXFLAGS =
@@ -32,8 +36,8 @@ CODE_COVERAGE_IGNORE_PATTERN = "$(abspath $(abs_top_builddir))/test/*"
 
 git-add:
 	$(MAKE) distdir
-	@(cd "$(distdir)"; find . -depth -type f -print0) | (cd "$(top_srcdir)"; xargs -0t git add --verbose)
-	@(cd "$(top_srcdir)"; find . -name .gitignore -print0 | xargs -0t git add --verbose)
+	@(cd "$(distdir)"; find . -depth -type f -print0) | (cd "$(top_srcdir)"; xargs -0r git ls-files -z --other --modified --exclude-standard | xargs -0rt git add --verbose)
+	@(cd "$(top_srcdir)"; find . -name '.gitignore' -print0 | xargs -0r git ls-files -z --other --modified --exclude-standard | xargs -0rt git add --verbose)
 	$(RM) -r "$(distdir)"
 
 doc: Doxyfile $(libepubutil_la_SOURCES)

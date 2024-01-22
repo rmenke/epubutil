@@ -33,13 +33,16 @@ static constexpr std::string_view container_xml =
 </container>
 )%%";
 
-container::container() {
+container::container(bool omit_toc) {
     auto item = _package.manifest().add(
         u8"nav", u8"nav.xhtml", u8"nav",
         {{u8"title", u8"Table of Contents"},
          {u8"media-type", u8"application/xhtml+xml"}});
-    _package.spine().add(item);
-    _navigation.add(item);
+
+    if (!omit_toc) {
+        _package.spine().add(item);
+        _navigation.add(item);
+    }
 }
 
 void container::add(const std::filesystem::path &source,

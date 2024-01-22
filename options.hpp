@@ -1,6 +1,10 @@
 #ifndef _options_hpp_
 #define _options_hpp_
 
+#include <__ranges/elements_view.h>
+
+#include <algorithm>
+#include <cassert>
 #include <functional>
 #include <iostream>
 #include <map>
@@ -11,7 +15,9 @@
 #include <source_location>
 #include <stdexcept>
 #include <string>
+#include <tuple>
 #include <variant>
+#include <vector>
 
 namespace cli {
 
@@ -78,12 +84,13 @@ struct usage_error : option_error {
 
 class option {
   public:
-    option() = default;
+    option() {}
+
     option(const option &) = default;
-    option(option &&) = delete;
+    option(option &&) = default;
 
     option &operator=(const option &) = default;
-    option &operator=(option &&) = delete;
+    option &operator=(option &&) = default;
 
     virtual ~option() = default;
 
@@ -125,47 +132,93 @@ class arg_option : public option {
 };
 
 class option_processor {
+    std::string _synopsis;
+    std::vector<std::pair<std::string, std::string>> _usage;
+
     std::map<char, std::shared_ptr<option>> _short;
     std::map<std::string, std::shared_ptr<option>> _long;
 
   public:
+    void synopsis(std::string synopsis) {
+        _synopsis = std::move(synopsis);
+    }
+
     template <class Callback>
-    void add_flag(char ch, std::string longopt, Callback &&cb) {
-        auto opt =
+    void add_flag(char ch, std::string longopt, Callback &&cb,
+                  std::string description) {
+        if (ch == 0 && longopt.empty()) {
+            throw std::invalid_argument{"add_option"};
+        }
+
+        auto &usage =
+            _usage.emplace_back(std::string{}, std::move(description));
+        auto option =
             std::make_shared<flag_option>(std::forward<Callback>(cb));
-        if (ch) _short[ch] = opt;
-        if (!longopt.empty()) _long[std::move(longopt)] = opt;
+
+        if (!longopt.empty()) {
+            usage.first = "--" + longopt;
+            _long[std::move(longopt)] = option;
+        }
+
+        if (ch) {
+            if (!usage.first.empty()) usage.first.append(", ");
+            usage.first.append(std::string("-") + ch);
+            _short[ch] = std::move(option);
+        }
     }
 
     template <class Callback>
-    void add_flag(char ch, Callback &&cb) {
-        add_flag(ch, std::string{}, std::forward<Callback>(cb));
+    void add_flag(char ch, Callback &&cb, std::string description) {
+        add_flag(ch, std::string{}, std::forward<Callback>(cb),
+                 std::move(description));
     }
 
     template <class Callback>
-    void add_flag(std::string longopt, Callback &&cb) {
-        add_flag(0, std::move(longopt), std::forward<Callback>(cb));
+    void add_flag(std::string longopt, Callback &&cb,
+                  std::string description) {
+        add_flag(0, std::move(longopt), std::forward<Callback>(cb),
+                 std::move(description));
     }
 
     template <class Callback>
-    void add_option(char ch, std::string longopt, Callback &&cb) {
-        auto opt = std::make_shared<arg_option>(std::forward<Callback>(cb));
-        if (ch) _short[ch] = opt;
-        if (!longopt.empty()) _long[longopt] = opt;
+    void add_option(char ch, std::string longopt, Callback &&cb,
+                    std::string description) {
+        if (ch == 0 && longopt.empty()) {
+            throw std::invalid_argument{"add_option"};
+        }
+
+        auto &usage =
+            _usage.emplace_back(std::string{}, std::move(description));
+        auto option =
+            std::make_shared<arg_option>(std::forward<Callback>(cb));
+
+        if (!longopt.empty()) {
+            usage.first = "--" + longopt;
+            _long[std::move(longopt)] = option;
+        }
+
+        if (ch) {
+            if (!usage.first.empty()) usage.first.append(", ");
+            usage.first.append(std::string("-") + ch);
+            _short[ch] = std::move(option);
+        }
     }
 
     template <class Callback>
-    void add_option(char ch, Callback &&cb) {
-        add_option(ch, std::string{}, std::forward<Callback>(cb));
+    void add_option(char ch, Callback &&cb, std::string description) {
+        add_option(ch, std::string{}, std::forward<Callback>(cb),
+                   std::move(description));
     }
 
     template <class Callback>
-    void add_option(std::string longopt, Callback &&cb) {
-        add_option(0, std::move(longopt), std::forward<Callback>(cb));
+    void add_option(std::string longopt, Callback &&cb,
+                    std::string description) {
+        add_option(0, std::move(longopt), std::forward<Callback>(cb),
+                   std::move(description));
     }
 
     template <class ForwardIt>
-    ForwardIt process(ForwardIt first, ForwardIt last) {
+    ForwardIt process(ForwardIt first, ForwardIt last) try {
         using namespace std;
 
         while (first != last) {
@@ -261,60 +314,52 @@ class option_processor {
 
         return first;
     }
+    catch (const usage_error &ex) {
+        std::cerr << "error: " << ex.what() << "\n\n";
+        usage();
+        exit(1);
+    }
 
-    void usage() const {
-        std::set<std::shared_ptr<option>> options;
-        for (auto &&opt : _long | std::views::values) {
-            options.insert(opt);
+    template <class StringLike>
+    static auto
+    wrap(StringLike &&s, typename std::decay<StringLike>::type::size_type w,
+         typename std::decay<StringLike>::type::size_type i = 0) {
+        if (s.size() <= w) return std::forward<StringLike>(s);
+
+        auto pos = s.rfind(' ', w);
+        if (pos == s.npos) return s;
+
+        auto end = pos + 1;
+        while (s[pos - 1] == ' ') --pos;
+
+        auto result = std::string(s, 0, pos) + "\n" + std::string(i, ' ');
+        return result + wrap(std::forward<StringLike>(s).substr(end), w, i);
+    }
+
+    void usage(std::size_t screen_width = 72) const {
+        if (!_synopsis.empty()) {
+            std::cerr << wrap("usage: " + _synopsis, screen_width, 7)
+                      << "\n\n";
         }
-        for (auto &&opt : _short | std::views::values) {
-            options.insert(opt);
-        }
-        for (auto &&opt : options) {
-            using namespace std::literals;
-            using std::views::filter, std::views::keys,
-                std::views::transform;
 
-            auto longopts =
-                _long |
-                filter([&](auto &&elem) { return elem.second == opt; }) |
-                keys | transform([](const std::string &key) {
-                    return "--" + key;
-                });
-            auto shortopts =
-                _short |
-                filter([&](auto &&elem) { return elem.second == opt; }) |
-                keys | transform([](char key) { return "-"s + key; });
+        auto width =
+            std::ranges::max(_usage | std::views::elements<0> |
+                             std::views::transform(&std::string::size));
 
-            auto longopt_txt = [&]() {
-                std::string result;
+        static constexpr std::string::size_type indent = 4;
+        static constexpr std::string::size_type padding = 8;
 
-                auto b = longopts.begin();
-                auto e = longopts.end();
+        width += indent + padding;
 
-                if (b != e) {
-                    result = *b;
-                    while (++b != e) result += ", " + (*b);
-                }
+        for (const auto &[flags, text] : _usage) {
+            std::string description(indent, ' ');
 
-                return result;
-            }();
+            description.append(flags);
+            description.resize(width, ' ');
+            description.append(text);
 
-            auto shortopt_txt = [&]() {
-                std::string result;
-
-                auto b = shortopts.begin();
-                auto e = shortopts.end();
-
-                if (b != e) {
-                    result = *b;
-                    while (++b != e) result += ", " + (*b);
-                }
-
-                return result;
-            }();
-
-            std::cerr << longopt_txt << "\t" << shortopt_txt << std::endl;
+            std::cerr << wrap(description, screen_width, width)
+                      << std::endl;
         }
     }
 };
