@@ -1,0 +1,3 @@
+[submodule "imageinfo"]
+	path = imageinfo
+	url = https://github.com/xiaozhuai/imageinfo.git

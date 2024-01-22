@@ -147,6 +147,13 @@ void write_metadata(xmlNodePtr metadata, const class metadata &m) {
             xmlSetProp(node, UTF8("id"), to_xmlchar(id));
         }
     }
+
+    {
+        auto meta = xmlNewDocRawNode(metadata->doc, nullptr, UTF8("meta"),
+                                     to_xmlchar(m.layout()));
+        xmlSetProp(meta, UTF8("property"), UTF8("rendition:layout"));
+        xmlAddChild(metadata, meta);
+    }
 }
 
 void write_manifest(xmlNodePtr manifest, const class manifest &m) {

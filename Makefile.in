@@ -91,7 +91,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-bin_PROGRAMS = binder$(EXEEXT)
+bin_PROGRAMS = binder$(EXEEXT) comic$(EXEEXT)
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/ax_ac_append_to_file.m4 \
@@ -118,7 +118,7 @@ am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libepubutil_la_LIBADD =
-am_libepubutil_la_OBJECTS = container.lo metadata.lo xml.lo
+am_libepubutil_la_OBJECTS = container.lo metadata.lo xml.lo minidom.lo
 libepubutil_la_OBJECTS = $(am_libepubutil_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -127,6 +127,9 @@ am__v_lt_1 =
 am_binder_OBJECTS = binder.$(OBJEXT)
 binder_OBJECTS = $(am_binder_OBJECTS)
 binder_DEPENDENCIES = libepubutil.la
+am_comic_OBJECTS = comic.$(OBJEXT)
+comic_OBJECTS = $(am_comic_OBJECTS)
+comic_DEPENDENCIES = libepubutil.la
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -142,8 +145,9 @@ am__v_at_1 =
 DEFAULT_INCLUDES = 
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/binder.Po ./$(DEPDIR)/container.Plo \
-	./$(DEPDIR)/metadata.Plo ./$(DEPDIR)/xml.Plo
+am__depfiles_remade = ./$(DEPDIR)/binder.Po ./$(DEPDIR)/comic.Po \
+	./$(DEPDIR)/container.Plo ./$(DEPDIR)/metadata.Plo \
+	./$(DEPDIR)/minidom.Plo ./$(DEPDIR)/xml.Plo
 am__mv = mv -f
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -181,8 +185,9 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(libepubutil_la_SOURCES) $(binder_SOURCES)
-DIST_SOURCES = $(libepubutil_la_SOURCES) $(binder_SOURCES)
+SOURCES = $(libepubutil_la_SOURCES) $(binder_SOURCES) $(comic_SOURCES)
+DIST_SOURCES = $(libepubutil_la_SOURCES) $(binder_SOURCES) \
+	$(comic_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive cscopelist-recursive \
 	ctags-recursive dvi-recursive html-recursive info-recursive \
 	install-data-recursive install-dvi-recursive \
@@ -439,14 +444,16 @@ ACLOCAL_AMFLAGS = -I m4 --install
 SUBDIRS = . test
 EXTRA_DIST = git-semver
 noinst_LTLIBRARIES = libepubutil.la
-libepubutil_la_SOURCES = container.hpp container.cpp                    \
-                         file_metadata.hpp manifest.hpp                 \
-                         media_type.hpp metadata.hpp metadata.cpp       \
-                         navigation.hpp package.hpp spine.hpp xml.hpp   \
-                         xml.cpp
+libepubutil_la_SOURCES = container.hpp container.cpp			\
+                         file_metadata.hpp manifest.hpp			\
+                         media_type.hpp metadata.hpp metadata.cpp	\
+                         navigation.hpp package.hpp spine.hpp xml.hpp	\
+                         xml.cpp minidom.hpp minidom.cpp
 
 binder_LDADD = libepubutil.la
 binder_SOURCES = binder.cpp options.hpp
+comic_LDADD = libepubutil.la
+comic_SOURCES = comic.cpp options.hpp imageinfo/imageinfo.hpp
 AM_CPPFLAGS = $(LIBXML2_CPPFLAGS) $(CODE_COVERAGE_CPPFLAGS)
 AM_CXXFLAGS = $(CODE_COVERAGE_CXXFLAGS)
 CODE_COVERAGE_IGNORE_PATTERN = "$(abspath $(abs_top_builddir))/test/*"
@@ -558,6 +565,10 @@ binder$(EXEEXT): $(binder_OBJECTS) $(binder_DEPENDENCIES) $(EXTRA_binder_DEPENDE
 	@rm -f binder$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(binder_OBJECTS) $(binder_LDADD) $(LIBS)
 
+comic$(EXEEXT): $(comic_OBJECTS) $(comic_DEPENDENCIES) $(EXTRA_comic_DEPENDENCIES) 
+	@rm -f comic$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(comic_OBJECTS) $(comic_LDADD) $(LIBS)
+
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 
@@ -565,8 +576,10 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/binder.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/comic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/container.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/metadata.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/minidom.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xml.Plo@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
@@ -956,8 +969,10 @@ clean-am: clean-binPROGRAMS clean-generic clean-libtool clean-local \
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 		-rm -f ./$(DEPDIR)/binder.Po
+	-rm -f ./$(DEPDIR)/comic.Po
 	-rm -f ./$(DEPDIR)/container.Plo
 	-rm -f ./$(DEPDIR)/metadata.Plo
+	-rm -f ./$(DEPDIR)/minidom.Plo
 	-rm -f ./$(DEPDIR)/xml.Plo
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
@@ -1007,8 +1022,10 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
 		-rm -f ./$(DEPDIR)/binder.Po
+	-rm -f ./$(DEPDIR)/comic.Po
 	-rm -f ./$(DEPDIR)/container.Plo
 	-rm -f ./$(DEPDIR)/metadata.Plo
+	-rm -f ./$(DEPDIR)/minidom.Plo
 	-rm -f ./$(DEPDIR)/xml.Plo
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
@@ -1154,8 +1171,8 @@ code-coverage-capture-hook:
 
 git-add:
 	$(MAKE) distdir
-	@(cd "$(distdir)"; find . -depth -type f -print0) | (cd "$(top_srcdir)"; xargs -0t git add --verbose)
-	@(cd "$(top_srcdir)"; find . -name .gitignore -print0 | xargs -0t git add --verbose)
+	@(cd "$(distdir)"; find . -depth -type f -print0) | (cd "$(top_srcdir)"; xargs -0r git ls-files -z --other --modified --exclude-standard | xargs -0rt git add --verbose)
+	@(cd "$(top_srcdir)"; find . -name '.gitignore' -print0 | xargs -0r git ls-files -z --other --modified --exclude-standard | xargs -0rt git add --verbose)
 	$(RM) -r "$(distdir)"
 
 doc: Doxyfile $(libepubutil_la_SOURCES)

@@ -10,6 +10,8 @@ AC_INIT([EPUB Utilities],[m4_esyscmd_s([perl git-semver])],[bug-AC_PACKAGE_TARNA
 
 AC_SUBST([PACKAGE_DESCRIPTION],["EPUB CLI Utilities"])
 
+AC_ARG_PROGRAM
+
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIRS([m4])
 
