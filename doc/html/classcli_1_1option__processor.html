@@ -25,7 +25,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">EPUB Utilities<span id="projectnumber">&#160;0.0.1-beta.3</span>
+   <div id="projectname">EPUB Utilities<span id="projectnumber">&#160;1.0.0-RC.1</span>
    </div>
    <div id="projectbrief">EPUB CLI Utilities</div>
   </td>
@@ -53,6 +53,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classcli_1_1option__processor-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">cli::option_processor Class Reference</div></div>
@@ -63,45 +64,57 @@ $(function() {
 <div class="dynheader">
 Collaboration diagram for cli::option_processor:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classcli_1_1option__processor__coll__graph.svg" width="347" height="760"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classcli_1_1option__processor__coll__graph.svg" width="659" height="798"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a9b792c47b96402298702034ce61dda43" id="r_a9b792c47b96402298702034ce61dda43"><td class="memTemplParams" colspan="2">template&lt;class Callback &gt; </td></tr>
-<tr class="memitem:a9b792c47b96402298702034ce61dda43"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcli_1_1option__processor.html#a9b792c47b96402298702034ce61dda43">add_flag</a> (char ch, std::string longopt, Callback &amp;&amp;cb)</td></tr>
-<tr class="separator:a9b792c47b96402298702034ce61dda43"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1103892368b23edd5d90f174c2e2a2f3" id="r_a1103892368b23edd5d90f174c2e2a2f3"><td class="memTemplParams" colspan="2">template&lt;class Callback &gt; </td></tr>
-<tr class="memitem:a1103892368b23edd5d90f174c2e2a2f3"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcli_1_1option__processor.html#a1103892368b23edd5d90f174c2e2a2f3">add_flag</a> (char ch, Callback &amp;&amp;cb)</td></tr>
-<tr class="separator:a1103892368b23edd5d90f174c2e2a2f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60eb36fc55fdaabed9a0ffbb603d3d69" id="r_a60eb36fc55fdaabed9a0ffbb603d3d69"><td class="memTemplParams" colspan="2">template&lt;class Callback &gt; </td></tr>
-<tr class="memitem:a60eb36fc55fdaabed9a0ffbb603d3d69"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcli_1_1option__processor.html#a60eb36fc55fdaabed9a0ffbb603d3d69">add_flag</a> (std::string longopt, Callback &amp;&amp;cb)</td></tr>
-<tr class="separator:a60eb36fc55fdaabed9a0ffbb603d3d69"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3106a8a539809ac316e65369a00d702d" id="r_a3106a8a539809ac316e65369a00d702d"><td class="memTemplParams" colspan="2">template&lt;class Callback &gt; </td></tr>
-<tr class="memitem:a3106a8a539809ac316e65369a00d702d"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcli_1_1option__processor.html#a3106a8a539809ac316e65369a00d702d">add_option</a> (char ch, std::string longopt, Callback &amp;&amp;cb)</td></tr>
-<tr class="separator:a3106a8a539809ac316e65369a00d702d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7eade45cd1eaf29aecc06091c7fe6514" id="r_a7eade45cd1eaf29aecc06091c7fe6514"><td class="memTemplParams" colspan="2">template&lt;class Callback &gt; </td></tr>
-<tr class="memitem:a7eade45cd1eaf29aecc06091c7fe6514"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcli_1_1option__processor.html#a7eade45cd1eaf29aecc06091c7fe6514">add_option</a> (char ch, Callback &amp;&amp;cb)</td></tr>
-<tr class="separator:a7eade45cd1eaf29aecc06091c7fe6514"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9ba62c410b3bb9fc5240da48a961a68" id="r_ab9ba62c410b3bb9fc5240da48a961a68"><td class="memTemplParams" colspan="2">template&lt;class Callback &gt; </td></tr>
-<tr class="memitem:ab9ba62c410b3bb9fc5240da48a961a68"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcli_1_1option__processor.html#ab9ba62c410b3bb9fc5240da48a961a68">add_option</a> (std::string longopt, Callback &amp;&amp;cb)</td></tr>
-<tr class="separator:ab9ba62c410b3bb9fc5240da48a961a68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c9823084bf49ba78c8d32ad86bd35b4" id="r_a2c9823084bf49ba78c8d32ad86bd35b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcli_1_1option__processor.html#a2c9823084bf49ba78c8d32ad86bd35b4">synopsis</a> (std::string synopsis)</td></tr>
+<tr class="separator:a2c9823084bf49ba78c8d32ad86bd35b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1beb9030eaaccca08a3e71378c66be4c" id="r_a1beb9030eaaccca08a3e71378c66be4c"><td class="memTemplParams" colspan="2">template&lt;class Callback &gt; </td></tr>
+<tr class="memitem:a1beb9030eaaccca08a3e71378c66be4c"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcli_1_1option__processor.html#a1beb9030eaaccca08a3e71378c66be4c">add_flag</a> (char ch, std::string longopt, Callback &amp;&amp;cb, std::string description)</td></tr>
+<tr class="separator:a1beb9030eaaccca08a3e71378c66be4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69f9f3452e67113b62694db6a3117cb4" id="r_a69f9f3452e67113b62694db6a3117cb4"><td class="memTemplParams" colspan="2">template&lt;class Callback &gt; </td></tr>
+<tr class="memitem:a69f9f3452e67113b62694db6a3117cb4"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcli_1_1option__processor.html#a69f9f3452e67113b62694db6a3117cb4">add_flag</a> (char ch, Callback &amp;&amp;cb, std::string description)</td></tr>
+<tr class="separator:a69f9f3452e67113b62694db6a3117cb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af12fc43245b8414caef16b04e2b67afb" id="r_af12fc43245b8414caef16b04e2b67afb"><td class="memTemplParams" colspan="2">template&lt;class Callback &gt; </td></tr>
+<tr class="memitem:af12fc43245b8414caef16b04e2b67afb"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcli_1_1option__processor.html#af12fc43245b8414caef16b04e2b67afb">add_flag</a> (std::string longopt, Callback &amp;&amp;cb, std::string description)</td></tr>
+<tr class="separator:af12fc43245b8414caef16b04e2b67afb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e490c083572fb89a9d7c559c95eab73" id="r_a7e490c083572fb89a9d7c559c95eab73"><td class="memTemplParams" colspan="2">template&lt;class Callback &gt; </td></tr>
+<tr class="memitem:a7e490c083572fb89a9d7c559c95eab73"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcli_1_1option__processor.html#a7e490c083572fb89a9d7c559c95eab73">add_option</a> (char ch, std::string longopt, Callback &amp;&amp;cb, std::string description)</td></tr>
+<tr class="separator:a7e490c083572fb89a9d7c559c95eab73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac49ae722ba980005f6bf9bc99152bdc" id="r_aac49ae722ba980005f6bf9bc99152bdc"><td class="memTemplParams" colspan="2">template&lt;class Callback &gt; </td></tr>
+<tr class="memitem:aac49ae722ba980005f6bf9bc99152bdc"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcli_1_1option__processor.html#aac49ae722ba980005f6bf9bc99152bdc">add_option</a> (char ch, Callback &amp;&amp;cb, std::string description)</td></tr>
+<tr class="separator:aac49ae722ba980005f6bf9bc99152bdc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeeddbde3c096faf04c0ab1a784bc043a" id="r_aeeddbde3c096faf04c0ab1a784bc043a"><td class="memTemplParams" colspan="2">template&lt;class Callback &gt; </td></tr>
+<tr class="memitem:aeeddbde3c096faf04c0ab1a784bc043a"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcli_1_1option__processor.html#aeeddbde3c096faf04c0ab1a784bc043a">add_option</a> (std::string longopt, Callback &amp;&amp;cb, std::string description)</td></tr>
+<tr class="separator:aeeddbde3c096faf04c0ab1a784bc043a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1aee886742864d3a1bfbe5818bf1a142" id="r_a1aee886742864d3a1bfbe5818bf1a142"><td class="memTemplParams" colspan="2">template&lt;class ForwardIt &gt; </td></tr>
 <tr class="memitem:a1aee886742864d3a1bfbe5818bf1a142"><td class="memTemplItemLeft" align="right" valign="top">ForwardIt&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcli_1_1option__processor.html#a1aee886742864d3a1bfbe5818bf1a142">process</a> (ForwardIt first, ForwardIt last)</td></tr>
 <tr class="separator:a1aee886742864d3a1bfbe5818bf1a142"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad4c2b782dff4895ba039cc07a6da5001" id="r_ad4c2b782dff4895ba039cc07a6da5001"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcli_1_1option__processor.html#ad4c2b782dff4895ba039cc07a6da5001">usage</a> () const</td></tr>
-<tr class="separator:ad4c2b782dff4895ba039cc07a6da5001"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9cbcf3cb9398d71635cf3f95e00b5438" id="r_a9cbcf3cb9398d71635cf3f95e00b5438"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcli_1_1option__processor.html#a9cbcf3cb9398d71635cf3f95e00b5438">usage</a> (std::size_t screen_width=72) const</td></tr>
+<tr class="separator:a9cbcf3cb9398d71635cf3f95e00b5438"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a963a0b0a7cf5bf1d738f5d8d290d0ec1" id="r_a963a0b0a7cf5bf1d738f5d8d290d0ec1"><td class="memTemplParams" colspan="2">template&lt;class StringLike &gt; </td></tr>
+<tr class="memitem:a963a0b0a7cf5bf1d738f5d8d290d0ec1"><td class="memTemplItemLeft" align="right" valign="top">static auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcli_1_1option__processor.html#a963a0b0a7cf5bf1d738f5d8d290d0ec1">wrap</a> (StringLike &amp;&amp;s, typename std::decay&lt; StringLike &gt;::type::size_type w, typename std::decay&lt; StringLike &gt;::type::size_type i=0)</td></tr>
+<tr class="separator:a963a0b0a7cf5bf1d738f5d8d290d0ec1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
+<tr class="memitem:a30228bdf91bbdd009e465b24e2bd06bb" id="r_a30228bdf91bbdd009e465b24e2bd06bb"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcli_1_1option__processor.html#a30228bdf91bbdd009e465b24e2bd06bb">_synopsis</a></td></tr>
+<tr class="separator:a30228bdf91bbdd009e465b24e2bd06bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd49e3ba5e4e7864d9dfd154a5a1a1fa" id="r_acd49e3ba5e4e7864d9dfd154a5a1a1fa"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcli_1_1option__processor.html#acd49e3ba5e4e7864d9dfd154a5a1a1fa">_usage</a></td></tr>
+<tr class="separator:acd49e3ba5e4e7864d9dfd154a5a1a1fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa859732cbfd340fd6c9a65ffb2720b6c" id="r_aa859732cbfd340fd6c9a65ffb2720b6c"><td class="memItemLeft" align="right" valign="top">std::map&lt; char, std::shared_ptr&lt; <a class="el" href="classcli_1_1option.html">option</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcli_1_1option__processor.html#aa859732cbfd340fd6c9a65ffb2720b6c">_short</a></td></tr>
 <tr class="separator:aa859732cbfd340fd6c9a65ffb2720b6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ce27e5ebf90b155fc4270ac8ded4864" id="r_a3ce27e5ebf90b155fc4270ac8ded4864"><td class="memItemLeft" align="right" valign="top">std::map&lt; std::string, std::shared_ptr&lt; <a class="el" href="classcli_1_1option.html">option</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcli_1_1option__processor.html#a3ce27e5ebf90b155fc4270ac8ded4864">_long</a></td></tr>
 <tr class="separator:a3ce27e5ebf90b155fc4270ac8ded4864"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a1103892368b23edd5d90f174c2e2a2f3" name="a1103892368b23edd5d90f174c2e2a2f3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1103892368b23edd5d90f174c2e2a2f3">&#9670;&#160;</a></span>add_flag() <span class="overload">[1/3]</span></h2>
+<a id="a69f9f3452e67113b62694db6a3117cb4" name="a69f9f3452e67113b62694db6a3117cb4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69f9f3452e67113b62694db6a3117cb4">&#9670;&#160;</a></span>add_flag() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -121,7 +134,13 @@ template&lt;class Callback &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">Callback &amp;&amp;&#160;</td>
-          <td class="paramname"><em>cb</em>&#160;</td>
+          <td class="paramname"><em>cb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>description</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -138,8 +157,8 @@ template&lt;class Callback &gt; </div>
 
 </div>
 </div>
-<a id="a9b792c47b96402298702034ce61dda43" name="a9b792c47b96402298702034ce61dda43"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9b792c47b96402298702034ce61dda43">&#9670;&#160;</a></span>add_flag() <span class="overload">[2/3]</span></h2>
+<a id="a1beb9030eaaccca08a3e71378c66be4c" name="a1beb9030eaaccca08a3e71378c66be4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1beb9030eaaccca08a3e71378c66be4c">&#9670;&#160;</a></span>add_flag() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -165,7 +184,13 @@ template&lt;class Callback &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">Callback &amp;&amp;&#160;</td>
-          <td class="paramname"><em>cb</em>&#160;</td>
+          <td class="paramname"><em>cb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>description</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -182,8 +207,8 @@ template&lt;class Callback &gt; </div>
 
 </div>
 </div>
-<a id="a60eb36fc55fdaabed9a0ffbb603d3d69" name="a60eb36fc55fdaabed9a0ffbb603d3d69"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a60eb36fc55fdaabed9a0ffbb603d3d69">&#9670;&#160;</a></span>add_flag() <span class="overload">[3/3]</span></h2>
+<a id="af12fc43245b8414caef16b04e2b67afb" name="af12fc43245b8414caef16b04e2b67afb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af12fc43245b8414caef16b04e2b67afb">&#9670;&#160;</a></span>add_flag() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -203,7 +228,13 @@ template&lt;class Callback &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">Callback &amp;&amp;&#160;</td>
-          <td class="paramname"><em>cb</em>&#160;</td>
+          <td class="paramname"><em>cb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>description</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -220,8 +251,8 @@ template&lt;class Callback &gt; </div>
 
 </div>
 </div>
-<a id="a7eade45cd1eaf29aecc06091c7fe6514" name="a7eade45cd1eaf29aecc06091c7fe6514"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7eade45cd1eaf29aecc06091c7fe6514">&#9670;&#160;</a></span>add_option() <span class="overload">[1/3]</span></h2>
+<a id="aac49ae722ba980005f6bf9bc99152bdc" name="aac49ae722ba980005f6bf9bc99152bdc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac49ae722ba980005f6bf9bc99152bdc">&#9670;&#160;</a></span>add_option() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -241,7 +272,13 @@ template&lt;class Callback &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">Callback &amp;&amp;&#160;</td>
-          <td class="paramname"><em>cb</em>&#160;</td>
+          <td class="paramname"><em>cb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>description</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -258,8 +295,8 @@ template&lt;class Callback &gt; </div>
 
 </div>
 </div>
-<a id="a3106a8a539809ac316e65369a00d702d" name="a3106a8a539809ac316e65369a00d702d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3106a8a539809ac316e65369a00d702d">&#9670;&#160;</a></span>add_option() <span class="overload">[2/3]</span></h2>
+<a id="a7e490c083572fb89a9d7c559c95eab73" name="a7e490c083572fb89a9d7c559c95eab73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e490c083572fb89a9d7c559c95eab73">&#9670;&#160;</a></span>add_option() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -285,7 +322,13 @@ template&lt;class Callback &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">Callback &amp;&amp;&#160;</td>
-          <td class="paramname"><em>cb</em>&#160;</td>
+          <td class="paramname"><em>cb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>description</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -302,8 +345,8 @@ template&lt;class Callback &gt; </div>
 
 </div>
 </div>
-<a id="ab9ba62c410b3bb9fc5240da48a961a68" name="ab9ba62c410b3bb9fc5240da48a961a68"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab9ba62c410b3bb9fc5240da48a961a68">&#9670;&#160;</a></span>add_option() <span class="overload">[3/3]</span></h2>
+<a id="aeeddbde3c096faf04c0ab1a784bc043a" name="aeeddbde3c096faf04c0ab1a784bc043a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeeddbde3c096faf04c0ab1a784bc043a">&#9670;&#160;</a></span>add_option() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -323,7 +366,13 @@ template&lt;class Callback &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">Callback &amp;&amp;&#160;</td>
-          <td class="paramname"><em>cb</em>&#160;</td>
+          <td class="paramname"><em>cb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>description</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -378,8 +427,34 @@ template&lt;class ForwardIt &gt; </div>
 
 </div>
 </div>
-<a id="ad4c2b782dff4895ba039cc07a6da5001" name="ad4c2b782dff4895ba039cc07a6da5001"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad4c2b782dff4895ba039cc07a6da5001">&#9670;&#160;</a></span>usage()</h2>
+<a id="a2c9823084bf49ba78c8d32ad86bd35b4" name="a2c9823084bf49ba78c8d32ad86bd35b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c9823084bf49ba78c8d32ad86bd35b4">&#9670;&#160;</a></span>synopsis()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cli::option_processor::synopsis </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>synopsis</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9cbcf3cb9398d71635cf3f95e00b5438" name="a9cbcf3cb9398d71635cf3f95e00b5438"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9cbcf3cb9398d71635cf3f95e00b5438">&#9670;&#160;</a></span>usage()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -390,13 +465,58 @@ template&lt;class ForwardIt &gt; </div>
         <tr>
           <td class="memname">void cli::option_processor::usage </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname"><em>screen_width</em> = <code>72</code></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
 <span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a963a0b0a7cf5bf1d738f5d8d290d0ec1" name="a963a0b0a7cf5bf1d738f5d8d290d0ec1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a963a0b0a7cf5bf1d738f5d8d290d0ec1">&#9670;&#160;</a></span>wrap()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class StringLike &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static auto cli::option_processor::wrap </td>
+          <td>(</td>
+          <td class="paramtype">StringLike &amp;&amp;&#160;</td>
+          <td class="paramname"><em>s</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">typename std::decay&lt; StringLike &gt;::type::size_type&#160;</td>
+          <td class="paramname"><em>w</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">typename std::decay&lt; StringLike &gt;::type::size_type&#160;</td>
+          <td class="paramname"><em>i</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -437,6 +557,50 @@ template&lt;class ForwardIt &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">std::map&lt;char, std::shared_ptr&lt;<a class="el" href="classcli_1_1option.html">option</a>&gt; &gt; cli::option_processor::_short</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a30228bdf91bbdd009e465b24e2bd06bb" name="a30228bdf91bbdd009e465b24e2bd06bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a30228bdf91bbdd009e465b24e2bd06bb">&#9670;&#160;</a></span>_synopsis</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string cli::option_processor::_synopsis</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acd49e3ba5e4e7864d9dfd154a5a1a1fa" name="acd49e3ba5e4e7864d9dfd154a5a1a1fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd49e3ba5e4e7864d9dfd154a5a1a1fa">&#9670;&#160;</a></span>_usage</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; cli::option_processor::_usage</td>
         </tr>
       </table>
   </td>

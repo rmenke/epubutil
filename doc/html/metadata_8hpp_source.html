@@ -25,7 +25,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">EPUB Utilities<span id="projectnumber">&#160;0.0.1-beta.3</span>
+   <div id="projectname">EPUB Utilities<span id="projectnumber">&#160;1.0.0-RC.1</span>
    </div>
    <div id="projectbrief">EPUB CLI Utilities</div>
   </td>
@@ -122,61 +122,85 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="classepub_1_1metadata.html#aecf366ab6c03ddadd93235cad6f5285a">   50</a></span>    std::u8string <a class="code hl_variable" href="classepub_1_1metadata.html#aecf366ab6c03ddadd93235cad6f5285a">_language</a>;</div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="classepub_1_1metadata.html#a1c02d6c67adc523e62909cb442856ab9">   52</a></span>    std::vector&lt;creator&gt; <a class="code hl_variable" href="classepub_1_1metadata.html#a1c02d6c67adc523e62909cb442856ab9">_creators</a>;</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>  <span class="keyword">public</span>:</div>
-<div class="foldopen" id="foldopen00055" data-start="{" data-end="}">
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="classepub_1_1metadata.html#ad3b1f84d19263d9f64bafdd97625933b">   55</a></span>    <a class="code hl_function" href="classepub_1_1metadata.html#ad3b1f84d19263d9f64bafdd97625933b">metadata</a>()</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        : <a class="code hl_variable" href="classepub_1_1metadata.html#acd663a7a10d74d821055d011d99b85b4">_identifier</a>(std::u8string{u8<span class="stringliteral">&quot;urn:uuid:&quot;</span>} + <a class="code hl_function" href="namespaceepub.html#ab560a7af23f0fc3ec9e4b042a3bc3369">generate_uuid</a>())</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        , <a class="code hl_variable" href="classepub_1_1metadata.html#abba76c14a9760ddf6a06ecb9fafcad34">_title</a>(u8<span class="stringliteral">&quot;Untitled&quot;</span>)</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        , <a class="code hl_variable" href="classepub_1_1metadata.html#aecf366ab6c03ddadd93235cad6f5285a">_language</a>(u8<span class="stringliteral">&quot;en-US&quot;</span>) {}</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="classepub_1_1metadata.html#a568e19de4507759327f6c323c163e41c">   53</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classepub_1_1metadata.html#a568e19de4507759327f6c323c163e41c">_pre_paginated</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>  <span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00056" data-start="{" data-end="}">
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="classepub_1_1metadata.html#ad3b1f84d19263d9f64bafdd97625933b">   56</a></span>    <a class="code hl_function" href="classepub_1_1metadata.html#ad3b1f84d19263d9f64bafdd97625933b">metadata</a>()</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        : <a class="code hl_variable" href="classepub_1_1metadata.html#acd663a7a10d74d821055d011d99b85b4">_identifier</a>(std::u8string{u8<span class="stringliteral">&quot;urn:uuid:&quot;</span>} + <a class="code hl_function" href="namespaceepub.html#ab560a7af23f0fc3ec9e4b042a3bc3369">generate_uuid</a>())</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        , <a class="code hl_variable" href="classepub_1_1metadata.html#abba76c14a9760ddf6a06ecb9fafcad34">_title</a>(u8<span class="stringliteral">&quot;Untitled&quot;</span>)</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        , <a class="code hl_variable" href="classepub_1_1metadata.html#aecf366ab6c03ddadd93235cad6f5285a">_language</a>(u8<span class="stringliteral">&quot;en-US&quot;</span>) {}</div>
 </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
-<div class="foldopen" id="foldopen00064" data-start="{" data-end="}">
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="classepub_1_1metadata.html#a38fcb86cf8befa51ab4f54cdd07b2373">   64</a></span>    <span class="keyword">const</span> std::u8string <a class="code hl_function" href="classepub_1_1metadata.html#a38fcb86cf8befa51ab4f54cdd07b2373">identifier</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classepub_1_1metadata.html#acd663a7a10d74d821055d011d99b85b4">_identifier</a>;</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    }</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="foldopen" id="foldopen00065" data-start="{" data-end="}">
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="classepub_1_1metadata.html#a38fcb86cf8befa51ab4f54cdd07b2373">   65</a></span>    <span class="keyword">const</span> std::u8string <a class="code hl_function" href="classepub_1_1metadata.html#a38fcb86cf8befa51ab4f54cdd07b2373">identifier</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classepub_1_1metadata.html#acd663a7a10d74d821055d011d99b85b4">_identifier</a>;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    }</div>
 </div>
-<div class="foldopen" id="foldopen00067" data-start="{" data-end="}">
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="classepub_1_1metadata.html#a14926d8532fc0e692507fe9fa4964d9f">   67</a></span>    <span class="keyword">const</span> std::u8string <a class="code hl_function" href="classepub_1_1metadata.html#a14926d8532fc0e692507fe9fa4964d9f">title</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classepub_1_1metadata.html#abba76c14a9760ddf6a06ecb9fafcad34">_title</a>;</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    }</div>
+<div class="foldopen" id="foldopen00068" data-start="{" data-end="}">
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="classepub_1_1metadata.html#a66cef8b05c15bd16bbc6cd2ed72b67f1">   68</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classepub_1_1metadata.html#a66cef8b05c15bd16bbc6cd2ed72b67f1">identifier</a>(std::u8string <a class="code hl_function" href="classepub_1_1metadata.html#a38fcb86cf8befa51ab4f54cdd07b2373">identifier</a>) {</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        <a class="code hl_variable" href="classepub_1_1metadata.html#acd663a7a10d74d821055d011d99b85b4">_identifier</a> = std::move(<a class="code hl_function" href="classepub_1_1metadata.html#a38fcb86cf8befa51ab4f54cdd07b2373">identifier</a>);</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    }</div>
 </div>
-<div class="foldopen" id="foldopen00070" data-start="{" data-end="}">
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="classepub_1_1metadata.html#a028c60ab98e9035876606839977a8e48">   70</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classepub_1_1metadata.html#a028c60ab98e9035876606839977a8e48">title</a>(std::u8string <a class="code hl_function" href="classepub_1_1metadata.html#a14926d8532fc0e692507fe9fa4964d9f">title</a>) {</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        <a class="code hl_variable" href="classepub_1_1metadata.html#abba76c14a9760ddf6a06ecb9fafcad34">_title</a> = std::move(<a class="code hl_function" href="classepub_1_1metadata.html#a14926d8532fc0e692507fe9fa4964d9f">title</a>);</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    }</div>
+<div class="foldopen" id="foldopen00071" data-start="{" data-end="}">
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="classepub_1_1metadata.html#a14926d8532fc0e692507fe9fa4964d9f">   71</a></span>    <span class="keyword">const</span> std::u8string <a class="code hl_function" href="classepub_1_1metadata.html#a14926d8532fc0e692507fe9fa4964d9f">title</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classepub_1_1metadata.html#abba76c14a9760ddf6a06ecb9fafcad34">_title</a>;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    }</div>
 </div>
-<div class="foldopen" id="foldopen00073" data-start="{" data-end="}">
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="classepub_1_1metadata.html#a3f919d886be8df3c5a587d8eb5a6d57e">   73</a></span>    <span class="keyword">const</span> std::u8string <a class="code hl_function" href="classepub_1_1metadata.html#a3f919d886be8df3c5a587d8eb5a6d57e">language</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classepub_1_1metadata.html#aecf366ab6c03ddadd93235cad6f5285a">_language</a>;</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    }</div>
+<div class="foldopen" id="foldopen00074" data-start="{" data-end="}">
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="classepub_1_1metadata.html#a028c60ab98e9035876606839977a8e48">   74</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classepub_1_1metadata.html#a028c60ab98e9035876606839977a8e48">title</a>(std::u8string <a class="code hl_function" href="classepub_1_1metadata.html#a14926d8532fc0e692507fe9fa4964d9f">title</a>) {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        <a class="code hl_variable" href="classepub_1_1metadata.html#abba76c14a9760ddf6a06ecb9fafcad34">_title</a> = std::move(<a class="code hl_function" href="classepub_1_1metadata.html#a14926d8532fc0e692507fe9fa4964d9f">title</a>);</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    }</div>
 </div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="foldopen" id="foldopen00077" data-start="{" data-end="}">
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="classepub_1_1metadata.html#a3f919d886be8df3c5a587d8eb5a6d57e">   77</a></span>    <span class="keyword">const</span> std::u8string <a class="code hl_function" href="classepub_1_1metadata.html#a3f919d886be8df3c5a587d8eb5a6d57e">language</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classepub_1_1metadata.html#aecf366ab6c03ddadd93235cad6f5285a">_language</a>;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    }</div>
+</div>
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
-<div class="foldopen" id="foldopen00083" data-start="{" data-end="}">
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="classepub_1_1metadata.html#a23875082af22027fce800a2ab4aaa4ed">   83</a></span>    <span class="keyword">const</span> <span class="keyword">auto</span> &amp;<a class="code hl_function" href="classepub_1_1metadata.html#a23875082af22027fce800a2ab4aaa4ed">creators</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classepub_1_1metadata.html#a1c02d6c67adc523e62909cb442856ab9">_creators</a>;</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    }</div>
-</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <span class="keyword">template</span> &lt;std::ranges::range Creators&gt;</div>
-<div class="foldopen" id="foldopen00088" data-start="{" data-end="}">
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno"><a class="line" href="classepub_1_1metadata.html#af94bfb290f1369ae19e89817f721043f">   88</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classepub_1_1metadata.html#af94bfb290f1369ae19e89817f721043f">creators</a>(<span class="keyword">const</span> Creators &amp;<a class="code hl_function" href="classepub_1_1metadata.html#a23875082af22027fce800a2ab4aaa4ed">creators</a>) {</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        <a class="code hl_variable" href="classepub_1_1metadata.html#a1c02d6c67adc523e62909cb442856ab9">_creators</a>.assign(std::ranges::begin(<a class="code hl_function" href="classepub_1_1metadata.html#a23875082af22027fce800a2ab4aaa4ed">creators</a>),</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>                         std::ranges::end(<a class="code hl_function" href="classepub_1_1metadata.html#a23875082af22027fce800a2ab4aaa4ed">creators</a>));</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    }</div>
+<div class="foldopen" id="foldopen00087" data-start="{" data-end="}">
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="classepub_1_1metadata.html#a23875082af22027fce800a2ab4aaa4ed">   87</a></span>    <span class="keyword">const</span> <span class="keyword">auto</span> &amp;<a class="code hl_function" href="classepub_1_1metadata.html#a23875082af22027fce800a2ab4aaa4ed">creators</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classepub_1_1metadata.html#a1c02d6c67adc523e62909cb442856ab9">_creators</a>;</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    }</div>
 </div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>};</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <span class="keyword">template</span> &lt;std::ranges::range Creators&gt;</div>
+<div class="foldopen" id="foldopen00092" data-start="{" data-end="}">
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="classepub_1_1metadata.html#af94bfb290f1369ae19e89817f721043f">   92</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classepub_1_1metadata.html#af94bfb290f1369ae19e89817f721043f">creators</a>(<span class="keyword">const</span> Creators &amp;<a class="code hl_function" href="classepub_1_1metadata.html#a23875082af22027fce800a2ab4aaa4ed">creators</a>) {</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        <a class="code hl_variable" href="classepub_1_1metadata.html#a1c02d6c67adc523e62909cb442856ab9">_creators</a>.assign(std::ranges::begin(<a class="code hl_function" href="classepub_1_1metadata.html#a23875082af22027fce800a2ab4aaa4ed">creators</a>),</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>                         std::ranges::end(<a class="code hl_function" href="classepub_1_1metadata.html#a23875082af22027fce800a2ab4aaa4ed">creators</a>));</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    }</div>
 </div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>} <span class="comment">// namespace epub</span></div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="foldopen" id="foldopen00104" data-start="{" data-end="}">
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno"><a class="line" href="classepub_1_1metadata.html#aa104934854caf6b8b77930f1a46640e0">  104</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classepub_1_1metadata.html#aa104934854caf6b8b77930f1a46640e0">pre_paginated</a>() {</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        <a class="code hl_variable" href="classepub_1_1metadata.html#a568e19de4507759327f6c323c163e41c">_pre_paginated</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    }</div>
+</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="foldopen" id="foldopen00114" data-start="{" data-end="}">
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="classepub_1_1metadata.html#a8786b2fb20473895b963e1af2814c533">  114</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classepub_1_1metadata.html#a8786b2fb20473895b963e1af2814c533">reflow</a>() {</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        <a class="code hl_variable" href="classepub_1_1metadata.html#a568e19de4507759327f6c323c163e41c">_pre_paginated</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    }</div>
+</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
+<div class="foldopen" id="foldopen00123" data-start="{" data-end="}">
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno"><a class="line" href="classepub_1_1metadata.html#ae6b011a147727244c2f831b26976c4a8">  123</a></span>    std::u8string <a class="code hl_function" href="classepub_1_1metadata.html#ae6b011a147727244c2f831b26976c4a8">layout</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classepub_1_1metadata.html#a568e19de4507759327f6c323c163e41c">_pre_paginated</a> ? u8<span class="stringliteral">&quot;pre-paginated&quot;</span> : u8<span class="stringliteral">&quot;reflowable&quot;</span>;</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    }</div>
+</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>};</div>
+</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>} <span class="comment">// namespace epub</span></div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aclassepub_1_1creator_html"><div class="ttname"><a href="classepub_1_1creator.html">epub::creator</a></div><div class="ttdef"><b>Definition</b> metadata.hpp:13</div></div>
 <div class="ttc" id="aclassepub_1_1creator_html_a2f09ed65b27b1722c0599a1c95b2ecf9"><div class="ttname"><a href="classepub_1_1creator.html#a2f09ed65b27b1722c0599a1c95b2ecf9">epub::creator::role</a></div><div class="ttdeci">const std::u8string &amp; role() const</div><div class="ttdef"><b>Definition</b> metadata.hpp:39</div></div>
 <div class="ttc" id="aclassepub_1_1creator_html_a46565081edeb00d43db814f8684e2294"><div class="ttname"><a href="classepub_1_1creator.html#a46565081edeb00d43db814f8684e2294">epub::creator::role</a></div><div class="ttdeci">void role(auto &amp;&amp;role)</div><div class="ttdef"><b>Definition</b> metadata.hpp:42</div></div>
@@ -191,17 +215,22 @@ $(document).ready(function() { init_codefold(0); });
 <div class="ttc" id="aclassepub_1_1creator_html_adacc446b32a8fc0c0dbb8ac837896a15"><div class="ttname"><a href="classepub_1_1creator.html#adacc446b32a8fc0c0dbb8ac837896a15">epub::creator::file_as</a></div><div class="ttdeci">void file_as(auto &amp;&amp;file_as)</div><div class="ttdef"><b>Definition</b> metadata.hpp:35</div></div>
 <div class="ttc" id="aclassepub_1_1creator_html_af5ecb3d135848abf1c525ef38f5da4a2"><div class="ttname"><a href="classepub_1_1creator.html#af5ecb3d135848abf1c525ef38f5da4a2">epub::creator::creator</a></div><div class="ttdeci">creator(const creator &amp;)=default</div></div>
 <div class="ttc" id="aclassepub_1_1metadata_html"><div class="ttname"><a href="classepub_1_1metadata.html">epub::metadata</a></div><div class="ttdef"><b>Definition</b> metadata.hpp:47</div></div>
-<div class="ttc" id="aclassepub_1_1metadata_html_a028c60ab98e9035876606839977a8e48"><div class="ttname"><a href="classepub_1_1metadata.html#a028c60ab98e9035876606839977a8e48">epub::metadata::title</a></div><div class="ttdeci">void title(std::u8string title)</div><div class="ttdef"><b>Definition</b> metadata.hpp:70</div></div>
-<div class="ttc" id="aclassepub_1_1metadata_html_a14926d8532fc0e692507fe9fa4964d9f"><div class="ttname"><a href="classepub_1_1metadata.html#a14926d8532fc0e692507fe9fa4964d9f">epub::metadata::title</a></div><div class="ttdeci">const std::u8string title() const</div><div class="ttdef"><b>Definition</b> metadata.hpp:67</div></div>
+<div class="ttc" id="aclassepub_1_1metadata_html_a028c60ab98e9035876606839977a8e48"><div class="ttname"><a href="classepub_1_1metadata.html#a028c60ab98e9035876606839977a8e48">epub::metadata::title</a></div><div class="ttdeci">void title(std::u8string title)</div><div class="ttdef"><b>Definition</b> metadata.hpp:74</div></div>
+<div class="ttc" id="aclassepub_1_1metadata_html_a14926d8532fc0e692507fe9fa4964d9f"><div class="ttname"><a href="classepub_1_1metadata.html#a14926d8532fc0e692507fe9fa4964d9f">epub::metadata::title</a></div><div class="ttdeci">const std::u8string title() const</div><div class="ttdef"><b>Definition</b> metadata.hpp:71</div></div>
 <div class="ttc" id="aclassepub_1_1metadata_html_a1c02d6c67adc523e62909cb442856ab9"><div class="ttname"><a href="classepub_1_1metadata.html#a1c02d6c67adc523e62909cb442856ab9">epub::metadata::_creators</a></div><div class="ttdeci">std::vector&lt; creator &gt; _creators</div><div class="ttdef"><b>Definition</b> metadata.hpp:52</div></div>
-<div class="ttc" id="aclassepub_1_1metadata_html_a23875082af22027fce800a2ab4aaa4ed"><div class="ttname"><a href="classepub_1_1metadata.html#a23875082af22027fce800a2ab4aaa4ed">epub::metadata::creators</a></div><div class="ttdeci">const auto &amp; creators() const</div><div class="ttdef"><b>Definition</b> metadata.hpp:83</div></div>
-<div class="ttc" id="aclassepub_1_1metadata_html_a38fcb86cf8befa51ab4f54cdd07b2373"><div class="ttname"><a href="classepub_1_1metadata.html#a38fcb86cf8befa51ab4f54cdd07b2373">epub::metadata::identifier</a></div><div class="ttdeci">const std::u8string identifier() const</div><div class="ttdef"><b>Definition</b> metadata.hpp:64</div></div>
-<div class="ttc" id="aclassepub_1_1metadata_html_a3f919d886be8df3c5a587d8eb5a6d57e"><div class="ttname"><a href="classepub_1_1metadata.html#a3f919d886be8df3c5a587d8eb5a6d57e">epub::metadata::language</a></div><div class="ttdeci">const std::u8string language() const</div><div class="ttdef"><b>Definition</b> metadata.hpp:73</div></div>
+<div class="ttc" id="aclassepub_1_1metadata_html_a23875082af22027fce800a2ab4aaa4ed"><div class="ttname"><a href="classepub_1_1metadata.html#a23875082af22027fce800a2ab4aaa4ed">epub::metadata::creators</a></div><div class="ttdeci">const auto &amp; creators() const</div><div class="ttdef"><b>Definition</b> metadata.hpp:87</div></div>
+<div class="ttc" id="aclassepub_1_1metadata_html_a38fcb86cf8befa51ab4f54cdd07b2373"><div class="ttname"><a href="classepub_1_1metadata.html#a38fcb86cf8befa51ab4f54cdd07b2373">epub::metadata::identifier</a></div><div class="ttdeci">const std::u8string identifier() const</div><div class="ttdef"><b>Definition</b> metadata.hpp:65</div></div>
+<div class="ttc" id="aclassepub_1_1metadata_html_a3f919d886be8df3c5a587d8eb5a6d57e"><div class="ttname"><a href="classepub_1_1metadata.html#a3f919d886be8df3c5a587d8eb5a6d57e">epub::metadata::language</a></div><div class="ttdeci">const std::u8string language() const</div><div class="ttdef"><b>Definition</b> metadata.hpp:77</div></div>
+<div class="ttc" id="aclassepub_1_1metadata_html_a568e19de4507759327f6c323c163e41c"><div class="ttname"><a href="classepub_1_1metadata.html#a568e19de4507759327f6c323c163e41c">epub::metadata::_pre_paginated</a></div><div class="ttdeci">bool _pre_paginated</div><div class="ttdef"><b>Definition</b> metadata.hpp:53</div></div>
+<div class="ttc" id="aclassepub_1_1metadata_html_a66cef8b05c15bd16bbc6cd2ed72b67f1"><div class="ttname"><a href="classepub_1_1metadata.html#a66cef8b05c15bd16bbc6cd2ed72b67f1">epub::metadata::identifier</a></div><div class="ttdeci">void identifier(std::u8string identifier)</div><div class="ttdef"><b>Definition</b> metadata.hpp:68</div></div>
+<div class="ttc" id="aclassepub_1_1metadata_html_a8786b2fb20473895b963e1af2814c533"><div class="ttname"><a href="classepub_1_1metadata.html#a8786b2fb20473895b963e1af2814c533">epub::metadata::reflow</a></div><div class="ttdeci">void reflow()</div><div class="ttdoc">Select the rendition layout controlling reflow.</div><div class="ttdef"><b>Definition</b> metadata.hpp:114</div></div>
+<div class="ttc" id="aclassepub_1_1metadata_html_aa104934854caf6b8b77930f1a46640e0"><div class="ttname"><a href="classepub_1_1metadata.html#aa104934854caf6b8b77930f1a46640e0">epub::metadata::pre_paginated</a></div><div class="ttdeci">void pre_paginated()</div><div class="ttdoc">Select the rendition layout controlling reflow.</div><div class="ttdef"><b>Definition</b> metadata.hpp:104</div></div>
 <div class="ttc" id="aclassepub_1_1metadata_html_abba76c14a9760ddf6a06ecb9fafcad34"><div class="ttname"><a href="classepub_1_1metadata.html#abba76c14a9760ddf6a06ecb9fafcad34">epub::metadata::_title</a></div><div class="ttdeci">std::u8string _title</div><div class="ttdef"><b>Definition</b> metadata.hpp:49</div></div>
 <div class="ttc" id="aclassepub_1_1metadata_html_acd663a7a10d74d821055d011d99b85b4"><div class="ttname"><a href="classepub_1_1metadata.html#acd663a7a10d74d821055d011d99b85b4">epub::metadata::_identifier</a></div><div class="ttdeci">std::u8string _identifier</div><div class="ttdef"><b>Definition</b> metadata.hpp:48</div></div>
-<div class="ttc" id="aclassepub_1_1metadata_html_ad3b1f84d19263d9f64bafdd97625933b"><div class="ttname"><a href="classepub_1_1metadata.html#ad3b1f84d19263d9f64bafdd97625933b">epub::metadata::metadata</a></div><div class="ttdeci">metadata()</div><div class="ttdef"><b>Definition</b> metadata.hpp:55</div></div>
+<div class="ttc" id="aclassepub_1_1metadata_html_ad3b1f84d19263d9f64bafdd97625933b"><div class="ttname"><a href="classepub_1_1metadata.html#ad3b1f84d19263d9f64bafdd97625933b">epub::metadata::metadata</a></div><div class="ttdeci">metadata()</div><div class="ttdef"><b>Definition</b> metadata.hpp:56</div></div>
+<div class="ttc" id="aclassepub_1_1metadata_html_ae6b011a147727244c2f831b26976c4a8"><div class="ttname"><a href="classepub_1_1metadata.html#ae6b011a147727244c2f831b26976c4a8">epub::metadata::layout</a></div><div class="ttdeci">std::u8string layout() const</div><div class="ttdoc">The rendition layout type.</div><div class="ttdef"><b>Definition</b> metadata.hpp:123</div></div>
 <div class="ttc" id="aclassepub_1_1metadata_html_aecf366ab6c03ddadd93235cad6f5285a"><div class="ttname"><a href="classepub_1_1metadata.html#aecf366ab6c03ddadd93235cad6f5285a">epub::metadata::_language</a></div><div class="ttdeci">std::u8string _language</div><div class="ttdef"><b>Definition</b> metadata.hpp:50</div></div>
-<div class="ttc" id="aclassepub_1_1metadata_html_af94bfb290f1369ae19e89817f721043f"><div class="ttname"><a href="classepub_1_1metadata.html#af94bfb290f1369ae19e89817f721043f">epub::metadata::creators</a></div><div class="ttdeci">void creators(const Creators &amp;creators)</div><div class="ttdef"><b>Definition</b> metadata.hpp:88</div></div>
+<div class="ttc" id="aclassepub_1_1metadata_html_af94bfb290f1369ae19e89817f721043f"><div class="ttname"><a href="classepub_1_1metadata.html#af94bfb290f1369ae19e89817f721043f">epub::metadata::creators</a></div><div class="ttdeci">void creators(const Creators &amp;creators)</div><div class="ttdef"><b>Definition</b> metadata.hpp:92</div></div>
 <div class="ttc" id="anamespaceepub_html"><div class="ttname"><a href="namespaceepub.html">epub</a></div><div class="ttdef"><b>Definition</b> container.cpp:13</div></div>
 <div class="ttc" id="anamespaceepub_html_a066b00e6e19cee9ebbb898c4182c0ad0"><div class="ttname"><a href="namespaceepub.html#a066b00e6e19cee9ebbb898c4182c0ad0">epub::generate_id</a></div><div class="ttdeci">std::u8string generate_id()</div><div class="ttdef"><b>Definition</b> container.cpp:15</div></div>
 <div class="ttc" id="anamespaceepub_html_ab560a7af23f0fc3ec9e4b042a3bc3369"><div class="ttname"><a href="namespaceepub.html#ab560a7af23f0fc3ec9e4b042a3bc3369">epub::generate_uuid</a></div><div class="ttdeci">std::u8string generate_uuid()</div><div class="ttdef"><b>Definition</b> metadata.cpp:7</div></div>

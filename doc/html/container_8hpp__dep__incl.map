@@ -1,7 +1,9 @@
 <map id="container.hpp" name="container.hpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="53,5,155,29"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="103,5,204,29"/>
 <area shape="rect" id="Node000002" href="$binder_8cpp.html" title=" " alt="" coords="5,77,88,101"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="89,42,58,79,54,75,85,38"/>
-<area shape="rect" id="Node000003" href="$container_8cpp.html" title=" " alt="" coords="112,77,213,101"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="124,38,156,75,151,79,120,42"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="127,39,65,79,62,75,124,35"/>
+<area shape="rect" id="Node000003" href="$comic_8cpp.html" title=" " alt="" coords="113,77,194,101"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="156,43,156,77,151,77,151,43"/>
+<area shape="rect" id="Node000004" href="$container_8cpp.html" title=" " alt="" coords="218,77,318,101"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="184,34,252,75,249,80,182,39"/>
 </map>

@@ -1,0 +1,13 @@
+<map id="IIFilePathReader" name="IIFilePathReader">
+<area shape="rect" id="Node000001" title=" " alt="" coords="9,597,147,715"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="35,475,121,536"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="81,536,81,581,75,581,75,536"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="16,351,140,425"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="81,439,81,474,75,474,75,439"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="18,227,138,301"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="81,315,81,350,75,350,75,315"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="5,116,151,177"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="81,191,81,226,75,226,75,191"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="33,5,123,67"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="81,80,81,116,75,116,75,80"/>
+</map>

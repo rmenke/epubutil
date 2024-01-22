@@ -1,0 +1,18 @@
+<map id="minidom.cpp" name="minidom.cpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="150,5,247,29"/>
+<area shape="rect" id="Node000002" href="$minidom_8hpp.html" title=" " alt="" coords="90,77,188,101"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="191,31,159,68,155,65,187,28"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,149,75,173"/>
+<area shape="poly" id="edge7_Node000001_Node000004" title=" " alt="" coords="162,32,119,50,98,63,79,79,60,107,49,137,44,135,56,105,75,76,95,59,117,46,160,27"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="212,77,305,101"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="210,28,242,65,238,68,206,31"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="329,77,407,101"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="226,27,330,70,328,75,224,32"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="98,149,179,173"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="141,102,141,136,136,136,136,102"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="125,104,68,143,65,139,122,99"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="203,149,271,173"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="156,99,212,139,209,143,153,104"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="296,149,350,173"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="168,99,284,142,282,147,166,104"/>
+</map>

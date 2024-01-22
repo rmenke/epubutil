@@ -1,0 +1,11 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$structgeom_1_1point.html" title=" " alt="" coords="26,5,76,29"/>
+<area shape="rect" id="Node000001" href="$structgeom_1_1rect.html" title=" " alt="" coords="144,77,229,101"/>
+<area shape="poly" id="edge3_Node000000_Node000001" title=" " alt="" coords="88,34,164,75,162,80,85,38"/>
+<area shape="rect" id="Node000002" href="$structgeom_1_1point.html" title=" " alt="" coords="5,53,96,77"/>
+<area shape="poly" id="edge4_Node000002_Node000001" title=" " alt="" coords="110,73,145,79,144,85,109,78"/>
+<area shape="rect" id="Node000003" href="$structgeom_1_1size.html" title=" " alt="" coords="28,101,73,125"/>
+<area shape="poly" id="edge5_Node000003_Node000001" title=" " alt="" coords="87,104,144,94,144,99,88,110"/>
+<area shape="rect" id="Node000004" href="$structgeom_1_1size.html" title=" " alt="" coords="8,149,94,173"/>
+<area shape="poly" id="edge6_Node000004_Node000001" title=" " alt="" coords="85,140,162,99,164,104,88,145"/>
+</map>

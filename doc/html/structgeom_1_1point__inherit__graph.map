@@ -1,0 +1,5 @@
+<map id="geom::point" name="geom::point">
+<area shape="rect" id="Node000001" title=" " alt="" coords="8,5,91,104"/>
+<area shape="rect" id="Node000002" href="$structgeom_1_1rect.html" title=" " alt="" coords="5,152,93,381"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="52,117,52,152,47,152,47,117"/>
+</map>

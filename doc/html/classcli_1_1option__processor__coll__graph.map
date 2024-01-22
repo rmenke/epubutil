@@ -1,16 +1,19 @@
 <map id="cli::option_processor" name="cli::option_processor">
-<area shape="rect" id="Node000001" title=" " alt="" coords="96,563,231,755"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="167,420,341,495"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="240,496,216,549,211,547,235,494"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="158,277,283,352"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="232,351,244,403,239,404,227,353"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="5,413,143,501"/>
-<area shape="poly" id="edge7_Node000005_Node000003" title=" " alt="" coords="185,354,133,404,129,400,181,350"/>
-<area shape="rect" id="Node000004" href="$classcli_1_1option.html" title=" " alt="" coords="174,5,267,216"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="223,216,223,261,218,261,218,216"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="96,501,116,546,112,549,91,503"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="39,284,109,345"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="77,345,77,396,71,396,71,345"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="15,73,133,148"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="77,162,77,284,71,284,71,162"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="292,563,427,792"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="316,284,387,345"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="360,345,365,376,365,389,363,546,358,546,359,389,359,376,355,346"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="204,413,341,501"/>
+<area shape="poly" id="edge8_Node000008_Node000002" title=" " alt="" coords="337,347,307,400,303,397,333,344"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="293,73,410,148"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="354,162,354,284,349,284,349,162"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="482,420,653,495"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="534,497,440,596,436,592,531,493"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="5,420,180,495"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="139,493,280,608,277,612,136,497"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="129,277,254,352"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="168,354,130,408,125,405,164,351"/>
+<area shape="poly" id="edge9_Node000008_Node000006" title=" " alt="" coords="215,351,242,398,237,400,210,353"/>
+<area shape="rect" id="Node000007" href="$classcli_1_1option.html" title=" " alt="" coords="145,5,238,216"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="194,216,194,261,189,261,189,216"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="292,501,310,546,306,548,287,503"/>
 </map>
