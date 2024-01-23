@@ -1,9 +1,11 @@
 #ifndef _metadata_hpp_
 #define _metadata_hpp_
 
+#include <charconv>
 #include <chrono>
 #include <stdexcept>
 #include <string>
+#include <system_error>
 
 namespace epub {
 
@@ -21,6 +23,8 @@ class creator {
 
     creator(const creator &) = default;
     creator(creator &&) = default;
+
+    ~creator() = default;
 
     creator &operator=(const creator &) = default;
     creator &operator=(creator &&) = default;
@@ -44,12 +48,62 @@ class creator {
     }
 };
 
+class collection {
+  public:
+    enum class type { unspecified, series, set };
+
+  private:
+    std::u8string _name;
+    type _type = type::unspecified;
+    std::u8string _group_position;
+
+  public:
+    collection(std::u8string name)
+        : _name(std::move(name)) {}
+
+    collection(const collection &) = default;
+    collection(collection &&) = default;
+
+    ~collection() = default;
+
+    collection &operator=(const collection &) = default;
+    collection &operator=(collection &&) = default;
+
+    operator const std::u8string &() const {
+        return _name;
+    }
+
+    enum type type()const {
+        return _type;
+    }
+    void type(enum type type) {
+        _type = type;
+    }
+
+    std::u8string group_position() const {
+        return _group_position;
+    }
+    void group_position(unsigned position) {
+        char buffer[128];
+        auto result = std::to_chars(buffer, buffer + 128, position);
+        if (result.ec != std::errc{}) {
+            throw std::system_error(std::make_error_code(result.ec));
+        }
+        _group_position.assign(buffer, result.ptr);
+    }
+    void group_position(std::u8string position) {
+        _group_position = std::move(position);
+    }
+};
+
 class metadata {
     std::u8string _identifier;
     std::u8string _title;
     std::u8string _language;
 
     std::vector<creator> _creators;
+    std::vector<collection> _collections;
+
     bool _pre_paginated = false;
 
   public:
@@ -87,11 +141,15 @@ class metadata {
     const auto &creators() const {
         return _creators;
     }
+    auto &creators() {
+        return _creators;
+    }
 
-    template <std::ranges::range Creators>
-    void creators(const Creators &creators) {
-        _creators.assign(std::ranges::begin(creators),
-                         std::ranges::end(creators));
+    const auto &collections() const {
+        return _collections;
+    }
+    auto &collections() {
+        return _collections;
     }
 
     /// @}

@@ -1,4 +1,6 @@
 #include "container.hpp"
+#include "epub_options.hpp"
+#include "metadata.hpp"
 #include "options.hpp"
 
 #include <cstdlib>
@@ -9,32 +11,20 @@
 #include <vector>
 
 int main(int argc, char **argv) {
-    epub::container container;
-
     cli::option_processor opt;
 
+    epub::configuration config;
     std::optional<std::filesystem::path> basedir;
+    bool omit_toc = false;
 
-    std::filesystem::path output;
-    bool overwrite = false;
-    std::vector<epub::creator> creators;
+    opt.synopsis(
+        std::filesystem::path{argv[0]}.filename().string() +
+        " [--force] [--output output] [--basedir dir] [--title title]"
+        " [--creator name [--file-as index] [--role marc]] [--collection"
+        " name [--set | --series]] content-file...");
 
-    opt.synopsis(std::filesystem::path{argv[0]}.filename().string() +
-                 " [-f] [-o output] [-b dir] [-T title] [--creator name"
-                 " [--file-as index] [--role marc]] content-file...");
+    epub::common_options(opt, config);
 
-    opt.add_option(
-        'o', "output",
-        [&](const std::string &arg) {
-            if (!output.empty()) {
-                throw cli::usage_error("output path set multiple times");
-            }
-            output = arg;
-        },
-        "the output path (default: \"untitled.epub\")");
-    opt.add_flag(
-        'f', "force", [&] { overwrite = true; },
-        "allow overwriting of the output file");
     opt.add_option(
         'b', "basedir",
         [&](const std::string &arg) {
@@ -44,40 +34,9 @@ int main(int argc, char **argv) {
             basedir = arg;
         },
         "prefix of the input files");
-    opt.add_option(
-        'T', "title",
-        [&](const std::string &arg) {
-            container.package().metadata().title(
-                std::u8string{arg.begin(), arg.end()});
-        },
-        "the title of the publication");
-    opt.add_option(
-        'C', "creator",
-        [&](const std::string &arg) {
-            creators.emplace_back(std::u8string{arg.begin(), arg.end()});
-        },
-        "the creator(s) of the publication");
-    opt.add_option(
-        "file-as",
-        [&](const std::string &arg) {
-            if (creators.empty()) {
-                throw cli::usage_error("file-as must follow a creator");
-            }
-            creators.back().file_as(std::u8string{arg.begin(), arg.end()});
-        },
-        "string used for sorting the creator, usually \"last, first\"");
-    opt.add_option(
-        "role",
-        [&](const std::string &arg) {
-            if (creators.empty()) {
-                throw cli::usage_error("role must follow a creator");
-            }
-            if (arg.size() != 3) {
-                throw cli::usage_error("MARC roles are three letters long");
-            }
-            creators.back().role(std::u8string{arg.begin(), arg.end()});
-        },
-        "MARC role of the creator (e.g., 'aut')");
+    opt.add_flag(
+        "omit-toc", [&] { omit_toc = true; },
+        "do not include the ToC in the reading order");
 
     auto args_begin = argv + 1;
     auto args_end = argv + argc;
@@ -90,7 +49,14 @@ int main(int argc, char **argv) {
         exit(1);
     }
 
-    container.package().metadata().creators(std::move(creators));
+    epub::container container{epub::container::options::omit_toc};
+
+    auto &metadata = container.package().metadata();
+
+    metadata.title(config.title);
+    if (!config.identifier.empty()) metadata.identifier(config.identifier);
+    metadata.creators() = std::move(config.creators);
+    metadata.collections() = std::move(config.collections);
 
     for (std::string_view arg :
          std::ranges::subrange(args_begin, args_end)) {
@@ -114,8 +80,8 @@ int main(int argc, char **argv) {
         container.add(source, local);
     }
 
-    if (output.empty()) output = "untitled.epub";
-    if (overwrite) std::filesystem::remove_all(output);
+    if (config.output.empty()) config.output = "untitled.epub";
+    if (config.overwrite) std::filesystem::remove_all(config.output);
 
-    container.write(output);
+    container.write(config.output);
 }

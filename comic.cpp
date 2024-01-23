@@ -1,4 +1,5 @@
 #include "container.hpp"
+#include "epub_options.hpp"
 #include "imageinfo/imageinfo.hpp"
 #include "manifest.hpp"
 #include "metadata.hpp"
@@ -151,10 +152,6 @@ struct image_ref {
         frame.h = static_cast<std::size_t>(std::min(max_h, h));
 
         return *this;
-    }
-
-    [[deprecated]] void origin(const geom::point &p) {
-        frame = p;
     }
 
     auto style() const {
@@ -331,29 +328,16 @@ int main(int argc, char **argv) {
         progname.string() + " [-o output] [-fl]" +
         " [-p WIDTHxHEIGHT | -w WIDTH -h HEIGHT] [-u] image-file...");
 
-    std::filesystem::path output;
-    bool overwrite = false;
+    epub::configuration config;
+
+    epub::common_options(opt, config);
+
     geom::size page_size = {1536U, 2048U};
     bool upscale = false;
     separation_mode spacing = separation_mode::distributed;
     std::filesystem::copy_options image_copy_options =
         std::filesystem::copy_options::none;
-    std::string title = "Untitled";
-    std::vector<epub::creator> creators;
-    std::string identifier;
 
-    opt.add_option(
-        'o', "output",
-        [&](const std::string &arg) {
-            if (!output.empty()) {
-                throw cli::usage_error("output path set multiple times");
-            }
-            output = arg;
-        },
-        "the output path (default: \"untitled.epub\")");
-    opt.add_flag(
-        'f', "force", [&] { overwrite = true; },
-        "allow overwriting of the output file");
     opt.add_flag(
         'l', "link",
         [&] {
@@ -387,40 +371,6 @@ int main(int argc, char **argv) {
     opt.add_flag(
         'u', "upscale", [&] { upscale = true; },
         "scale images up to fit page widths");
-    opt.add_option(
-        'T', "title", [&](const std::string &arg) { title = arg; },
-        "the title of the publication");
-    opt.add_option(
-        'C', "creator",
-        [&](const std::string &arg) {
-            creators.emplace_back(std::u8string{arg.begin(), arg.end()});
-        },
-        "the creator(s) of the publication");
-    opt.add_option(
-        "file-as",
-        [&](const std::string &arg) {
-            if (creators.empty()) {
-                throw cli::usage_error("file-as must follow a creator");
-            }
-            creators.back().file_as(std::u8string{arg.begin(), arg.end()});
-        },
-        "string used for sorting the creator, usually \"last, first\"");
-    opt.add_option(
-        "role",
-        [&](const std::string &arg) {
-            if (creators.empty()) {
-                throw cli::usage_error("role must follow a creator");
-            }
-            if (arg.size() != 3) {
-                throw cli::usage_error("MARC roles are three letters long");
-            }
-            creators.back().role(std::u8string{arg.begin(), arg.end()});
-        },
-        "MARC role of the creator (e.g., 'aut')");
-    opt.add_option(
-        'I', "identifier",
-        [&](const std::string &arg) { identifier = arg; },
-        "EPUB identifier (usu. a URN)");
 
     args.erase(args.begin(), opt.process(args.begin(), args.end()));
 
@@ -450,7 +400,7 @@ int main(int argc, char **argv) {
         exit(1);
     }
 
-    if (output.empty()) output = "untitled.epub";
+    if (config.output.empty()) config.output = "untitled.epub";
 
     book the_book;
 
@@ -495,23 +445,23 @@ int main(int argc, char **argv) {
         "height=" + std::to_string(page_size.h)).c_str()));
     // clang-format on
 
-    if (exists(output) && overwrite) remove_all(output);
+    if (exists(config.output) && config.overwrite) remove_all(config.output);
 
-    epub::container c{true};
+    epub::container c{epub::container::options::omit_toc};
     epub::manifest &m = c.package().manifest();
     epub::spine &s = c.package().spine();
     epub::navigation &n = c.navigation();
 
     c.package().metadata().pre_paginated();
-    c.package().metadata().creators(creators);
+    c.package().metadata().creators() = std::move(config.creators);
 
-    if (!title.empty()) {
+    if (!config.title.empty()) {
         c.package().metadata().title(
-            reinterpret_cast<const char8_t *>(title.c_str()));
+            reinterpret_cast<const char8_t *>(config.title.c_str()));
     }
-    if (!identifier.empty()) {
+    if (!config.identifier.empty()) {
         c.package().metadata().identifier(
-            reinterpret_cast<const char8_t *>(identifier.c_str()));
+            reinterpret_cast<const char8_t *>(config.identifier.c_str()));
     }
 
     for (auto &&chapter : the_book) {
@@ -537,9 +487,9 @@ int main(int argc, char **argv) {
         n.add(mark);
     }
 
-    c.write(output);
+    c.write(config.output);
 
-    auto content_dir = output / "Contents";
+    auto content_dir = config.output / "Contents";
 
     for (auto &&chapter : the_book) {
         for (auto &&page : chapter) {

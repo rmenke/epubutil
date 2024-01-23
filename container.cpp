@@ -33,13 +33,15 @@ static constexpr std::string_view container_xml =
 </container>
 )%%";
 
-container::container(bool omit_toc) {
+container::container(container::options options) {
+#define IS_SET(opts, flag) ((opts & options::flag) == options::flag)
+
     auto item = _package.manifest().add(
         u8"nav", u8"nav.xhtml", u8"nav",
         {{u8"title", u8"Table of Contents"},
          {u8"media-type", u8"application/xhtml+xml"}});
 
-    if (!omit_toc) {
+    if (!IS_SET(options, omit_toc)) {
         _package.spine().add(item);
         _navigation.add(item);
     }
