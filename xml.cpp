@@ -4,6 +4,7 @@
 #include "navigation.hpp"
 #include "package.hpp"
 
+#include <__fwd/string_view.h>
 #include <libxml/encoding.h>
 #include <libxml/tree.h>
 #include <libxml/xpath.h>
@@ -145,6 +146,48 @@ void write_metadata(xmlNodePtr metadata, const class metadata &m) {
 
         if (!id.empty()) {
             xmlSetProp(node, UTF8("id"), to_xmlchar(id));
+        }
+    }
+
+    for (auto &&collection : m.collections()) {
+        auto meta = xmlNewDocRawNode(metadata->doc, nullptr, UTF8("meta"),
+                                     to_xmlchar(collection));
+
+        xmlAddChild(metadata, meta);
+        xmlSetProp(meta, UTF8("property"), UTF8("belongs-to-collection"));
+
+        std::u8string id;
+        std::u8string type =
+            collection.type() == collection::type::series ? u8"series"
+            : collection.type() == collection::type::set  ? u8"set"
+                                                          : std::u8string{};
+
+        if (!type.empty()) {
+            if (id.empty()) id = generate_id();
+            auto meta = xmlNewDocRawNode(metadata->doc, nullptr,
+                                         UTF8("meta"), to_xmlchar(type));
+
+            xmlSetProp(meta, UTF8("refines"), to_xmlchar(u8'#' + id));
+            xmlSetProp(meta, UTF8("property"), UTF8("collection-type"));
+
+            xmlAddChild(metadata, meta);
+        }
+
+        std::u8string position = collection.group_position();
+
+        if (!position.empty()) {
+            if (id.empty()) id = generate_id();
+            auto meta = xmlNewDocRawNode(
+                metadata->doc, nullptr, UTF8("meta"), to_xmlchar(position));
+
+            xmlSetProp(meta, UTF8("refines"), to_xmlchar(u8'#' + id));
+            xmlSetProp(meta, UTF8("property"), UTF8("group-position"));
+
+            xmlAddChild(metadata, meta);
+        }
+
+        if (!id.empty()) {
+            xmlSetProp(meta, UTF8("id"), to_xmlchar(id));
         }
     }
 

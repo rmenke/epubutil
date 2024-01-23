@@ -6,6 +6,7 @@
 
 #include <filesystem>
 #include <map>
+#include <type_traits>
 
 namespace epub {
 
@@ -68,7 +69,10 @@ class container {
     class navigation _navigation;
 
   public:
-    container(bool omit_toc = false);
+    enum class options { none = 0, omit_toc = 1 };
+
+    container() : container(options::none) {}
+    container(options opts);
 
     /// @brief Add a file to the container.
     ///
@@ -120,6 +124,44 @@ class container {
     ///
     void write(const std::filesystem::path &path) const;
 };
+
+static inline container::options operator~(const container::options &a) {
+    return static_cast<container::options>(
+        ~static_cast<std::underlying_type_t<container::options>>(a));
+}
+
+static inline container::options operator|(container::options a,
+                                           container::options b) {
+    using type = std::underlying_type_t<container::options>;
+    return static_cast<container::options>(static_cast<type>(a) |
+                                           static_cast<type>(b));
+}
+static inline container::options &operator|=(container::options &a,
+                                             const container::options &b) {
+    return a = a | b;
+}
+
+static inline container::options operator&(container::options a,
+                                           container::options b) {
+    using type = std::underlying_type_t<container::options>;
+    return static_cast<container::options>(static_cast<type>(a) &
+                                           static_cast<type>(b));
+}
+static inline container::options &operator&=(container::options &a,
+                                             const container::options &b) {
+    return a = a & b;
+}
+
+static inline container::options operator^(container::options a,
+                                           container::options b) {
+    using type = std::underlying_type_t<container::options>;
+    return static_cast<container::options>(static_cast<type>(a) ^
+                                           static_cast<type>(b));
+}
+static inline container::options &operator^=(container::options &a,
+                                             const container::options &b) {
+    return a = a ^ b;
+}
 
 } // namespace epub
 

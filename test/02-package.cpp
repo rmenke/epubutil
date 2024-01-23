@@ -28,7 +28,8 @@ int main(int argc, const char** argv) {
         creators.back().file_as(u8"Marks, Percy");
         creators.back().role(u8"aut");
 
-        p.metadata().creators(creators);
+        p.metadata().creators() =
+            std::vector<epub::creator>{creators.begin(), creators.end()};
 
         p.manifest().add(u8"nav", "nav.xhtml", u8"nav",
                          {{u8"media-type", u8"application/xhtml+xml"}});

@@ -46,7 +46,8 @@ int main(int argc, const char **argv) {
         creators.back().role(u8"aut");
 
         c.package().metadata().title(u8"The Plastic Age");
-        c.package().metadata().creators(creators);
+        c.package().metadata().creators().assign(creators.begin(),
+                                                 creators.end());
 
         for (const auto &path : paths) {
             c.add(path);
@@ -115,7 +116,6 @@ int main(int argc, const char **argv) {
         diag("Running: ", epubcheck_cmd);
 
         if (!eq(std::system(epubcheck_cmd.c_str()), 0)) {
-
             std::ifstream log{epubcheck_out};
             for (std::string s; std::getline(log, s);) {
                 diag("epubcheck: ", s);
