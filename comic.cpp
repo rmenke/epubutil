@@ -328,9 +328,7 @@ int main(int argc, char **argv) {
         progname.string() + " [-o output] [-fl]" +
         " [-p WIDTHxHEIGHT | -w WIDTH -h HEIGHT] [-u] image-file...");
 
-    epub::configuration config;
-
-    epub::common_options(opt, config);
+    auto config = epub::common_options(opt);
 
     geom::size page_size = {1536U, 2048U};
     bool upscale = false;
@@ -400,7 +398,7 @@ int main(int argc, char **argv) {
         exit(1);
     }
 
-    if (config.output.empty()) config.output = "untitled.epub";
+    if (config->output.empty()) config->output = "untitled.epub";
 
     book the_book;
 
@@ -445,7 +443,7 @@ int main(int argc, char **argv) {
         "height=" + std::to_string(page_size.h)).c_str()));
     // clang-format on
 
-    if (exists(config.output) && config.overwrite) remove_all(config.output);
+    if (config->overwrite) remove_all(config->output);
 
     epub::container c{epub::container::options::omit_toc};
     epub::manifest &m = c.package().manifest();
@@ -453,15 +451,18 @@ int main(int argc, char **argv) {
     epub::navigation &n = c.navigation();
 
     c.package().metadata().pre_paginated();
-    c.package().metadata().creators() = std::move(config.creators);
+    c.package().metadata().creators() = std::move(config->creators);
 
-    if (!config.title.empty()) {
+    if (!config->title.empty()) {
         c.package().metadata().title(
-            reinterpret_cast<const char8_t *>(config.title.c_str()));
+            reinterpret_cast<const char8_t *>(config->title.c_str()));
     }
-    if (!config.identifier.empty()) {
+    if (!config->identifier.empty()) {
         c.package().metadata().identifier(
-            reinterpret_cast<const char8_t *>(config.identifier.c_str()));
+            reinterpret_cast<const char8_t *>(config->identifier.c_str()));
+    }
+    if (!config->toc_stylesheet.empty()) {
+        n.stylesheet(config->toc_stylesheet);
     }
 
     for (auto &&chapter : the_book) {
@@ -487,9 +488,9 @@ int main(int argc, char **argv) {
         n.add(mark);
     }
 
-    c.write(config.output);
+    c.write(config->output);
 
-    auto content_dir = config.output / "Contents";
+    auto content_dir = config->output / "Contents";
 
     for (auto &&chapter : the_book) {
         for (auto &&page : chapter) {

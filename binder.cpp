@@ -13,7 +13,6 @@
 int main(int argc, char **argv) {
     cli::option_processor opt;
 
-    epub::configuration config;
     std::optional<std::filesystem::path> basedir;
     bool omit_toc = false;
 
@@ -23,7 +22,7 @@ int main(int argc, char **argv) {
         " [--creator name [--file-as index] [--role marc]] [--collection"
         " name [--set | --series]] content-file...");
 
-    epub::common_options(opt, config);
+    auto config = epub::common_options(opt);
 
     opt.add_option(
         'b', "basedir",
@@ -53,10 +52,10 @@ int main(int argc, char **argv) {
 
     auto &metadata = container.package().metadata();
 
-    metadata.title(config.title);
-    if (!config.identifier.empty()) metadata.identifier(config.identifier);
-    metadata.creators() = std::move(config.creators);
-    metadata.collections() = std::move(config.collections);
+    metadata.title(config->title);
+    if (!config->identifier.empty()) metadata.identifier(config->identifier);
+    metadata.creators() = std::move(config->creators);
+    metadata.collections() = std::move(config->collections);
 
     for (std::string_view arg :
          std::ranges::subrange(args_begin, args_end)) {
@@ -80,8 +79,12 @@ int main(int argc, char **argv) {
         container.add(source, local);
     }
 
-    if (config.output.empty()) config.output = "untitled.epub";
-    if (config.overwrite) std::filesystem::remove_all(config.output);
+    if (config->output.empty()) config->output = "untitled.epub";
+    if (config->overwrite) std::filesystem::remove_all(config->output);
 
-    container.write(config.output);
+    if (!config->toc_stylesheet.empty()) {
+        container.navigation().stylesheet(config->toc_stylesheet);
+    }
+
+    container.write(config->output);
 }

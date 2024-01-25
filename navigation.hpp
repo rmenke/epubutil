@@ -15,19 +15,29 @@ class navigation {
     using weak_item_ptr = item_ptr::weak_type;
 
     std::vector<weak_item_ptr> _items;
+    std::filesystem::path _stylesheet;
 
     /// @cond implementation
 
-    /// NOLINTNEXTLINE
+    // clang-format off
+    // NOLINTNEXTLINE
 #define AUTO_MEMBER(MEMBER, INIT) decltype(INIT) MEMBER = (INIT)
     mutable AUTO_MEMBER(_view, _items | std::views::transform(&weak_item_ptr::lock) | std::views::filter(&item_ptr::operator bool));
 #undef AUTO_MEMBER
+    // clang-format on
 
     /// @endcond
 
   public:
     void add(std::weak_ptr<manifest::item> ptr) {
         _items.push_back(std::move(ptr));
+    }
+
+    std::filesystem::path stylesheet() const {
+        return _stylesheet;
+    }
+    void stylesheet(std::filesystem::path stylesheet) {
+        _stylesheet = std::move(stylesheet);
     }
 
     void write(const std::filesystem::path &path) const {
