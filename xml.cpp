@@ -4,7 +4,6 @@
 #include "navigation.hpp"
 #include "package.hpp"
 
-#include <__fwd/string_view.h>
 #include <libxml/encoding.h>
 #include <libxml/tree.h>
 #include <libxml/xpath.h>
@@ -261,7 +260,18 @@ void write_navigation(const std::filesystem::path &path,
     auto head = xmlNewChild(html, xhtml_ns, UTF8("head"), nullptr);
     auto body = xmlNewChild(html, xhtml_ns, UTF8("body"), nullptr);
 
+    xmlSetProp(body, UTF8("class"), UTF8("navigation"));
+
     xmlNewChild(head, xhtml_ns, UTF8("title"), UTF8("Table of Contents"));
+
+    if (!n.stylesheet().empty()) {
+        auto ss = xmlNewChild(head, xhtml_ns, UTF8("link"), nullptr);
+        xmlSetProp(ss, UTF8("rel"), UTF8("stylesheet"));
+        xmlSetProp(ss, UTF8("type"), UTF8("text/css"));
+        xmlSetProp(ss, UTF8("href"), to_xmlchar(n.stylesheet().u8string()));
+    }
+
+    xmlNewChild(body, xhtml_ns, UTF8("h1"), UTF8("Table of Contents"));
 
     auto nav = xmlNewChild(body, xhtml_ns, UTF8("nav"), nullptr);
     auto ol = xmlNewChild(nav, xhtml_ns, UTF8("ol"), nullptr);

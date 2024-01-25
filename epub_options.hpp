@@ -8,88 +8,108 @@
 
 namespace epub {
 
-struct configuration {
+struct configuration { // NOLINT
     std::filesystem::path output;
     bool overwrite = false;
     std::u8string title;
     std::u8string identifier;
+    std::filesystem::path toc_stylesheet;
     std::vector<epub::creator> creators;
     std::vector<epub::collection> collections;
+
+    configuration() = default;
+
+    configuration(const configuration &) = delete;
+    configuration(configuration &&) = delete;
+
+    configuration &operator=(const configuration &) = delete;
+    configuration &operator=(configuration &&) = delete;
 };
 
-void common_options(::cli::option_processor &opt, configuration &config) {
+/// @brief Common options for EPUB command-line utilities.
+///
+/// Adds command-line options common to EPUB command-line utilities to
+/// an option processor.  The arguments passed in are stored in a
+/// structure managed by a shared pointer.
+///
+/// @param opt a @c cli::option_processor instance
+/// @returns a shared pointer to a @c configuration block
+std::shared_ptr<configuration>
+common_options(::cli::option_processor &opt) {
+    auto config = std::make_shared<configuration>();
+
     opt.add_option(
         'o', "output",
-        [&](const std::string &arg) {
-            if (!config.output.empty()) {
+        [config](const std::string &arg) {
+            if (!config->output.empty()) {
                 throw cli::usage_error("output path set multiple times");
             }
-            config.output = arg;
+            config->output = arg;
         },
-        "the output path (default: \"untitled.epub\")");
+        "the output path");
     opt.add_flag(
-        'f', "force", [&] { config.overwrite = true; },
+        'f', "force", [config] { config->overwrite = true; },
         "allow overwriting of the output file");
     opt.add_option(
         'T', "title",
-        [&](const std::string &arg) {
-            config.title = reinterpret_cast<const char8_t *>(arg.c_str());
+        [config](const std::string &arg) {
+            config->title = reinterpret_cast<const char8_t *>(arg.c_str());
         },
         "the title of the publication");
     opt.add_option(
         'C', "creator",
-        [&](const std::string &arg) {
-            config.creators.emplace_back(
+        [config](const std::string &arg) {
+            config->creators.emplace_back(
                 std::u8string{arg.begin(), arg.end()});
         },
         "the creator(s) of the publication");
     opt.add_option(
         "file-as",
-        [&](const std::string &arg) {
-            if (config.creators.empty()) {
+        [config](const std::string &arg) {
+            if (config->creators.empty()) {
                 throw cli::usage_error("file-as must follow a creator");
             }
-            config.creators.back().file_as(
+            config->creators.back().file_as(
                 std::u8string{arg.begin(), arg.end()});
         },
         "string used for sorting the creator, usually \"last, first\"");
     opt.add_option(
         "role",
-        [&](const std::string &arg) {
-            if (config.creators.empty()) {
+        [config](const std::string &arg) {
+            if (config->creators.empty()) {
                 throw cli::usage_error("role must follow a creator");
             }
             if (arg.size() != 3) {
                 throw cli::usage_error("MARC roles are three letters long");
             }
-            config.creators.back().role(
+            config->creators.back().role(
                 std::u8string{arg.begin(), arg.end()});
         },
         "MARC role of the creator (e.g., 'aut')");
     opt.add_option(
         "collection",
-        [&](const std::string &arg) {
-            config.collections.emplace_back(
+        [config](const std::string &arg) {
+            config->collections.emplace_back(
                 std::u8string{arg.begin(), arg.end()});
         },
         "the collection to which this EPUB belongs");
     opt.add_option(
         "issue",
-        [&](const std::string &arg) {
-            if (config.collections.empty()) {
+        [config](const std::string &arg) {
+            if (config->collections.empty()) {
                 throw cli::usage_error("issue must follow a collection");
             }
-            config.collections.back().group_position(
+            config->collections.back().group_position(
                 std::u8string{arg.begin(), arg.end()});
         },
         "the position of the publication within the collection");
     opt.add_flag(
         "set",
-        [&]() {
-            if (config.collections.empty()) {
+        [config] {
+            if (config->collections.empty()) {
                 throw cli::usage_error("set must follow a collection");
             }
-            auto &collection = config.collections.back();
+            auto &collection = config->collections.back();
             if (collection.type() != epub::collection::type::unspecified) {
                 throw cli::usage_error(
                     "collection types are specified once");
@@ -99,11 +119,11 @@ void common_options(::cli::option_processor &opt, configuration &config) {
         "the collection is a complete set");
     opt.add_flag(
         "series",
-        [&]() {
-            if (config.collections.empty()) {
+        [config] {
+            if (config->collections.empty()) {
                 throw cli::usage_error("series must follow a collection");
             }
-            auto &collection = config.collections.back();
+            auto &collection = config->collections.back();
             if (collection.type() != epub::collection::type::unspecified) {
                 throw cli::usage_error(
                     "collection types are specified once");
@@ -113,13 +133,19 @@ void common_options(::cli::option_processor &opt, configuration &config) {
         "the collection is an ongoing series");
     opt.add_option(
         'I', "identifier",
-        [&](const std::string &arg) {
-            if (!config.identifier.empty()) {
+        [config](const std::string &arg) {
+            if (!config->identifier.empty()) {
                 throw cli::usage_error(
                     "only one identifier per publication");
             }
         },
         "the publication identifier of the EPUB (default: generate)");
+    opt.add_option(
+        "toc-stylesheet",
+        [config](const std::string &arg) { config->toc_stylesheet = arg; },
+        "optional stylesheet for the Table of Contents");
+
+    return config;
 }
 
 } // namespace epub
