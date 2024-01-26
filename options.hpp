@@ -1,8 +1,6 @@
 #ifndef _options_hpp_
 #define _options_hpp_
 
-#include <__ranges/elements_view.h>
-
 #include <algorithm>
 #include <cassert>
 #include <functional>
@@ -139,8 +137,14 @@ class option_processor {
     std::map<std::string, std::shared_ptr<option>> _long;
 
   public:
-    void synopsis(std::string synopsis) {
-        _synopsis = std::move(synopsis);
+    option_processor(std::string progname)
+        : _synopsis(std::move(progname)) {}
+
+    std::string &synopsis() {
+        return _synopsis;
+    }
+    const std::string &synopsis() const {
+        return _synopsis;
     }
 
     template <class Callback>

@@ -11,6 +11,8 @@ namespace epub {
 class package;
 class navigation;
 
+extern std::u8string generate_id();
+
 namespace xml {
 
 constexpr auto dc_ns_uri = u8"http://purl.org/dc/elements/1.1/";

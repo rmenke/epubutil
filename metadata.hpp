@@ -9,40 +9,88 @@
 
 namespace epub {
 
-extern std::u8string generate_id();
+/// @brief Generate a UUID.
+///
+/// Generates a random (version 4) UUID for use as a publication
+/// identifier.
+///
+/// @returns a string containing the UUID as a hex string with parts
+/// separated by hyphens
+///
 extern std::u8string generate_uuid();
 
+/// @brief An individual or organizational creator.
+///
+/// The creator is the primary source for the content: the person
+/// responsible for its creation.  It is usually a name in display
+/// form.  There are two refinements that can be added to a creator.
+/// The @em file-as refinement is a string that is appropriate for
+/// sorting, such as "last-name, first-name."  The @em role refinement
+/// is the MARC relator code describing how the creator was involved:
+/// "aut" for author, "ill" for illustrator, and so on.
+///
+/// @sa <a href="https://www.loc.gov/marc/relators/relaterm.html">MARC
+/// source codes</a> at the Library of Congress
+
 class creator {
-    std::u8string _creator;
-    std::u8string _file_as;
-    std::u8string _role;
+    std::u8string _name;        ///< The creator's name.
+    std::u8string _file_as;     ///< The string used to sort and index.
+    std::u8string _role;        ///< The role the creator played.
 
-  public:
-    creator(std::u8string creator)
-        : _creator(std::move(creator)) {}
+public:
+    /// Create a creator instance for the person or organization so
+    /// named.
+    ///
+    /// This is both a constructor and a conversion operator.  If the
+    /// programmer is not interested in refinements, they can use the
+    /// @c creator values as normal UTF-8 strings.
+    ///
+    /// @param name the name of the person or organization
+    creator(std::u8string name)
+        : _name(std::move(name)) {}
 
-    creator(const creator &) = default;
-    creator(creator &&) = default;
-
-    ~creator() = default;
-
-    creator &operator=(const creator &) = default;
-    creator &operator=(creator &&) = default;
-
+    /// Convert the creator object to a UTF-8 string automatically.
+    ///
+    /// @return the name of the creator
     operator const std::u8string &() const {
-        return _creator;
+        return _name;
     }
 
+    /// Retrieve the "file-as" refinement.
+    ///
+    /// @returns the "file-as" refinement string
     const std::u8string &file_as() const {
         return _file_as;
     }
+
+    /// Set the "file-as" refinement.
+    ///
+    /// This is the string used for sorting and indexing.
+    /// Traditionally it is "last, first" but may be in different
+    /// forms if presentation and textual representation are
+    /// different.
+    ///
+    /// @param file_as the "file-as" refinement string
     void file_as(auto &&file_as) {
         _file_as = std::forward<decltype(file_as)>(file_as);
     }
 
+    /// Retrieve the "role" refinement.
+    ///
+    /// @returns a three-letter UTF-8 string or the empty string if no
+    /// code has been assigned
     const std::u8string &role() const {
         return _role;
     }
+
+    /// Set the "role" refinement.
+    ///
+    /// This is a three letter MARC code describing how the creator
+    /// was involved in the production of the document.  Valid codes
+    /// are listed above.
+    ///
+    /// @param role a three-letter UTF-8 string or the empty string to
+    /// unset
     void role(auto &&role) {
         _role = std::forward<decltype(role)>(role);
     }

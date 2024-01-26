@@ -53,3 +53,6 @@ git-tag:
 
 clean-local: code-coverage-clean
 	@find "$(abs_top_srcdir)" -name '*~' -print0 | xargs -0t $(RM)
+
+imageinfo/imageinfo.hpp:
+	git submodule update imageinfo

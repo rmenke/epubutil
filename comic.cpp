@@ -93,21 +93,22 @@ struct rect : point, size {
 
 } // namespace geom
 
+namespace fs = std::filesystem;
+
 struct image_ref {
-    std::filesystem::path path;
-    std::filesystem::path local;
+    fs::path path;
+    fs::path local;
     std::string media_type;
     geom::rect frame;
     bool upscaled = false;
 
-    image_ref(const std::filesystem::path &p, unsigned num,
-              const ImageInfo &info)
+    image_ref(const fs::path &p, unsigned num, const ImageInfo &info)
         : path(p)
         , local("im" + to_digits(num, 5) + '.' + info.getExt())
         , media_type(info.getMimetype())
         , frame(geom::size(info.getWidth(), info.getHeight())) {}
 
-    image_ref(std::filesystem::path p, unsigned num)
+    image_ref(fs::path p, unsigned num)
         : image_ref(p, num, getImageInfo<IIFilePathReader>(p)) {}
 
     auto width() const {
@@ -184,28 +185,44 @@ struct image_ref {
 };
 
 enum class separation_mode {
-    maximum,     ///< Place maximum space between images.
+    external,    ///< Place maximum space between images.
     distributed, ///< Evenly space images.
-    minimum      ///< Place no space between images.
+    internal,    ///< Place no space between images.
 };
 
+/// @brief A collection of images that can fit on a single content
+/// page.
+///
+/// Images should not be added to the page if the collective height of
+/// the images would exceed the page size.
+///
 class page : std::vector<image_ref> {
+    /// @brief The collective size of the images stacked vertically.
     geom::size _content_size;
-    std::filesystem::path _path;
+
+    /// @brief The relative path of the content page.
+    fs::path _path;
 
   public:
     page(unsigned num)
         : _path("pg" + to_digits(num, 4) + ".xhtml") {}
 
+    /// @brief The width of the widest image.
     auto width() const {
         return _content_size.w;
     }
+
+    /// @brief The total height of the images.
     auto height() const {
         return _content_size.h;
     }
+
+    /// @brief The relative path to the page to be generated.
     auto path() const {
         return _path;
     }
+
+    /// @brief Get a @c file_metadata object that describes the page.
     epub::file_metadata metadata(const std::string &chapter) const {
         return epub::file_metadata{
             {u8"media-type", u8"application/xhtml+xml"},
@@ -215,6 +232,10 @@ class page : std::vector<image_ref> {
 
     using std::vector<image_ref>::empty;
 
+    /// @brief Add an image to the collection.
+    ///
+    /// As a side effect, updates the content size.
+    ///
     void push_back(image_ref image) {
         _content_size.w = std::max(_content_size.w, image.width());
         _content_size.h += image.height();
@@ -231,6 +252,14 @@ class page : std::vector<image_ref> {
         return cend();
     }
 
+    /// @brief Adjust the frames of the image on the page.
+    ///
+    /// The @c mode argument determines the disposition of white space
+    /// on the page.
+    ///
+    /// @param mode the disposition of white space on the page
+    /// @param page_size the size of the page in pixels
+    ///
     void layout(separation_mode mode, const geom::size &page_size) {
         if (_content_size.w > page_size.w ||
             _content_size.h > page_size.h) {
@@ -240,7 +269,7 @@ class page : std::vector<image_ref> {
         float origin_y, y_spacing; // NOLINT
 
         switch (mode) {
-            case separation_mode::maximum:
+            case separation_mode::external:
                 origin_y = 0;
                 y_spacing =
                     static_cast<float>(page_size.h - _content_size.h) /
@@ -251,7 +280,7 @@ class page : std::vector<image_ref> {
                     static_cast<float>(page_size.h - _content_size.h) /
                     static_cast<float>(size() + 1);
                 break;
-            case separation_mode::minimum:
+            case separation_mode::internal:
                 origin_y =
                     static_cast<float>(page_size.h - _content_size.h) / 2;
                 y_spacing = 0;
@@ -308,7 +337,7 @@ class book : std::vector<chapter> {
     /// @returns a reference to the last element
     /// @throws std::out_of_range if the book has no chapters
     auto &last_chapter() {
-        if (empty()) throw std::out_of_range{"book::last_chapter"};
+        if (empty()) throw std::out_of_range{__func__};
         return back();
     }
 
@@ -318,65 +347,73 @@ class book : std::vector<chapter> {
 };
 
 int main(int argc, char **argv) {
-    std::vector<std::string> args{argv + 1, argv + argc};
+    cli::option_processor opt{fs::path{argv[0]}.filename()};
 
-    const auto progname = std::filesystem::path{argv[0]}.filename();
+    struct configuration : epub::configuration {
+        geom::size page_size = {1536U, 2048U};
+        bool upscale = false;
+        separation_mode spacing = separation_mode::distributed;
+        fs::copy_options image_copy_options = fs::copy_options::none;
+    };
 
-    cli::option_processor opt;
+    auto config = std::make_shared<configuration>();
 
-    opt.synopsis(
-        progname.string() + " [-o output] [-fl]" +
-        " [-p WIDTHxHEIGHT | -w WIDTH -h HEIGHT] [-u] image-file...");
+    epub::common_options(opt, config);
 
-    auto config = epub::common_options(opt);
-
-    geom::size page_size = {1536U, 2048U};
-    bool upscale = false;
-    separation_mode spacing = separation_mode::distributed;
-    std::filesystem::copy_options image_copy_options =
-        std::filesystem::copy_options::none;
+    opt.synopsis() +=
+        " [--link] [--upscale]"
+        " [--page-size=WIDTHxHEIGHT | --width=WIDTH --height=HEIGHT]"
+        " image-file...";
 
     opt.add_flag(
         'l', "link",
-        [&] {
-            image_copy_options =
-                std::filesystem::copy_options::create_hard_links;
+        [config] {
+            config->image_copy_options =
+                fs::copy_options::create_hard_links;
         },
         "link rather than copy images into the generated EPUB");
+    opt.add_flag(
+        'u', "upscale", [config] { config->upscale = true; },
+        "scale images up to fit page widths");
     opt.add_option(
         'p', "page-size",
-        [&](const std::string &arg) {
+        [config](const std::string &arg) {
             std::regex re("([[:digit:]]+)[^[:digit:]]+([[:digit:]]+)");
             if (std::smatch m; std::regex_match(arg, m, re)) {
-                page_size.w = std::stoul(m[1]);
-                page_size.h = std::stoul(m[2]);
+                config->page_size.w = std::stoul(m[1]);
+                config->page_size.h = std::stoul(m[2]);
             }
             else {
                 throw cli::usage_error("page size unrecognized");
             }
         },
         "the dimensions of the page in WxH form (default: " +
-            std::to_string(page_size.w) + "x" +
-            std::to_string(page_size.h) + ")");
+            std::to_string(config->page_size.w) + "x" +
+            std::to_string(config->page_size.h) + ")");
     opt.add_option(
         'w', "page-width",
-        [&](const std::string &arg) { page_size.w = std::stoul(arg); },
+        [config](const std::string &arg) {
+            config->page_size.w = std::stoul(arg);
+        },
         "the width of the page");
     opt.add_option(
         'h', "page-height",
-        [&](const std::string &arg) { page_size.h = std::stoul(arg); },
+        [config](const std::string &arg) {
+            config->page_size.h = std::stoul(arg);
+        },
         "the height of the page");
-    opt.add_flag(
-        'u', "upscale", [&] { upscale = true; },
-        "scale images up to fit page widths");
 
-    args.erase(args.begin(), opt.process(args.begin(), args.end()));
+    std::vector<std::string> args(argv + 1, argv + argc);
 
-    for (auto iter = args.begin(); iter != args.end(); ++iter) {
+    auto iter = opt.process(args.begin(), args.end());
+
+    while (iter != args.end()) {
         const std::string &arg = *iter;
-        if (!arg.starts_with('@')) continue;
 
-        if (arg == "@") {
+        if (!arg.starts_with('@')) {
+            ++iter;
+        }
+        else if (arg == "@") {
             iter = args.erase(iter);
             for (std::string str; getline(std::cin, str); ++iter) {
                 iter = args.insert(iter, std::move(str));
@@ -389,7 +426,6 @@ int main(int argc, char **argv) {
                 iter = args.insert(iter, std::move(str));
             }
         }
-        --iter;
     }
 
     if (args.empty()) {
@@ -405,8 +441,13 @@ int main(int argc, char **argv) {
     unsigned page_num = 0U;
     unsigned img_num = 0U;
 
-    for (std::filesystem::path path : args) {
-        auto chapter_name = path.parent_path().filename().u8string();
+    for (auto &&path : args) {
+        auto chapter_name =
+            fs::absolute(path).parent_path().filename().u8string();
+
+        if (chapter_name.empty()) {
+            throw std::runtime_error{"cannot work in root directory"};
+        }
 
         if (the_book.empty() ||
             the_book.last_chapter().name != chapter_name) {
@@ -418,11 +459,12 @@ int main(int argc, char **argv) {
 
         image_ref image{path, ++img_num};
 
-        image.scale(page_size.w, page_size.h, upscale);
+        image.scale(config->page_size.w, config->page_size.h,
+                    config->upscale);
 
         const auto current_height = current_chapter.current_page().height();
 
-        if (current_height + image.height() > page_size.h) {
+        if (current_height + image.height() > config->page_size.h) {
             current_chapter.add_blank_page(++page_num);
         }
 
@@ -433,14 +475,14 @@ int main(int argc, char **argv) {
 
     for (auto &&chapter : the_book) {
         for (auto &&page : chapter) {
-            page.layout(spacing, page_size);
+            page.layout(config->spacing, config->page_size);
         }
     }
 
     // clang-format off
     const std::u8string viewport(reinterpret_cast<const char8_t *>((
-        "width=" + std::to_string(page_size.w) + ", "
-        "height=" + std::to_string(page_size.h)).c_str()));
+        "width=" + std::to_string(config->page_size.w) + ", "
+        "height=" + std::to_string(config->page_size.h)).c_str()));
     // clang-format on
 
     if (config->overwrite) remove_all(config->output);
@@ -527,7 +569,7 @@ int main(int argc, char **argv) {
                 set_attribute(img, u8"src", image.local.u8string());
 
                 copy(image.path, content_dir / image.local,
-                     image_copy_options);
+                     config->image_copy_options);
             }
 
             save_file(content_dir / page.path(), doc, true);
