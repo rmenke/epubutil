@@ -1189,6 +1189,9 @@ git-tag:
 clean-local: code-coverage-clean
 	@find "$(abs_top_srcdir)" -name '*~' -print0 | xargs -0t $(RM)
 
+imageinfo/imageinfo.hpp:
+	git submodule update imageinfo
+
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

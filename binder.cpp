@@ -11,30 +11,30 @@
 #include <vector>
 
 int main(int argc, char **argv) {
-    cli::option_processor opt;
+    cli::option_processor opt{std::filesystem::path(argv[0]).filename()};
 
-    std::optional<std::filesystem::path> basedir;
-    bool omit_toc = false;
+    struct configuration : epub::configuration {
+        std::filesystem::path basedir;
+        bool omit_toc = false;
+    };
 
-    opt.synopsis(
-        std::filesystem::path{argv[0]}.filename().string() +
-        " [--force] [--output output] [--basedir dir] [--title title]"
-        " [--creator name [--file-as index] [--role marc]] [--collection"
-        " name [--set | --series]] content-file...");
+    auto config = std::make_shared<configuration>();
 
-    auto config = epub::common_options(opt);
+    epub::common_options(opt, config);
+
+    opt.synopsis() += " [--basedir=dir] [--omit-toc] content-file...";
 
     opt.add_option(
         'b', "basedir",
-        [&](const std::string &arg) {
-            if (basedir.has_value()) {
+        [config](const std::string &arg) {
+            if (!config->basedir.empty()) {
                 throw cli::usage_error("basedir set multiple times");
             }
-            basedir = arg;
+            config->basedir = arg;
         },
         "prefix of the input files");
     opt.add_flag(
-        "omit-toc", [&] { omit_toc = true; },
+        "omit-toc", [config] { config->omit_toc = true; },
         "do not include the ToC in the reading order");
 
     auto args_begin = argv + 1;
@@ -48,12 +48,16 @@ int main(int argc, char **argv) {
         exit(1);
     }
 
-    epub::container container{epub::container::options::omit_toc};
+    auto options = epub::container::options::none;
+    if (config->omit_toc) options |= epub::container::options::omit_toc;
+
+    epub::container container{options};
 
     auto &metadata = container.package().metadata();
 
     metadata.title(config->title);
-    if (!config->identifier.empty()) metadata.identifier(config->identifier);
+    if (!config->identifier.empty())
+        metadata.identifier(config->identifier);
     metadata.creators() = std::move(config->creators);
     metadata.collections() = std::move(config->collections);
 
@@ -68,8 +72,8 @@ int main(int argc, char **argv) {
         else {
             source = arg;
 
-            if (basedir.has_value()) {
-                local = std::filesystem::proximate(source, *basedir);
+            if (!config->basedir.empty()) {
+                local = std::filesystem::proximate(source, config->basedir);
             }
             else {
                 local = source.filename();

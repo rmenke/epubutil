@@ -5,6 +5,7 @@
 #include "options.hpp"
 
 #include <filesystem>
+#include <regex>
 
 namespace epub {
 
@@ -33,10 +34,14 @@ struct configuration { // NOLINT
 /// structure managed by a shared pointer.
 ///
 /// @param opt a @c cli::option_processor instance
-/// @returns a shared pointer to a @c configuration block
-std::shared_ptr<configuration>
-common_options(::cli::option_processor &opt) {
-    auto config = std::make_shared<configuration>();
+/// @param config a shared pointer to a @c configuration block
+void common_options(cli::option_processor &opt,
+                    std::shared_ptr<configuration> config) {
+    opt.synopsis() +=
+        " [--output=filename] [--force] [--title=string]"
+        " [--creator=name [--file-as=sort-name] [--role=marc-code]]"
+        " [--collection=group [--issue=num] [--set|--series]]"
+        " [--identifier=urn] [--toc-stylesheet=path]";
 
     opt.add_option(
         'o', "output",
@@ -79,7 +84,7 @@ common_options(::cli::option_processor &opt) {
             if (config->creators.empty()) {
                 throw cli::usage_error("role must follow a creator");
             }
-            if (arg.size() != 3) {
+            if (!std::regex_match(arg, std::regex{"[a-z]{3}"})) {
                 throw cli::usage_error("MARC roles are three letters long");
             }
             config->creators.back().role(
@@ -144,8 +149,6 @@ common_options(::cli::option_processor &opt) {
         "toc-stylesheet",
         [config](const std::string &arg) { config->toc_stylesheet = arg; },
         "optional stylesheet for the Table of Contents");
-
-    return config;
 }
 
 } // namespace epub
