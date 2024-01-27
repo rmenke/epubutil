@@ -1,7 +1,11 @@
 <map id="options.hpp" name="options.hpp">
 <area shape="rect" id="Node000001" title=" " alt="" coords="55,5,145,29"/>
-<area shape="rect" id="Node000002" href="$binder_8cpp.html" title=" " alt="" coords="5,77,88,101"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="86,42,57,79,53,75,81,39"/>
-<area shape="rect" id="Node000003" href="$comic_8cpp.html" title=" " alt="" coords="113,77,194,101"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="119,39,147,75,143,79,115,42"/>
+<area shape="rect" id="Node000002" href="$binder_8cpp.html" title=" " alt="" coords="5,149,88,173"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="67,38,44,56,27,78,23,96,26,115,41,148,36,150,21,117,17,96,22,76,40,52,64,34"/>
+<area shape="rect" id="Node000003" href="$comic_8cpp.html" title=" " alt="" coords="137,149,218,173"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="137,34,160,52,178,76,185,96,186,116,183,149,177,149,181,116,180,97,174,79,156,56,133,38"/>
+<area shape="rect" id="Node000004" href="$epub__options_8hpp.html" title=" " alt="" coords="36,77,164,101"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="103,43,103,77,97,77,97,43"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="86,114,57,151,53,147,81,111"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="124,109,167,147,163,151,121,113"/>
 </map>

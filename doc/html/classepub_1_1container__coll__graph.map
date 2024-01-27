@@ -1,43 +1,48 @@
 <map id="epub::container" name="epub::container">
-<area shape="rect" id="Node000001" title="The EPUB container file hierarchy." alt="" coords="322,1993,426,2185"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="139,1792,299,1899"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="255,1898,316,1992,311,1995,251,1900"/>
-<area shape="rect" id="Node000003" href="$classepub_1_1package.html" title=" " alt="" coords="324,1759,424,1932"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="377,1932,377,1977,371,1977,371,1932"/>
-<area shape="rect" id="Node000004" href="$classepub_1_1metadata.html" title=" " alt="" coords="285,887,401,1265"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="343,1266,344,1425,350,1593,363,1742,358,1742,344,1594,338,1426,337,1266"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="254,261,339,323"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="301,323,334,870,328,870,296,323"/>
-<area shape="rect" id="Node000008" href="$classepub_1_1creator.html" title=" " alt="" coords="369,420,499,663"/>
-<area shape="poly" id="edge8_Node000008_Node000005" title=" " alt="" coords="327,322,352,355,380,404,375,406,348,357,323,325"/>
-<area shape="rect" id="Node000010" title=" " alt="" coords="109,1032,261,1120"/>
-<area shape="poly" id="edge11_Node000010_Node000005" title=" " alt="" coords="297,323,276,548,257,704,234,863,202,1016,197,1015,229,862,252,703,270,547,292,323"/>
-<area shape="rect" id="Node000012" href="$classepub_1_1manifest_1_1item.html" title=" " alt="" coords="86,473,219,609"/>
-<area shape="poly" id="edge14_Node000012_Node000005" title=" " alt="" coords="255,306,211,325,191,339,174,358,162,380,154,405,148,457,142,456,149,404,157,378,170,354,187,335,208,320,253,301"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="238,128,355,203"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="299,217,299,261,294,261,294,217"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="370,751,493,825"/>
-<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="423,826,409,871,404,870,418,825"/>
-<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="435,663,435,734,429,734,430,663"/>
-<area shape="rect" id="Node000009" href="$classepub_1_1manifest.html" title=" " alt="" coords="179,1327,279,1593"/>
-<area shape="poly" id="edge9_Node000003_Node000009" title=" " alt="" coords="214,1593,216,1630,223,1667,235,1702,253,1733,265,1743,279,1746,295,1748,313,1756,313,1757,310,1761,310,1761,294,1753,278,1751,263,1748,249,1736,230,1704,218,1668,211,1631,209,1594"/>
-<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="192,1120,214,1310,209,1311,187,1121"/>
-<area shape="rect" id="Node000011" title=" " alt="" coords="81,751,224,825"/>
-<area shape="poly" id="edge12_Node000010_Node000011" title=" " alt="" coords="159,825,181,1015,175,1016,154,826"/>
-<area shape="poly" id="edge13_Node000011_Node000012" title=" " alt="" coords="155,609,155,734,150,734,150,609"/>
-<area shape="rect" id="Node000013" href="$structepub_1_1file__metadata.html" title="A class for managing metadata key&#45;value pairs." alt="" coords="5,252,135,332"/>
-<area shape="poly" id="edge15_Node000012_Node000013" title=" " alt="" coords="68,332,69,364,73,395,85,427,100,458,95,460,80,429,68,397,63,364,63,332"/>
-<area shape="rect" id="Node000014" title=" " alt="" coords="15,135,125,196"/>
-<area shape="poly" id="edge16_Node000013_Node000014" title=" " alt="" coords="73,210,73,252,67,252,67,210"/>
-<area shape="rect" id="Node000015" title=" " alt="" coords="25,5,46,67"/>
-<area shape="poly" id="edge17_Node000014_Node000015" title=" " alt="" coords="35,67,39,103,45,119,40,120,34,105,30,67"/>
-<area shape="rect" id="Node000016" title=" " alt="" coords="94,5,115,67"/>
-<area shape="poly" id="edge18_Node000014_Node000016" title=" " alt="" coords="99,67,85,119,80,118,94,66"/>
-<area shape="rect" id="Node000017" href="$classepub_1_1spine.html" title=" " alt="" coords="430,1355,518,1565"/>
-<area shape="poly" id="edge19_Node000003_Node000017" title=" " alt="" coords="441,1566,425,1618,396,1743,391,1742,420,1617,435,1565"/>
-<area shape="rect" id="Node000018" title=" " alt="" coords="454,1039,603,1113"/>
-<area shape="poly" id="edge20_Node000017_Node000018" title=" " alt="" coords="520,1114,499,1194,481,1290,477,1338,472,1338,476,1289,494,1193,515,1113"/>
-<area shape="rect" id="Node000019" href="$classepub_1_1navigation.html" title=" " alt="" coords="483,1617,593,1735"/>
-<area shape="poly" id="edge22_Node000019_Node000018" title=" " alt="" coords="532,1113,540,1601,534,1601,527,1113"/>
-<area shape="poly" id="edge21_Node000001_Node000019" title=" " alt="" coords="526,1735,494,1846,472,1909,447,1970,436,1993,431,1990,442,1968,467,1907,489,1844,521,1734"/>
+<area shape="rect" id="Node000001" title="The EPUB container file hierarchy." alt="" coords="399,2143,503,2353"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="217,1941,377,2048"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="331,2047,393,2147,388,2150,327,2050"/>
+<area shape="rect" id="Node000003" href="$classepub_1_1package.html" title=" " alt="" coords="401,1908,501,2081"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="454,2082,454,2126,449,2126,449,2082"/>
+<area shape="rect" id="Node000004" href="$classepub_1_1metadata.html" title=" " alt="" coords="385,924,501,1377"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="430,1378,427,1439,423,1572,427,1705,442,1891,437,1892,422,1705,418,1572,422,1439,424,1378"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="302,261,387,323"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="389,305,423,325,439,338,451,355,468,397,479,452,486,518,488,592,485,751,473,908,468,907,479,750,483,592,480,518,474,453,463,398,446,357,435,342,420,329,386,310"/>
+<area shape="rect" id="Node000008" href="$classepub_1_1creator.html" title="An individual or organizational creator." alt="" coords="505,476,635,644"/>
+<area shape="poly" id="edge8_Node000008_Node000005" title=" " alt="" coords="389,301,440,320,465,335,488,354,508,378,524,404,548,459,544,461,519,406,503,381,484,358,462,340,437,325,387,306"/>
+<area shape="rect" id="Node000010" href="$classepub_1_1collection.html" title=" " alt="" coords="300,420,429,700"/>
+<area shape="poly" id="edge11_Node000010_Node000005" title=" " alt="" coords="347,323,348,396,349,404,343,404,343,396,341,323"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="186,1107,338,1195"/>
+<area shape="poly" id="edge14_Node000012_Node000005" title=" " alt="" coords="330,324,308,369,290,421,272,514,260,610,252,706,249,800,252,967,259,1090,254,1091,246,967,244,800,247,706,254,610,267,513,285,419,303,367,325,322"/>
+<area shape="rect" id="Node000014" href="$classepub_1_1manifest_1_1item.html" title=" " alt="" coords="86,492,219,628"/>
+<area shape="poly" id="edge17_Node000014_Node000005" title=" " alt="" coords="302,299,269,305,234,316,201,333,174,358,159,384,149,414,145,445,144,476,139,476,139,445,144,413,154,382,170,354,198,328,232,311,268,300,301,294"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="286,128,403,203"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="347,217,347,261,342,261,342,217"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="506,788,629,863"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="556,864,510,984,505,982,551,862"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="572,644,571,771,565,771,566,644"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="306,788,429,863"/>
+<area shape="poly" id="edge9_Node000004_Node000009" title=" " alt="" coords="370,863,373,900,384,951,379,953,368,900,365,863"/>
+<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="369,700,369,772,364,772,363,700"/>
+<area shape="rect" id="Node000011" href="$classepub_1_1manifest.html" title=" " alt="" coords="256,1439,356,1705"/>
+<area shape="poly" id="edge12_Node000003_Node000011" title=" " alt="" coords="288,1705,288,1751,295,1798,308,1842,330,1882,343,1893,357,1895,373,1898,390,1906,391,1906,387,1910,387,1910,371,1903,356,1901,340,1898,326,1886,303,1844,289,1799,283,1752,283,1705"/>
+<area shape="poly" id="edge13_Node000011_Node000012" title=" " alt="" coords="269,1195,293,1422,288,1423,264,1195"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="81,788,224,863"/>
+<area shape="poly" id="edge15_Node000012_Node000013" title=" " alt="" coords="168,862,245,1090,240,1092,162,864"/>
+<area shape="poly" id="edge16_Node000013_Node000014" title=" " alt="" coords="155,628,155,772,150,772,150,628"/>
+<area shape="rect" id="Node000015" href="$structepub_1_1file__metadata.html" title="A class for managing metadata key&#45;value pairs." alt="" coords="5,252,135,332"/>
+<area shape="poly" id="edge18_Node000014_Node000015" title=" " alt="" coords="69,332,69,364,73,395,87,437,105,476,100,478,82,439,68,397,64,364,64,332"/>
+<area shape="rect" id="Node000016" title=" " alt="" coords="15,135,125,196"/>
+<area shape="poly" id="edge19_Node000015_Node000016" title=" " alt="" coords="73,210,73,252,67,252,67,210"/>
+<area shape="rect" id="Node000017" title=" " alt="" coords="25,5,46,67"/>
+<area shape="poly" id="edge20_Node000016_Node000017" title=" " alt="" coords="35,67,39,103,45,119,40,120,34,105,30,67"/>
+<area shape="rect" id="Node000018" title=" " alt="" coords="94,5,115,67"/>
+<area shape="poly" id="edge21_Node000016_Node000018" title=" " alt="" coords="99,67,85,119,80,118,94,66"/>
+<area shape="rect" id="Node000019" href="$classepub_1_1spine.html" title=" " alt="" coords="507,1467,595,1677"/>
+<area shape="poly" id="edge22_Node000003_Node000019" title=" " alt="" coords="517,1678,502,1730,469,1892,464,1891,497,1729,512,1677"/>
+<area shape="rect" id="Node000020" title=" " alt="" coords="542,1113,691,1188"/>
+<area shape="poly" id="edge23_Node000019_Node000020" title=" " alt="" coords="608,1189,582,1285,559,1402,554,1450,549,1450,553,1401,576,1283,603,1188"/>
+<area shape="rect" id="Node000021" href="$classepub_1_1navigation.html" title=" " alt="" coords="560,1729,671,1884"/>
+<area shape="poly" id="edge25_Node000021_Node000020" title=" " alt="" coords="619,1188,618,1713,613,1713,614,1188"/>
+<area shape="poly" id="edge24_Node000001_Node000021" title=" " alt="" coords="600,1885,568,1997,524,2120,513,2144,508,2142,520,2118,563,1996,595,1884"/>
 </map>

@@ -11,10 +11,10 @@
 <!-- Node0 -->
 <g id="Node000000" class="node">
 <title>Node0</title>
-<g id="a_Node000000"><a xlink:href="structepub_1_1xml_1_1__xml__deleter_3_01xml_x_path_object_01_4.html" target="_top" xlink:title=" ">
+<g id="a_Node000000"><a xlink:href="structepub_1_1xml_1_1__xml__deleter_3_01xml_node_01_4.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="122.24,-28 -0.08,-28 -0.08,0 122.24,0 122.24,-28"/>
 <text text-anchor="start" x="8" y="-16" font-family="Helvetica,sans-Serif" font-size="10.00">epub::xml::_xml_deleter</text>
-<text text-anchor="middle" x="61.08" y="-6" font-family="Helvetica,sans-Serif" font-size="10.00">&lt; xmlXPathObject &gt;</text>
+<text text-anchor="middle" x="61.08" y="-6" font-family="Helvetica,sans-Serif" font-size="10.00">&lt; xmlNode &gt;</text>
 </a>
 </g>
 </g>

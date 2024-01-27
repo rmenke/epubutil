@@ -1,12 +1,17 @@
 <map id="epub::metadata" name="epub::metadata">
-<area shape="rect" id="Node000001" title=" " alt="" coords="6,745,122,1124"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="21,129,107,191"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="67,191,67,729,61,729,61,191"/>
-<area shape="rect" id="Node000005" href="$classepub_1_1creator.html" title=" " alt="" coords="81,279,210,521"/>
-<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="77,190,101,263,96,264,72,192"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="5,5,123,80"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="67,94,67,129,61,129,61,94"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="81,609,204,684"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="135,685,123,730,118,728,130,683"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="147,522,146,593,141,593,141,522"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="53,783,169,1236"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="68,129,153,191"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="87,192,58,232,36,280,20,346,11,415,8,485,10,554,26,689,51,810,46,811,21,690,5,555,3,485,6,414,15,345,31,278,54,229,82,189"/>
+<area shape="rect" id="Node000005" href="$classepub_1_1creator.html" title="An individual or organizational creator." alt="" coords="46,335,175,503"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="113,191,113,318,108,318,108,191"/>
+<area shape="rect" id="Node000007" href="$classepub_1_1collection.html" title=" " alt="" coords="199,279,329,559"/>
+<area shape="poly" id="edge8_Node000007_Node000002" title=" " alt="" coords="151,189,173,213,204,262,200,265,169,216,147,193"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="52,5,169,80"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="113,94,113,129,108,129,108,94"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="49,647,172,721"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="113,722,113,766,108,766,108,722"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="113,503,113,630,108,630,108,503"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="199,647,321,721"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="246,723,178,869,173,867,241,721"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="265,559,264,630,258,630,259,559"/>
 </map>
