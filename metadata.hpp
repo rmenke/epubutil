@@ -33,11 +33,11 @@ extern std::u8string generate_uuid();
 /// source codes</a> at the Library of Congress
 
 class creator {
-    std::u8string _name;        ///< The creator's name.
-    std::u8string _file_as;     ///< The string used to sort and index.
-    std::u8string _role;        ///< The role the creator played.
+    std::u8string _name;    ///< The creator's name.
+    std::u8string _file_as; ///< The string used to sort and index.
+    std::u8string _role;    ///< The role the creator played.
 
-public:
+  public:
     /// Create a creator instance for the person or organization so
     /// named.
     ///
@@ -121,7 +121,7 @@ class collection {
         return _name;
     }
 
-    enum type type()const {
+    enum type type() const {
         return _type;
     }
     void type(enum type type) {

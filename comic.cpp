@@ -508,7 +508,7 @@ int main(int argc, char **argv) {
     }
 
     for (auto &&chapter : the_book) {
-        std::shared_ptr<epub::manifest::item> mark;
+        std::shared_ptr<epub::manifest_item> mark;
         for (auto &&page : chapter) {
             epub::file_metadata fm{
                 {u8"title", chapter.name},

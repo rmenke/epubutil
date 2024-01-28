@@ -65,7 +65,7 @@ void set_attribute(const node_ptr &node, const std::u8string &name,
     xmlSetProp(node.get(), BAD_CAST name.c_str(), BAD_CAST value.c_str());
 }
 
-void add_child(node_ptr parent, node_ptr child) {
+void add_child(const node_ptr &parent, const node_ptr &child) {
     xmlAddChild(parent.get(), child.get());
 }
 

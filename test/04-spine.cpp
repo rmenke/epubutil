@@ -16,9 +16,9 @@ int main(int argc, char **argv) {
 
         epub::file_metadata md;
 
-        auto a = std::make_shared<manifest::item>(u8"a", "a.xhtml", u8"", md);
-        auto b = std::make_shared<manifest::item>(u8"b", "b.xhtml", u8"", md);
-        auto c = std::make_shared<manifest::item>(u8"c", "c.xhtml", u8"", md);
+        auto a = std::make_shared<manifest_item>(u8"a", "a.xhtml", u8"", md);
+        auto b = std::make_shared<manifest_item>(u8"b", "b.xhtml", u8"", md);
+        auto c = std::make_shared<manifest_item>(u8"c", "c.xhtml", u8"", md);
 
         s.add(a);
         s.add(b);

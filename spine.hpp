@@ -12,7 +12,7 @@
 namespace epub {
 
 class spine {
-    using item_ptr = std::shared_ptr<manifest::item>;
+    using item_ptr = std::shared_ptr<manifest_item>;
     using weak_item_ptr = item_ptr::weak_type;
 
     std::vector<weak_item_ptr> _items;

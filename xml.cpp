@@ -20,30 +20,36 @@
 #include <sstream>
 #include <string>
 
+static inline std::u8string generate_id() {
+    static unsigned next = 0U;
+
+    std::ostringstream out;
+    out << "g" << std::setw(8) << std::setfill('0') << std::hex << ++next;
+    std::string s = std::move(out).str();
+
+    return std::u8string{s.begin(), s.end()};
+}
+
 namespace epub::xml {
 
+// NOLINTBEGIN
 template <class T>
-struct _xml_deleter;
-
-#define DELETER(P, S)                      \
-    template <>                            \
-    struct _xml_deleter<P##S> {            \
-        void operator()(P##S *ptr) const { \
-            P##Free##S(ptr);               \
-        }                                  \
-    }
-
+static constexpr void (*_xml_deleter_fn)(T *);
 template <>
-struct _xml_deleter<xmlChar> {
-    void operator()(xmlChar *ptr) const {
-        xmlFree(ptr);
+static constexpr auto _xml_deleter_fn<xmlDoc> = xmlFreeDoc;
+template <>
+static constexpr auto _xml_deleter_fn<xmlXPathContext> =
+    xmlXPathFreeContext;
+template <>
+static constexpr auto _xml_deleter_fn<xmlXPathObject> = xmlXPathFreeObject;
+// NOLINTEND
+
+template <class T>
+struct _xml_deleter {
+    void operator()(T *ptr) const {
+        (*_xml_deleter_fn<T>)(ptr);
     }
 };
-
-DELETER(xml, Doc);
-DELETER(xml, Node);
-DELETER(xmlXPath, Context);
-DELETER(xmlXPath, Object);
 
 template <class T>
 using xml_ptr = std::unique_ptr<T, _xml_deleter<T>>;
@@ -62,21 +68,6 @@ static inline const xmlChar *to_xmlchar(const std::u8string &s) {
 }
 
 #define UTF8(X) to_xmlchar(u8##X) // NOLINT
-
-static inline xml_ptr<xmlDoc> new_doc() {
-    return as_xml_ptr(xmlNewDoc(UTF8("1.0")));
-}
-
-static inline xml_ptr<xmlNode> new_doc_node(const xml_ptr<xmlDoc> &doc,
-                                            const std::u8string &name) {
-    return as_xml_ptr(
-        xmlNewDocNode(doc.get(), nullptr, to_xmlchar(name), nullptr));
-}
-
-static inline void doc_set_root_element(const xml_ptr<xmlDoc> &doc,
-                                        xml_ptr<xmlNode> &&root) {
-    xmlDocSetRootElement(doc.get(), root.release());
-}
 
 void write_metadata(xmlNodePtr metadata, const class metadata &m) {
     auto dc_ns = xmlNewNs(metadata, to_xmlchar(dc_ns_uri), UTF8("dc"));
@@ -200,6 +191,8 @@ void write_metadata(xmlNodePtr metadata, const class metadata &m) {
 
 void write_manifest(xmlNodePtr manifest, const class manifest &m) {
     for (auto &&item : m) {
+        if (item->id().empty()) item->id(generate_id());
+
         auto node = xmlNewChild(manifest, nullptr, UTF8("item"), nullptr);
         xmlSetProp(node, UTF8("id"), to_xmlchar(item->id()));
         xmlSetProp(node, UTF8("href"), to_xmlchar(item->path().u8string()));
@@ -219,7 +212,7 @@ void write_spine(xmlNodePtr spine, const class spine &s) {
 }
 
 void write_package(const std::filesystem::path &path, const package &p) {
-    auto doc = new_doc();
+    auto doc = as_xml_ptr(xmlNewDoc(UTF8("1.0")));
 
     auto root = xmlNewDocNode(doc.get(), nullptr, UTF8("package"), nullptr);
     xmlDocSetRootElement(doc.get(), root);
@@ -249,7 +242,7 @@ void write_package(const std::filesystem::path &path, const package &p) {
 
 void write_navigation(const std::filesystem::path &path,
                       const navigation &n) {
-    auto doc = new_doc();
+    auto doc = as_xml_ptr(xmlNewDoc(UTF8("1.0")));
 
     auto html = xmlNewDocNode(doc.get(), nullptr, UTF8("html"), nullptr);
     auto xhtml_ns = xmlNewNs(html, to_xmlchar(xhtml_ns_uri), nullptr);
