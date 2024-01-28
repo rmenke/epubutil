@@ -26,7 +26,7 @@ void set_root_element(const doc_ptr &doc, const node_ptr &element);
 void set_attribute(const node_ptr &node, const std::u8string &name,
                    const std::u8string &value);
 
-void add_child(node_ptr parent, node_ptr child);
+void add_child(const node_ptr &parent, const node_ptr &child);
 
 node_ptr
 new_child_node(const node_ptr &node, const ns_ptr &ns,

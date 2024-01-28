@@ -11,7 +11,7 @@
 namespace epub {
 
 class navigation {
-    using item_ptr = std::shared_ptr<manifest::item>;
+    using item_ptr = std::shared_ptr<manifest_item>;
     using weak_item_ptr = item_ptr::weak_type;
 
     std::vector<weak_item_ptr> _items;
@@ -29,7 +29,7 @@ class navigation {
     /// @endcond
 
   public:
-    void add(std::weak_ptr<manifest::item> ptr) {
+    void add(std::weak_ptr<manifest_item> ptr) {
         _items.push_back(std::move(ptr));
     }
 
