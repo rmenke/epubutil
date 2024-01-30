@@ -515,15 +515,19 @@ int main(int argc, char **argv) {
                 {u8"media-type", u8"application/xhtml+xml"},
             };
 
-            auto item =
-                m.add(page.path().stem().u8string(), page.path(), u8"", fm);
+            auto item = std::make_shared<epub::manifest_item>(page.path(),
+                                                              u8"", fm);
+            item->id(page.path().stem().u8string());
+            m.push_back(item);
             s.add(item);
 
             if (!mark) mark = item;
 
             for (auto &&image : page) {
-                m.add(image.local.stem().u8string(), image.local, u8"",
-                      image.metadata());
+                auto item = std::make_shared<epub::manifest_item>(
+                    image.local, u8"", image.metadata());
+                item->id(image.local.stem().u8string());
+                m.push_back(item);
             }
         }
 

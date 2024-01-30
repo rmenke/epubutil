@@ -24,15 +24,18 @@ static constexpr std::string_view container_xml =
 container::container(container::options options) {
 #define IS_SET(opts, flag) ((opts & options::flag) == options::flag)
 
-    auto item = _package.manifest().add(
-        u8"nav", u8"nav.xhtml", u8"nav",
-        {{u8"title", u8"Table of Contents"},
-         {u8"media-type", u8"application/xhtml+xml"}});
+    auto item = std::make_shared<manifest_item>(
+        u8"nav.xhtml", u8"nav",
+        file_metadata{{u8"title", u8"Table of Contents"},
+                      {u8"media-type", u8"application/xhtml+xml"}});
+    _package.manifest().push_back(item);
 
     if (!IS_SET(options, omit_toc)) {
         _package.spine().add(item);
         _navigation.add(item);
     }
+
+#undef IS_SET
 }
 
 void container::add(const std::filesystem::path &source,
@@ -52,7 +55,10 @@ void container::add(const std::filesystem::path &source,
     if (media_type == xhtml_media_type) {
         xml::get_xhtml_metadata(source, metadata);
 
-        auto item = _package.manifest().add(local, {}, metadata);
+        auto properties = metadata.get(u8"properties", u8"");
+        auto item =
+            std::make_shared<manifest_item>(local, properties, metadata);
+        _package.manifest().push_back(item);
 
         if (metadata.get(u8"spine", u8"include") != u8"omit") {
             _package.spine().add(item);
@@ -66,7 +72,10 @@ void container::add(const std::filesystem::path &source,
         throw std::logic_error("Not yet implemented");
         /// @todo xml::get_svg_metadata(source, metadata)
 
-        auto item = _package.manifest().add(local, {}, metadata);
+        auto properties = metadata.get(u8"properties", u8"");
+        auto item =
+            std::make_shared<manifest_item>(local, properties, metadata);
+        _package.manifest().push_back(item);
 
         if (metadata.get(u8"spine", u8"omit") != u8"omit") {
             _package.spine().add(item);
@@ -77,7 +86,9 @@ void container::add(const std::filesystem::path &source,
         }
     }
     else {
-        _package.manifest().add(local, {}, metadata);
+        auto item =
+            std::make_shared<manifest_item>(local, u8"", metadata);
+        _package.manifest().push_back(item);
     }
 }
 
