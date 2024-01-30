@@ -1,3 +1,4 @@
+#include "manifest.hpp"
 #include "package.hpp"
 
 #include <exception>
@@ -31,8 +32,11 @@ int main(int argc, const char** argv) {
         p.metadata().creators() =
             std::vector<epub::creator>{creators.begin(), creators.end()};
 
-        p.manifest().add(u8"nav", "nav.xhtml", u8"nav",
-                         {{u8"media-type", u8"application/xhtml+xml"}});
+        p.manifest().push_back(std::make_shared<epub::manifest_item>(
+            "nav.xhtml", u8"nav",
+            epub::file_metadata{
+                {u8"media-type", u8"application/xhtml+xml"}}));
+        p.manifest().back()->id(u8"nav");
         p.spine().add(p.manifest().back());
 
         p.write(output_file);

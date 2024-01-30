@@ -33,8 +33,9 @@ int main(int argc, char **argv) {
         manifest m;
 
         ok(std::ranges::empty(m), "initially empty");
-        m.add(u8"nav", "nav.xhtml", u8"", file_metadata{});
-
+        m.push_back(std::make_shared<manifest_item>("nav.xhtml", u8"",
+                                                    file_metadata{}));
+        m.back()->id(u8"nav");
         eq(std::ranges::distance(m), 1, "item added");
         eq(m.front()->id(), u8"nav"s, "\"nav\" added");
     }

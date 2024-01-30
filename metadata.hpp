@@ -31,7 +31,7 @@ extern std::u8string generate_uuid();
 ///
 /// @sa <a href="https://www.loc.gov/marc/relators/relaterm.html">MARC
 /// source codes</a> at the Library of Congress
-
+///
 class creator {
     std::u8string _name;    ///< The creator's name.
     std::u8string _file_as; ///< The string used to sort and index.
@@ -96,6 +96,12 @@ class creator {
     }
 };
 
+/// @brief An indication that the publication is part of a larger set.
+///
+/// Adding a collection tag indicates that the publication is either a
+/// single volume of a larger set or a single issue of an ongoing
+/// series.
+///
 class collection {
   public:
     enum class type { unspecified, series, set };
@@ -144,6 +150,15 @@ class collection {
     }
 };
 
+/// @brief The metadata component of the package document.
+///
+/// This class covers all the information that describes the
+/// publication as a whole: the publication identifier, the
+/// publication title, and the language in which the content documents
+/// are written.
+///
+/// Other metadata, such as the author, is optional.
+///
 class metadata {
     std::u8string _identifier;
     std::u8string _title;
@@ -205,7 +220,8 @@ class metadata {
     /// @brief Select the rendition layout controlling reflow.
     ///
     /// Calling this disables reflow in the document.  Each content
-    /// document is assumed to be a single page.
+    /// document is assumed to be a single page.  The content
+    /// documents must have a viewport defined for this to work.
     ///
     void pre_paginated() {
         _pre_paginated = true;
@@ -227,7 +243,9 @@ class metadata {
     /// rendition:layout property
     ///
     std::u8string layout() const {
-        return _pre_paginated ? u8"pre-paginated" : u8"reflowable";
+        static constexpr std::u8string_view pre_paginated =  u8"pre-paginated";
+        static constexpr std::u8string_view reflowable =  u8"reflowable";
+        return std::u8string(_pre_paginated ? pre_paginated : reflowable);
     }
 };
 

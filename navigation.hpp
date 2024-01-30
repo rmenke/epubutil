@@ -10,6 +10,20 @@
 
 namespace epub {
 
+/// @brief Generate a navigation (Table of Contents) document.
+///
+/// All files are listed in the manifest of the publication.  Content
+/// documents are listed in order in the spine of the publication.
+/// Content documents that are directly accessible are listed in the
+/// navigation document, which is simply an XHTML ordered list with
+/// EPUB type tags.
+///
+/// The navigation document, while bare-bones, is human-readable.  It
+/// may or may not be included in the spine of the publication.  If
+/// the user wants to make it more accessible than a simple numbered
+/// list, it is possible to associate a stylesheet with the generated
+/// document.
+///
 class navigation {
     using item_ptr = std::shared_ptr<manifest_item>;
     using weak_item_ptr = item_ptr::weak_type;
