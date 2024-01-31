@@ -136,9 +136,27 @@ class option_processor {
     std::map<char, std::shared_ptr<option>> _short;
     std::map<std::string, std::shared_ptr<option>> _long;
 
+    bool _passthru;
+
   public:
-    option_processor(std::string progname)
-        : _synopsis(std::move(progname)) {}
+    option_processor(std::string progname, bool passthru = false)
+        : _synopsis(std::move(progname))
+        , _passthru(passthru) {
+        add_flag(
+            'h', "help",
+            [this] {
+                usage(std::cout);
+                exit(0);
+            },
+            "display this message and exit");
+        add_flag(
+            'v', "version",
+            [] {
+                std::cout << PACKAGE_STRING << std::endl;
+                exit(0);
+            },
+            "display build information and exit");
+    }
 
     std::string &synopsis() {
         return _synopsis;
@@ -318,7 +336,8 @@ class option_processor {
 
         return first;
     }
-    catch (const usage_error &ex) {
+    catch (const option_error &ex) {
+        if (_passthru) throw;
         std::cerr << "error: " << ex.what() << "\n\n";
         usage();
         exit(1);
@@ -340,10 +359,10 @@ class option_processor {
         return result + wrap(std::forward<StringLike>(s).substr(end), w, i);
     }
 
-    void usage(std::size_t screen_width = 72) const {
+    void usage(std::ostream &out = std::cerr,
+               std::size_t screen_width = 72) const {
         if (!_synopsis.empty()) {
-            std::cerr << wrap("usage: " + _synopsis, screen_width, 7)
-                      << "\n\n";
+            out << wrap("usage: " + _synopsis, screen_width, 7) << "\n\n";
         }
 
         auto width =
@@ -362,8 +381,7 @@ class option_processor {
             description.resize(width, ' ');
             description.append(text);
 
-            std::cerr << wrap(description, screen_width, width)
-                      << std::endl;
+            out << wrap(description, screen_width, width) << std::endl;
         }
     }
 };
