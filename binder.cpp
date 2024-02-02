@@ -55,11 +55,12 @@ int main(int argc, char **argv) {
 
     auto &metadata = container.package().metadata();
 
-    metadata.title(config->title);
+    metadata.title(std::move(config->title));
     if (!config->identifier.empty())
-        metadata.identifier(config->identifier);
+        metadata.identifier(std::move(config->identifier));
     metadata.creators() = std::move(config->creators);
     metadata.collections() = std::move(config->collections);
+    metadata.description(std::move(config->description));
 
     for (std::string_view arg :
          std::ranges::subrange(args_begin, args_end)) {
