@@ -5,7 +5,10 @@
 #include "options.hpp"
 
 #include <filesystem>
+#include <fstream>
+#include <iosfwd>
 #include <regex>
+#include <string>
 
 namespace epub {
 
@@ -17,6 +20,7 @@ struct configuration { // NOLINT
     std::filesystem::path toc_stylesheet;
     std::vector<epub::creator> creators;
     std::vector<epub::collection> collections;
+    std::u8string description;
 
     configuration() = default;
 
@@ -41,7 +45,8 @@ void common_options(cli::option_processor &opt,
         " [--output=filename] [--force] [--title=string]"
         " [--creator=name [--file-as=sort-name] [--role=marc-code]]"
         " [--collection=group [--issue=num] [--set|--series]]"
-        " [--identifier=urn] [--toc-stylesheet=path]";
+        " [--identifier=urn] [--toc-stylesheet=path]"
+        " [--description=text|--description=@file]";
 
     opt.add_option(
         'o', "output",
@@ -58,7 +63,7 @@ void common_options(cli::option_processor &opt,
     opt.add_option(
         'T', "title",
         [config](const std::string &arg) {
-            config->title = reinterpret_cast<const char8_t *>(arg.c_str());
+            config->title.assign(arg.begin(), arg.end());
         },
         "the title of the publication");
     opt.add_option(
@@ -149,6 +154,23 @@ void common_options(cli::option_processor &opt,
         "toc-stylesheet",
         [config](const std::string &arg) { config->toc_stylesheet = arg; },
         "optional stylesheet for the Table of Contents");
+    opt.add_option(
+        'D', "description",
+        [config](const std::string &arg) {
+            if (arg.starts_with('@')) {
+                std::ifstream in{arg.substr(1)};
+                for (std::string line; std::getline(in, line);) {
+                    if (!config->description.empty()) {
+                        config->description.append(u8"\n");
+                    }
+                    config->description.append(line.begin(), line.end());
+                }
+            }
+            else {
+                config->description = std::u8string{arg.begin(), arg.end()};
+            }
+        },
+        "blurb describing the EPUB");
 }
 
 } // namespace epub

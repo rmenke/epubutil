@@ -163,6 +163,7 @@ class metadata {
     std::u8string _identifier;
     std::u8string _title;
     std::u8string _language;
+    std::u8string _description;
 
     std::vector<creator> _creators;
     std::vector<collection> _collections;
@@ -200,6 +201,13 @@ class metadata {
     /// @name Dublin Core optional elements
 
     /// @{
+
+    const std::u8string description() const {
+        return _description;
+    }
+    void description(std::u8string description) {
+        _description = std::move(description);
+    }
 
     const auto &creators() const {
         return _creators;
@@ -243,8 +251,10 @@ class metadata {
     /// rendition:layout property
     ///
     std::u8string layout() const {
-        static constexpr std::u8string_view pre_paginated =  u8"pre-paginated";
-        static constexpr std::u8string_view reflowable =  u8"reflowable";
+        static constexpr std::u8string_view pre_paginated =
+            u8"pre-paginated";
+        static constexpr std::u8string_view reflowable =
+            u8"reflowable";
         return std::u8string(_pre_paginated ? pre_paginated : reflowable);
     }
 };

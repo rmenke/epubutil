@@ -63,6 +63,7 @@ static inline const xmlChar *to_xmlchar(const char8_t *s) {
     return reinterpret_cast<xmlChar const *>(s);
 }
 
+[[deprecated("string may not stay in scope")]]
 static inline const xmlChar *to_xmlchar(const std::u8string &s) {
     return to_xmlchar(s.c_str());
 }
@@ -85,6 +86,16 @@ void write_metadata(xmlNodePtr metadata, const class metadata &m) {
     xmlAddChild(metadata, identifier);
     xmlAddChild(metadata, title);
     xmlAddChild(metadata, language);
+
+    if (!m.description().empty()) {
+        auto description =
+            xmlNewChild(metadata, dc_ns, UTF8("description"), nullptr);
+        auto cdata = xmlNewCDataBlock(
+            metadata->doc,
+            reinterpret_cast<const xmlChar *>(m.description().data()),
+            static_cast<int>(m.description().size()));
+        xmlAddChild(description, cdata);
+    }
 
     // The dcterms::modified meta property is always the current time.
 
