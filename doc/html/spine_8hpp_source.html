@@ -26,7 +26,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">EPUB Utilities<span id="projectnumber">&#160;1.0.0-RC.4</span>
+   <div id="projectname">EPUB Utilities<span id="projectnumber">&#160;1.0.0</span>
    </div>
    <div id="projectbrief">EPUB CLI Utilities</div>
   </td>
@@ -71,7 +71,7 @@ $(function() { codefold.init(0); });
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
 <div class="foldopen" id="foldopen00014" data-start="{" data-end="};">
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="classepub_1_1spine.html">   14</a></span><span class="keyword">class </span><a class="code hl_class" href="classepub_1_1spine.html">spine</a> {</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="classepub_1_1spine.html#a68c4b68f841e2920a1f8a2dc8c79f14f">   15</a></span>    <span class="keyword">using </span><a class="code hl_typedef" href="classepub_1_1spine.html#a68c4b68f841e2920a1f8a2dc8c79f14f">item_ptr</a> = std::shared_ptr&lt;manifest::item&gt;;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="classepub_1_1spine.html#a1a52a616885e2893a10ee72ec7e115f0">   15</a></span>    <span class="keyword">using </span><a class="code hl_typedef" href="classepub_1_1spine.html#a1a52a616885e2893a10ee72ec7e115f0">item_ptr</a> = std::shared_ptr&lt;manifest_item&gt;;</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="classepub_1_1spine.html#ad381efb194df220bb54dec18b155c7f3">   16</a></span>    <span class="keyword">using </span><a class="code hl_typedef" href="classepub_1_1spine.html#ad381efb194df220bb54dec18b155c7f3">weak_item_ptr</a> = item_ptr::weak_type;</div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="classepub_1_1spine.html#a9db4c77849f5dc647afc587c38c0734c">   18</a></span>    std::vector&lt;weak_item_ptr&gt; <a class="code hl_variable" href="classepub_1_1spine.html#a9db4c77849f5dc647afc587c38c0734c">_items</a>;</div>
@@ -121,11 +121,11 @@ $(function() { codefold.init(0); });
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aclassepub_1_1spine_html"><div class="ttname"><a href="classepub_1_1spine.html">epub::spine</a></div><div class="ttdef"><b>Definition</b> spine.hpp:14</div></div>
 <div class="ttc" id="aclassepub_1_1spine_html_a0370c99da065668088bcf3e2df80ac6a"><div class="ttname"><a href="classepub_1_1spine.html#a0370c99da065668088bcf3e2df80ac6a">epub::spine::spine</a></div><div class="ttdeci">spine(spine &amp;&amp;)=default</div></div>
+<div class="ttc" id="aclassepub_1_1spine_html_a1a52a616885e2893a10ee72ec7e115f0"><div class="ttname"><a href="classepub_1_1spine.html#a1a52a616885e2893a10ee72ec7e115f0">epub::spine::item_ptr</a></div><div class="ttdeci">std::shared_ptr&lt; manifest_item &gt; item_ptr</div><div class="ttdef"><b>Definition</b> spine.hpp:15</div></div>
 <div class="ttc" id="aclassepub_1_1spine_html_a1c474b46e8357ad4022eb2e80788b868"><div class="ttname"><a href="classepub_1_1spine.html#a1c474b46e8357ad4022eb2e80788b868">epub::spine::operator=</a></div><div class="ttdeci">spine &amp; operator=(const spine &amp;)=delete</div></div>
 <div class="ttc" id="aclassepub_1_1spine_html_a2ad82ebaedee84e96eca0accab04464c"><div class="ttname"><a href="classepub_1_1spine.html#a2ad82ebaedee84e96eca0accab04464c">epub::spine::add</a></div><div class="ttdeci">void add(weak_item_ptr ptr)</div><div class="ttdef"><b>Definition</b> spine.hpp:43</div></div>
 <div class="ttc" id="aclassepub_1_1spine_html_a3a82e210818f782cf8c85ae90a98af27"><div class="ttname"><a href="classepub_1_1spine.html#a3a82e210818f782cf8c85ae90a98af27">epub::spine::~spine</a></div><div class="ttdeci">~spine()=default</div></div>
 <div class="ttc" id="aclassepub_1_1spine_html_a43a01fb036dcc75701c090f24d153b08"><div class="ttname"><a href="classepub_1_1spine.html#a43a01fb036dcc75701c090f24d153b08">epub::spine::end</a></div><div class="ttdeci">auto end() const</div><div class="ttdef"><b>Definition</b> spine.hpp:50</div></div>
-<div class="ttc" id="aclassepub_1_1spine_html_a68c4b68f841e2920a1f8a2dc8c79f14f"><div class="ttname"><a href="classepub_1_1spine.html#a68c4b68f841e2920a1f8a2dc8c79f14f">epub::spine::item_ptr</a></div><div class="ttdeci">std::shared_ptr&lt; manifest::item &gt; item_ptr</div><div class="ttdef"><b>Definition</b> spine.hpp:15</div></div>
 <div class="ttc" id="aclassepub_1_1spine_html_a9db4c77849f5dc647afc587c38c0734c"><div class="ttname"><a href="classepub_1_1spine.html#a9db4c77849f5dc647afc587c38c0734c">epub::spine::_items</a></div><div class="ttdeci">std::vector&lt; weak_item_ptr &gt; _items</div><div class="ttdef"><b>Definition</b> spine.hpp:18</div></div>
 <div class="ttc" id="aclassepub_1_1spine_html_ad381efb194df220bb54dec18b155c7f3"><div class="ttname"><a href="classepub_1_1spine.html#ad381efb194df220bb54dec18b155c7f3">epub::spine::weak_item_ptr</a></div><div class="ttdeci">item_ptr::weak_type weak_item_ptr</div><div class="ttdef"><b>Definition</b> spine.hpp:16</div></div>
 <div class="ttc" id="aclassepub_1_1spine_html_ae717afe47fd12cfdf8a227e2da68b027"><div class="ttname"><a href="classepub_1_1spine.html#ae717afe47fd12cfdf8a227e2da68b027">epub::spine::spine</a></div><div class="ttdeci">spine(const spine &amp;)=delete</div></div>
@@ -133,11 +133,11 @@ $(function() { codefold.init(0); });
 <div class="ttc" id="aclassepub_1_1spine_html_aeeeeeaebaecedbd757d1c6ef46de9d2d"><div class="ttname"><a href="classepub_1_1spine.html#aeeeeeaebaecedbd757d1c6ef46de9d2d">epub::spine::spine</a></div><div class="ttdeci">spine()=default</div></div>
 <div class="ttc" id="aclassepub_1_1spine_html_afd50356db463451becba2a2d502718de"><div class="ttname"><a href="classepub_1_1spine.html#afd50356db463451becba2a2d502718de">epub::spine::begin</a></div><div class="ttdeci">auto begin() const</div><div class="ttdef"><b>Definition</b> spine.hpp:47</div></div>
 <div class="ttc" id="amanifest_8hpp_html"><div class="ttname"><a href="manifest_8hpp.html">manifest.hpp</a></div></div>
-<div class="ttc" id="anamespaceepub_html"><div class="ttname"><a href="namespaceepub.html">epub</a></div><div class="ttdef"><b>Definition</b> container.cpp:13</div></div>
+<div class="ttc" id="anamespaceepub_html"><div class="ttname"><a href="namespaceepub.html">epub</a></div><div class="ttdef"><b>Definition</b> container.cpp:11</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 26 2024 for EPUB Utilities by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0
+Generated on Sat Feb 3 2024 for EPUB Utilities by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0
 </small></address>
 </body>
 </html>

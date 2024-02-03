@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="An indication that the publication is part of a larger set.">
 <polygon fill="#999999" stroke="transparent" points="97,-210 0,-210 0,0 97,0 97,-210"/>
 <text text-anchor="start" x="14.25" y="-198" font-family="Helvetica,sans-Serif" font-size="10.00">epub::collection</text>
 <text text-anchor="start" x="5.33" y="-184" font-family="Helvetica,sans-Serif" font-size="10.00">&#45;</text>

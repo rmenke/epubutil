@@ -14,7 +14,8 @@
 <g id="a_Node000001"><a xlink:title=" ">
 <polygon fill="#999999" stroke="transparent" points="335,-200 234,-200 234,0 335,0 335,-200"/>
 <text text-anchor="start" x="239.14" y="-188" font-family="Helvetica,sans-Serif" font-size="10.00">cli::option_processor</text>
-<text text-anchor="start" x="283.61" y="-174" font-family="Helvetica,sans-Serif" font-size="10.00"> </text>
+<text text-anchor="start" x="239.33" y="-174" font-family="Helvetica,sans-Serif" font-size="10.00">&#45;</text>
+<text text-anchor="start" x="247.5" y="-174" font-family="Helvetica,sans-Serif" font-size="10.00">_passthru</text>
 <text text-anchor="start" x="238.08" y="-160" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
 <text text-anchor="start" x="247.5" y="-160" font-family="Helvetica,sans-Serif" font-size="10.00">option_processor()</text>
 <text text-anchor="start" x="238.08" y="-146" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
@@ -40,7 +41,8 @@
 <text text-anchor="start" x="238.08" y="-6" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
 <text text-anchor="start" x="247.5" y="-6" font-family="Helvetica,sans-Serif" font-size="10.00">wrap()</text>
 <polygon fill="#666666" stroke="#666666" points="234.5,-184 234.5,-184 335.5,-184 335.5,-184 234.5,-184"/>
-<polygon fill="#666666" stroke="#666666" points="234.5,-170 234.5,-170 335.5,-170 335.5,-170 234.5,-170"/>
+<polygon fill="#666666" stroke="#666666" points="234.5,-170 234.5,-170 245.5,-170 245.5,-170 234.5,-170"/>
+<polygon fill="#666666" stroke="#666666" points="245.5,-170 245.5,-170 335.5,-170 335.5,-170 245.5,-170"/>
 <polygon fill="none" stroke="#666666" points="234,0 234,-200 335,-200 335,0 234,0"/>
 </a>
 </g>

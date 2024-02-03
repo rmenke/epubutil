@@ -1,3 +1,11 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$structepub_1_1xml_1_1__xml__deleter_3_01xml_x_path_object_01_4.html" title=" " alt="" coords="5,5,168,43"/>
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,77,119,101"/>
+<area shape="rect" id="Node000001" href="$classbook.html" title=" " alt="" coords="196,5,246,29"/>
+<area shape="poly" id="edge16_Node000000_Node000001" title=" " alt="" coords="100,69,166,39,195,26,197,30,168,44,103,74"/>
+<area shape="rect" id="Node000002" href="$structchapter.html" title=" " alt="" coords="188,53,254,77"/>
+<area shape="poly" id="edge17_Node000000_Node000002" title=" " alt="" coords="132,76,188,68,189,73,133,81"/>
+<area shape="rect" id="Node000003" href="$classepub_1_1manifest.html" title="A listing of all the assets in a container." alt="" coords="167,101,276,125"/>
+<area shape="poly" id="edge18_Node000000_Node000003" title=" " alt="" coords="133,97,167,103,167,108,132,103"/>
+<area shape="rect" id="Node000004" href="$classpage.html" title="A collection of images that can fit on a single content page." alt="" coords="196,149,247,173"/>
+<area shape="poly" id="edge19_Node000000_Node000004" title=" " alt="" coords="103,105,168,135,197,148,194,153,166,140,100,109"/>
 </map>

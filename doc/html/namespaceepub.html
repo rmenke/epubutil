@@ -26,7 +26,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">EPUB Utilities<span id="projectnumber">&#160;1.0.0-RC.4</span>
+   <div id="projectname">EPUB Utilities<span id="projectnumber">&#160;1.0.0</span>
    </div>
    <div id="projectbrief">EPUB CLI Utilities</div>
   </td>
@@ -65,6 +65,7 @@ Namespaces</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classepub_1_1collection.html">collection</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An indication that the publication is part of a larger set.  <a href="classepub_1_1collection.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structepub_1_1configuration.html">configuration</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -80,13 +81,17 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structepub_1_1file__metadata.html">file_metadata</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A class for managing metadata key-value pairs.  <a href="structepub_1_1file__metadata.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classepub_1_1id__in__use.html">id_in_use</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classepub_1_1manifest.html">manifest</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A listing of all the assets in a container.  <a href="classepub_1_1manifest.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classepub_1_1manifest__item.html">manifest_item</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An asset of the EPUB.  <a href="classepub_1_1manifest__item.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classepub_1_1metadata.html">metadata</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The metadata component of the package document.  <a href="classepub_1_1metadata.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classepub_1_1navigation.html">navigation</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a navigation (Table of Contents) document.  <a href="classepub_1_1navigation.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classepub_1_1package.html">package</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -95,8 +100,6 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a066b00e6e19cee9ebbb898c4182c0ad0" id="r_a066b00e6e19cee9ebbb898c4182c0ad0"><td class="memItemLeft" align="right" valign="top">std::u8string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a066b00e6e19cee9ebbb898c4182c0ad0">generate_id</a> ()</td></tr>
-<tr class="separator:a066b00e6e19cee9ebbb898c4182c0ad0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adef1c0268759b0932462e1c858beb3a4" id="r_adef1c0268759b0932462e1c858beb3a4"><td class="memTemplParams" colspan="2">template&lt;class String &gt; </td></tr>
 <tr class="memitem:adef1c0268759b0932462e1c858beb3a4"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#adef1c0268759b0932462e1c858beb3a4">write_file</a> (const fs::path &amp;path, String &amp;&amp;string)</td></tr>
 <tr class="separator:adef1c0268759b0932462e1c858beb3a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -173,23 +176,6 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-
-</div>
-</div>
-<a id="a066b00e6e19cee9ebbb898c4182c0ad0" name="a066b00e6e19cee9ebbb898c4182c0ad0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a066b00e6e19cee9ebbb898c4182c0ad0">&#9670;&#160;</a></span>generate_id()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::u8string epub::generate_id </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
 
 </div>
 </div>
@@ -693,7 +679,7 @@ template&lt;class String &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 26 2024 for EPUB Utilities by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0
+Generated on Sat Feb 3 2024 for EPUB Utilities by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0
 </small></address>
 </body>
 </html>
