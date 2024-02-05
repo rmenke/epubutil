@@ -21,6 +21,7 @@ struct configuration { // NOLINT
     std::vector<epub::creator> creators;
     std::vector<epub::collection> collections;
     std::u8string description;
+    std::filesystem::path cover_image;
 
     configuration() = default;
 
@@ -46,7 +47,8 @@ void common_options(cli::option_processor &opt,
         " [--creator=name [--file-as=sort-name] [--role=marc-code]]"
         " [--collection=group [--issue=num] [--set|--series]]"
         " [--identifier=urn] [--toc-stylesheet=path]"
-        " [--description=text|--description=@file]";
+        " [--description=text|--description=@file]"
+        " [--cover-image=filename]";
 
     opt.add_option(
         'o', "output",
@@ -171,6 +173,9 @@ void common_options(cli::option_processor &opt,
             }
         },
         "blurb describing the EPUB");
+    opt.add_option("cover-image", [config](const std::string &arg) {
+        config->cover_image = arg;
+    }, "image for cover of publication");
 }
 
 } // namespace epub

@@ -39,7 +39,8 @@ container::container(container::options options) {
 }
 
 void container::add(const std::filesystem::path &source,
-                    const std::filesystem::path &local) {
+                    const std::filesystem::path &local,
+                    std::u8string properties) {
     auto key = "Contents" / local.lexically_normal();
 
     if (auto found = _files.find(key); found != _files.end()) {
@@ -55,7 +56,11 @@ void container::add(const std::filesystem::path &source,
     if (media_type == xhtml_media_type) {
         xml::get_xhtml_metadata(source, metadata);
 
-        auto properties = metadata.get(u8"properties", u8"");
+        if (auto props = metadata.get(u8"properties"); props) {
+            if (!properties.empty()) properties += u8' ';
+            properties += *props;
+        }
+
         auto item =
             std::make_shared<manifest_item>(local, properties, metadata);
         _package.manifest().push_back(item);
@@ -72,7 +77,11 @@ void container::add(const std::filesystem::path &source,
         throw std::logic_error("Not yet implemented");
         /// @todo xml::get_svg_metadata(source, metadata)
 
-        auto properties = metadata.get(u8"properties", u8"");
+        if (auto props = metadata.get(u8"properties"); props) {
+            if (!properties.empty()) properties += u8' ';
+            properties += *props;
+        }
+
         auto item =
             std::make_shared<manifest_item>(local, properties, metadata);
         _package.manifest().push_back(item);
@@ -87,7 +96,7 @@ void container::add(const std::filesystem::path &source,
     }
     else {
         auto item =
-            std::make_shared<manifest_item>(local, u8"", metadata);
+            std::make_shared<manifest_item>(local, properties, metadata);
         _package.manifest().push_back(item);
     }
 }
