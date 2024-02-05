@@ -6,7 +6,6 @@
 #include "minidom.hpp"
 #include "options.hpp"
 #include "spine.hpp"
-#include "xml.hpp"
 
 #include <array>
 #include <cmath>
@@ -102,14 +101,21 @@ struct image_ref {
     geom::rect frame;
     bool upscaled = false;
 
-    image_ref(const fs::path &p, unsigned num, const ImageInfo &info)
-        : path(p)
-        , local("im" + to_digits(num, 5) + '.' + info.getExt())
+  private:
+    image_ref(const fs::path &path, const fs::path &local,
+              const ImageInfo &info)
+        : path(path)
+        , local(local)
         , media_type(info.getMimetype())
-        , frame(geom::size(info.getWidth(), info.getHeight())) {}
+        , frame(geom::size(info.getWidth(), info.getHeight())) {
+        this->local.replace_extension(info.getExt());
+    }
 
-    image_ref(fs::path p, unsigned num)
-        : image_ref(p, num, getImageInfo<IIFilePathReader>(p)) {}
+  public:
+    image_ref(const fs::path &path, const fs::path &local)
+        : image_ref(path, local, getImageInfo<IIFilePathReader>(path)) {}
+    image_ref(const fs::path &path, unsigned num)
+        : image_ref(path, "im" + to_digits(num, 5)) {}
 
     auto width() const {
         return frame.w;
@@ -119,8 +125,8 @@ struct image_ref {
     }
 
     epub::file_metadata metadata() const {
-        std::u8string type{media_type.begin(), media_type.end()};
-        return epub::file_metadata{{u8"media-type", std::move(type)}};
+        auto mimetype = reinterpret_cast<const char8_t *>(media_type.c_str());
+        return epub::file_metadata{{u8"media-type", mimetype}};
     }
 
     image_ref &scale(std::size_t max_width, std::size_t max_height,
@@ -405,9 +411,9 @@ int main(int argc, char **argv) {
 
     std::vector<std::string> args(argv + 1, argv + argc);
 
-    auto iter = opt.process(args.begin(), args.end());
+    args.erase(args.begin(), opt.process(args.begin(), args.end()));
 
-    while (iter != args.end()) {
+    for (auto iter = args.begin(); iter != args.end(); ) {
         const std::string &arg = *iter;
 
         if (!arg.starts_with('@')) {
@@ -494,6 +500,7 @@ int main(int argc, char **argv) {
 
     c.package().metadata().pre_paginated();
     c.package().metadata().creators() = std::move(config->creators);
+    c.package().metadata().collections() = std::move(config->collections);
 
     if (!config->title.empty()) {
         c.package().metadata().title(
@@ -532,6 +539,11 @@ int main(int argc, char **argv) {
         }
 
         n.add(mark);
+    }
+
+    if (!config->cover_image.empty()) {
+        image_ref cover{config->cover_image, "cover"};
+        c.add(cover.path, cover.local, u8"cover-image");
     }
 
     c.write(config->output);

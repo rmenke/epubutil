@@ -81,10 +81,12 @@ class container {
     ///
     /// @param source the path to the file
     /// @param local the name of the container file
+    /// @param properties additional manifest properties
     /// @throws duplicate_error if the local name is already in use
     ///
     void add(const std::filesystem::path &source,
-             const std::filesystem::path &local);
+             const std::filesystem::path &local,
+             std::u8string properties = {});
 
     /// @brief Add a file to the container.
     ///
