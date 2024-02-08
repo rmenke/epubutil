@@ -22,6 +22,7 @@ struct manifest_item {
     std::filesystem::path path;
     std::u8string properties;
     file_metadata metadata;
+    bool in_spine = false;
 
     /// @brief Create a manifest item.
     ///

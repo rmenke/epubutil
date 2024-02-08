@@ -144,8 +144,8 @@ void write_metadata(node_ptr metadata_node, const class metadata &m) {
 }
 
 template <class Manifest>
-void write_manifest(node_ptr manifest_node, Manifest &&m) {
-    for (auto &&item : m) {
+void write_manifest(node_ptr manifest_node, Manifest &&manifest) {
+    for (auto &&item : std::forward<Manifest>(manifest)) {
         auto item_node = new_child_node(manifest_node, nullptr, u8"item");
 
         if (item->id.empty()) item->id = generate_id();
@@ -161,9 +161,10 @@ void write_manifest(node_ptr manifest_node, Manifest &&m) {
     }
 }
 
-void write_spine(node_ptr spine, const class spine &s) {
-    for (auto &&itemref : s) {
-        auto node = new_child_node(spine, nullptr, u8"itemref");
+template <class Spine>
+void write_spine(node_ptr spine_node, Spine &&spine) {
+    for (auto &&itemref : std::forward<Spine>(spine)) {
+        auto node = new_child_node(spine_node, nullptr, u8"itemref");
         set_attribute(node, u8"idref", itemref->id);
     }
 }

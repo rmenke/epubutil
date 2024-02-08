@@ -32,12 +32,14 @@ int main(int, const char** argv) {
         p.metadata().creators() =
             std::vector<epub::creator>{creators.begin(), creators.end()};
 
-        p.add_to_manifest(std::make_shared<epub::manifest_item>(
+        auto item = std::make_shared<epub::manifest_item>(
             "nav.xhtml", u8"nav",
             epub::file_metadata{
-                {u8"media-type", u8"application/xhtml+xml"}}));
-        p.manifest().back()->id = u8"nav";
-        p.spine().add(p.manifest().back());
+                {u8"media-type", u8"application/xhtml+xml"}});
+        item->id = u8"nav";
+        item->in_spine = true;
+
+        p.add_to_manifest(item);
 
         p.write(output_file);
 

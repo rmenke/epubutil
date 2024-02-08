@@ -31,7 +31,7 @@ container::container(container::options options) {
     _package.add_to_manifest(item);
 
     if (!IS_SET(options, omit_toc)) {
-        _package.spine().add(item);
+        item->in_spine = true;
         _navigation.add(item);
     }
 
@@ -66,7 +66,7 @@ void container::add(const std::filesystem::path &source,
         _package.add_to_manifest(item);
 
         if (metadata.get(u8"spine", u8"include") != u8"omit") {
-            _package.spine().add(item);
+            item->in_spine = true;
 
             if (metadata.get(u8"toc", u8"include") != u8"omit") {
                 _navigation.add(item);
@@ -87,7 +87,7 @@ void container::add(const std::filesystem::path &source,
         _package.add_to_manifest(item);
 
         if (metadata.get(u8"spine", u8"omit") != u8"omit") {
-            _package.spine().add(item);
+            item->in_spine = true;
 
             if (metadata.get(u8"toc", u8"include") != u8"omit") {
                 _navigation.add(item);

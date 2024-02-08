@@ -11,7 +11,6 @@
 #include "metadata.hpp"
 #include "minidom.hpp"
 #include "options.hpp"
-#include "spine.hpp"
 
 #include <array>
 #include <cmath>
@@ -500,7 +499,6 @@ int main(int argc, char **argv) {
     if (config->overwrite) remove_all(config->output);
 
     epub::container c{epub::container::options::omit_toc};
-    epub::spine &s = c.package().spine();
     epub::navigation &n = c.navigation();
 
     c.package().metadata().pre_paginated();
@@ -531,7 +529,7 @@ int main(int argc, char **argv) {
                                                               u8"", fm);
             item->id = page.path().stem().u8string();
             c.package().add_to_manifest(item);
-            s.add(item);
+            item->in_spine = true;
 
             if (!mark) mark = item;
 
