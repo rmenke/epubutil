@@ -16,7 +16,7 @@ bool file_exists(const std::filesystem::path &path) {
 
 } // namespace tap
 
-int main(int argc, const char **argv) {
+int main(int, const char **argv) {
     using namespace tap;
     using namespace std::literals;
 

@@ -99,8 +99,8 @@ std::u8string get_attribute(const node_ptr &node,
     return {};
 }
 
-std::u8string get_attribute(const node_ptr &node, const ns_ptr &ns,
-                            const std::u8string &name) {
+std::u8string get_attribute(const node_ptr &, const ns_ptr &,
+                            const std::u8string &) {
     throw std::logic_error(std::string{__func__} + " not implemented");
 }
 

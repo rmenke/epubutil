@@ -1,11 +1,17 @@
+#include "file_metadata.hpp"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wall"
+#pragma clang diagnostic ignored "-Wextra"
+#include "imageinfo/imageinfo.hpp"
+#pragma clang diagnostic pop
+
 #include "container.hpp"
 #include "epub_options.hpp"
-#include "imageinfo/imageinfo.hpp"
-#include "manifest.hpp"
+#include "manifest_item.hpp"
 #include "metadata.hpp"
 #include "minidom.hpp"
 #include "options.hpp"
-#include "spine.hpp"
+#include "xml.hpp"
 
 #include <array>
 #include <cmath>
@@ -125,7 +131,8 @@ struct image_ref {
     }
 
     epub::file_metadata metadata() const {
-        auto mimetype = reinterpret_cast<const char8_t *>(media_type.c_str());
+        auto mimetype =
+            reinterpret_cast<const char8_t *>(media_type.c_str());
         return epub::file_metadata{{u8"media-type", mimetype}};
     }
 
@@ -413,7 +420,7 @@ int main(int argc, char **argv) {
 
     args.erase(args.begin(), opt.process(args.begin(), args.end()));
 
-    for (auto iter = args.begin(); iter != args.end(); ) {
+    for (auto iter = args.begin(); iter != args.end();) {
         const std::string &arg = *iter;
 
         if (!arg.starts_with('@')) {
@@ -494,9 +501,6 @@ int main(int argc, char **argv) {
     if (config->overwrite) remove_all(config->output);
 
     epub::container c{epub::container::options::omit_toc};
-    epub::manifest &m = c.package().manifest();
-    epub::spine &s = c.package().spine();
-    epub::navigation &n = c.navigation();
 
     c.package().metadata().pre_paginated();
     c.package().metadata().creators() = std::move(config->creators);
@@ -511,34 +515,38 @@ int main(int argc, char **argv) {
             reinterpret_cast<const char8_t *>(config->identifier.c_str()));
     }
     if (!config->toc_stylesheet.empty()) {
-        n.stylesheet(config->toc_stylesheet);
+        c.toc_stylesheet(config->toc_stylesheet);
     }
 
+    const epub::file_metadata page_metadata{
+        {u8"title", u8"-"}, {u8"media-type", u8"application/xhtml+xml"}};
+
     for (auto &&chapter : the_book) {
-        std::shared_ptr<epub::manifest_item> mark;
+        bool first = true;
+
         for (auto &&page : chapter) {
-            epub::file_metadata fm{
-                {u8"title", chapter.name},
-                {u8"media-type", u8"application/xhtml+xml"},
-            };
+            auto item = std::make_shared<epub::manifest_item>(
+                epub::manifest_item{.id = page.path().stem().u8string(),
+                                    .path = page.path(),
+                                    .metadata = page_metadata,
+                                    .in_spine = true});
 
-            auto item = std::make_shared<epub::manifest_item>(page.path(),
-                                                              u8"", fm);
-            item->id(page.path().stem().u8string());
-            m.push_back(item);
-            s.add(item);
+            if (first) {
+                item->in_toc = true;
+                item->metadata[u8"title"] = chapter.name;
+                first = false;
+            }
 
-            if (!mark) mark = item;
+            c.package().add_to_manifest(item);
 
             for (auto &&image : page) {
                 auto item = std::make_shared<epub::manifest_item>(
-                    image.local, u8"", image.metadata());
-                item->id(image.local.stem().u8string());
-                m.push_back(item);
+                    epub::manifest_item{.id = image.local.stem().u8string(),
+                                        .path = image.local,
+                                        .metadata = image.metadata()});
+                c.package().add_to_manifest(item);
             }
         }
-
-        n.add(mark);
     }
 
     if (!config->cover_image.empty()) {

@@ -1,6 +1,6 @@
 #include "container.hpp"
 
-#include "manifest.hpp"
+#include "manifest_item.hpp"
 #include "media_type.hpp"
 #include "xml.hpp"
 
@@ -10,29 +10,21 @@ namespace fs = std::filesystem;
 
 namespace epub {
 
-static constexpr std::string_view container_xml =
-    R"%%(<?xml version="1.0" standalone="yes"?>
-<container xmlns="urn:oasis:names:tc:opendocument:xmlns:container"
-           version="1.0">
-  <rootfiles>
-    <rootfile full-path="Contents/package.opf"
-              media-type="application/oebps-package+xml"/>
-  </rootfiles>
-</container>
-)%%";
-
 container::container(container::options options) {
 #define IS_SET(opts, flag) ((opts & options::flag) == options::flag)
 
-    auto item = std::make_shared<manifest_item>(
-        u8"nav.xhtml", u8"nav",
-        file_metadata{{u8"title", u8"Table of Contents"},
-                      {u8"media-type", u8"application/xhtml+xml"}});
-    _package.manifest().push_back(item);
+    auto item = std::make_shared<manifest_item>(manifest_item{
+        .id = u8"nav",
+        .path = u8"nav.xhtml",
+        .properties = u8"nav",
+        .metadata =
+            file_metadata{{u8"title", u8"Table of Contents"},
+                          {u8"media-type", u8"application/xhtml+xml"}}});
+    _package.add_to_manifest(item);
 
     if (!IS_SET(options, omit_toc)) {
-        _package.spine().add(item);
-        _navigation.add(item);
+        item->in_spine = true;
+        item->in_toc = true;
     }
 
 #undef IS_SET
@@ -61,15 +53,15 @@ void container::add(const std::filesystem::path &source,
             properties += *props;
         }
 
-        auto item =
-            std::make_shared<manifest_item>(local, properties, metadata);
-        _package.manifest().push_back(item);
+        auto item = std::make_shared<manifest_item>(manifest_item{
+            .path = local, .properties = properties, .metadata = metadata});
+        _package.add_to_manifest(item);
 
         if (metadata.get(u8"spine", u8"include") != u8"omit") {
-            _package.spine().add(item);
+            item->in_spine = true;
 
             if (metadata.get(u8"toc", u8"include") != u8"omit") {
-                _navigation.add(item);
+                item->in_toc = true;
             }
         }
     }
@@ -82,22 +74,22 @@ void container::add(const std::filesystem::path &source,
             properties += *props;
         }
 
-        auto item =
-            std::make_shared<manifest_item>(local, properties, metadata);
-        _package.manifest().push_back(item);
+        auto item = std::make_shared<manifest_item>(manifest_item{
+            .path = local, .properties = properties, .metadata = metadata});
+        _package.add_to_manifest(item);
 
         if (metadata.get(u8"spine", u8"omit") != u8"omit") {
-            _package.spine().add(item);
+            item->in_spine = true;
 
             if (metadata.get(u8"toc", u8"include") != u8"omit") {
-                _navigation.add(item);
+                item->in_toc = true;
             }
         }
     }
     else {
-        auto item =
-            std::make_shared<manifest_item>(local, properties, metadata);
-        _package.manifest().push_back(item);
+        auto item = std::make_shared<manifest_item>(manifest_item{
+            .path = local, .properties = properties, .metadata = metadata});
+        _package.add_to_manifest(item);
     }
 }
 
@@ -123,14 +115,7 @@ void container::write(const fs::path &path) const {
     auto meta_inf_dir = path / "META-INF";
     fs::create_directory(meta_inf_dir);
 
-    write_file(meta_inf_dir / "container.xml", container_xml);
-
-    auto contents_dir = path / "Contents";
-    fs::create_directory(contents_dir);
-
-    _package.write(contents_dir / "package.opf");
-
-    _navigation.write(contents_dir / "nav.xhtml");
+    xml::write_container(path, *this);
 
     for (auto &[key, source] : _files) {
         auto local = path / key;
