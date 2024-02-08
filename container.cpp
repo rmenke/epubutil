@@ -1,6 +1,6 @@
 #include "container.hpp"
 
-#include "manifest.hpp"
+#include "manifest_item.hpp"
 #include "media_type.hpp"
 #include "xml.hpp"
 
@@ -10,32 +10,25 @@ namespace fs = std::filesystem;
 
 namespace epub {
 
-static constexpr std::string_view container_xml =
-    R"%%(<?xml version="1.0" standalone="yes"?>
-<container xmlns="urn:oasis:names:tc:opendocument:xmlns:container"
-           version="1.0">
-  <rootfiles>
-    <rootfile full-path="Contents/package.opf"
-              media-type="application/oebps-package+xml"/>
-  </rootfiles>
-</container>
-)%%";
-
 container::container(container::options options) {
-#define IS_SET(opts, flag) ((opts & options::flag) == options::flag)
+    file_metadata metadata = {
+        {u8"title", u8"Table of Contents"},
+        {u8"media-type", u8"application/xhtml+xml"},
+    };
 
-    auto item = std::make_shared<manifest_item>(
-        u8"nav.xhtml", u8"nav",
-        file_metadata{{u8"title", u8"Table of Contents"},
-                      {u8"media-type", u8"application/xhtml+xml"}});
-    _package.manifest().push_back(item);
+    const bool in_toc =
+        ((options & options::omit_toc) != options::omit_toc);
 
-    if (!IS_SET(options, omit_toc)) {
-        _package.spine().add(item);
-        _navigation.add(item);
-    }
+    manifest_item item = {
+        .id = u8"nav",
+        .path = u8"nav.xhtml",
+        .properties = u8"nav",
+        .metadata = std::move(metadata),
+        .in_spine = in_toc,
+        .in_toc = in_toc,
+    };
 
-#undef IS_SET
+    _package.add_to_manifest(std::move(item));
 }
 
 void container::add(const std::filesystem::path &source,
@@ -47,29 +40,28 @@ void container::add(const std::filesystem::path &source,
         throw duplicate_error(source, found->second);
     }
 
-    _files.insert({std::move(key), source.lexically_normal()});
+    _files.emplace(std::move(key), source.lexically_normal());
 
-    file_metadata metadata;
+    manifest_item item = {
+        .path = std::move(local),
+        .properties = std::move(properties),
+    };
 
-    auto media_type = metadata[u8"media-type"] = guess_media_type(local);
+    const auto &media_type = item.metadata[u8"media-type"] =
+        guess_media_type(item.path);
 
     if (media_type == xhtml_media_type) {
-        xml::get_xhtml_metadata(source, metadata);
+        xml::get_xhtml_metadata(source, item.metadata);
 
-        if (auto props = metadata.get(u8"properties"); props) {
-            if (!properties.empty()) properties += u8' ';
-            properties += *props;
+        if (auto props = item.metadata.get(u8"properties"); props) {
+            if (!item.properties.empty()) item.properties += u8' ';
+            item.properties += *props;
         }
 
-        auto item =
-            std::make_shared<manifest_item>(local, properties, metadata);
-        _package.manifest().push_back(item);
-
-        if (metadata.get(u8"spine", u8"include") != u8"omit") {
-            _package.spine().add(item);
-
-            if (metadata.get(u8"toc", u8"include") != u8"omit") {
-                _navigation.add(item);
+        if (item.metadata.get(u8"spine", u8"include") != u8"omit") {
+            item.in_spine = true;
+            if (item.metadata.get(u8"toc", u8"include") != u8"omit") {
+                item.in_toc = true;
             }
         }
     }
@@ -77,28 +69,20 @@ void container::add(const std::filesystem::path &source,
         throw std::logic_error("Not yet implemented");
         /// @todo xml::get_svg_metadata(source, metadata)
 
-        if (auto props = metadata.get(u8"properties"); props) {
-            if (!properties.empty()) properties += u8' ';
-            properties += *props;
+        if (auto props = item.metadata.get(u8"properties"); props) {
+            if (!item.properties.empty()) item.properties += u8' ';
+            item.properties += *props;
         }
 
-        auto item =
-            std::make_shared<manifest_item>(local, properties, metadata);
-        _package.manifest().push_back(item);
-
-        if (metadata.get(u8"spine", u8"omit") != u8"omit") {
-            _package.spine().add(item);
-
-            if (metadata.get(u8"toc", u8"include") != u8"omit") {
-                _navigation.add(item);
+        if (item.metadata.get(u8"spine", u8"omit") != u8"omit") {
+            item.in_spine = true;
+            if (item.metadata.get(u8"toc", u8"include") != u8"omit") {
+                item.in_toc = true;
             }
         }
     }
-    else {
-        auto item =
-            std::make_shared<manifest_item>(local, properties, metadata);
-        _package.manifest().push_back(item);
-    }
+
+    _package.add_to_manifest(std::move(item));
 }
 
 template <class String>
@@ -116,26 +100,19 @@ void container::write(const fs::path &path) const {
             std::make_error_code(std::errc::file_exists));
     }
 
-    fs::create_directory(path);
+    create_directory(path);
 
     write_file(path / "mimetype", "application/epub+zip");
 
     auto meta_inf_dir = path / "META-INF";
-    fs::create_directory(meta_inf_dir);
+    create_directory(meta_inf_dir);
 
-    write_file(meta_inf_dir / "container.xml", container_xml);
-
-    auto contents_dir = path / "Contents";
-    fs::create_directory(contents_dir);
-
-    _package.write(contents_dir / "package.opf");
-
-    _navigation.write(contents_dir / "nav.xhtml");
+    xml::write_container(path, *this);
 
     for (auto &[key, source] : _files) {
         auto local = path / key;
-        fs::create_directories(local.parent_path());
-        fs::copy_file(source, local);
+        create_directories(local.parent_path());
+        copy_file(source, local);
     }
 }
 

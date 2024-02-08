@@ -1,6 +1,8 @@
 #include "metadata.hpp"
 
+#include <iomanip>
 #include <random>
+#include <sstream>
 
 namespace epub {
 
@@ -29,6 +31,16 @@ std::u8string generate_uuid() {
     }
 
     return uuid;
+}
+
+std::u8string generate_id() {
+    static unsigned next = 0U;
+
+    std::ostringstream out;
+    out << "g" << std::setw(8) << std::setfill('0') << std::hex << ++next;
+    std::string s = std::move(out).str();
+
+    return reinterpret_cast<const char8_t *>(s.c_str());
 }
 
 } // namespace epub

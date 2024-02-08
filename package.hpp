@@ -1,9 +1,8 @@
 #ifndef _package_hpp_
 #define _package_hpp_
 
-#include "manifest.hpp"
+#include "manifest_item.hpp"
 #include "metadata.hpp"
-#include "spine.hpp"
 #include "xml.hpp"
 
 #include <filesystem>
@@ -11,9 +10,9 @@
 namespace epub {
 
 class package {
+    std::vector<manifest_item> _items;
+
     class metadata _metadata;
-    class manifest _manifest;
-    class spine _spine;
 
   public:
     class metadata &metadata() {
@@ -23,22 +22,18 @@ class package {
         return _metadata;
     }
 
-    class manifest &manifest() {
-        return _manifest;
-    }
-    const class manifest &manifest() const {
-        return _manifest;
+    auto manifest() const {
+        return std::ranges::ref_view(_items);
     }
 
-    class spine &spine() {
-        return _spine;
-    }
-    const class spine &spine() const {
-        return _spine;
+    auto add_to_manifest(manifest_item item) {
+        if (item.id.empty()) item.id = generate_id();
+        _items.push_back(std::move(item));
     }
 
-    void write(const std::filesystem::path &path) const {
-        xml::write_package(path, *this);
+    auto spine() const {
+        return std::ranges::ref_view(_items) |
+               std::views::filter(&manifest_item::in_spine);
     }
 };
 

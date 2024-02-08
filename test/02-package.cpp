@@ -1,5 +1,6 @@
-#include "manifest.hpp"
+#include "manifest_item.hpp"
 #include "package.hpp"
+#include "xml.hpp"
 
 #include <exception>
 #include <filesystem>
@@ -7,7 +8,7 @@
 
 #include "tap.hpp"
 
-int main(int argc, const char** argv) {
+int main(int, const char** argv) {
     using namespace tap;
     using namespace epub;
     using namespace std::literals;
@@ -32,14 +33,17 @@ int main(int argc, const char** argv) {
         p.metadata().creators() =
             std::vector<epub::creator>{creators.begin(), creators.end()};
 
-        p.manifest().push_back(std::make_shared<epub::manifest_item>(
-            "nav.xhtml", u8"nav",
-            epub::file_metadata{
-                {u8"media-type", u8"application/xhtml+xml"}}));
-        p.manifest().back()->id(u8"nav");
-        p.spine().add(p.manifest().back());
+        epub::manifest_item item = {
+            .id = u8"nav",
+            .path = "nav.xhtml",
+            .properties = u8"nav",
+            .metadata = {{u8"media-type", u8"application/xhtml+xml"}},
+            .in_spine = true,
+        };
 
-        p.write(output_file);
+        p.add_to_manifest(std::move(item));
+
+        xml::write_package(output_file, p);
 
         ok(fs::exists(output_file), "file created");
         diag("created ", output_file);

@@ -5,7 +5,6 @@
 #include <libxml/xpath.h>
 #include <libxml/xpathInternals.h>
 
-#include <cassert>
 #include <iostream>
 #include <memory>
 #include <span>
@@ -99,8 +98,8 @@ std::u8string get_attribute(const node_ptr &node,
     return {};
 }
 
-std::u8string get_attribute(const node_ptr &node, const ns_ptr &ns,
-                            const std::u8string &name) {
+std::u8string get_attribute(const node_ptr &, const ns_ptr &,
+                            const std::u8string &) {
     throw std::logic_error(std::string{__func__} + " not implemented");
 }
 
@@ -165,8 +164,6 @@ using object_ptr = std::shared_ptr<struct object>;
 
 static inline std::span<xmlNodePtr>
 nodeset(const std::shared_ptr<xmlXPathObject> &obj) {
-    assert(obj->type == XPATH_NODESET);
-
     auto nodes = obj->nodesetval;
     return nodes ? std::span(nodes->nodeTab, nodes->nodeNr)
                  : std::span<xmlNodePtr>();

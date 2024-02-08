@@ -19,6 +19,14 @@ namespace epub {
 ///
 extern std::u8string generate_uuid();
 
+/// @brief Generate a XML ID.
+///
+/// Generates a sequential identifier that can be used as an XML ID.
+///
+/// @returns a string
+///
+extern std::u8string generate_id();
+
 /// @brief An individual or organizational creator.
 ///
 /// The creator is the primary source for the content: the person
