@@ -529,7 +529,7 @@ int main(int argc, char **argv) {
 
             auto item = std::make_shared<epub::manifest_item>(page.path(),
                                                               u8"", fm);
-            item->id(page.path().stem().u8string());
+            item->id = page.path().stem().u8string();
             c.package().add_to_manifest(item);
             s.add(item);
 
@@ -538,7 +538,7 @@ int main(int argc, char **argv) {
             for (auto &&image : page) {
                 auto item = std::make_shared<epub::manifest_item>(
                     image.local, u8"", image.metadata());
-                item->id(image.local.stem().u8string());
+                item->id = image.local.stem().u8string();
                 c.package().add_to_manifest(item);
             }
         }

@@ -148,14 +148,14 @@ void write_manifest(node_ptr manifest_node, Manifest &&m) {
     for (auto &&item : m) {
         auto item_node = new_child_node(manifest_node, nullptr, u8"item");
 
-        if (item->id().empty()) item->id(generate_id());
+        if (item->id.empty()) item->id = generate_id();
 
-        set_attribute(item_node, u8"id", item->id());
-        set_attribute(item_node, u8"href", item->path().u8string());
+        set_attribute(item_node, u8"id", item->id);
+        set_attribute(item_node, u8"href", item->path.u8string());
         set_attribute(item_node, u8"media-type",
-                      item->metadata().at(u8"media-type"));
+                      item->metadata.at(u8"media-type"));
 
-        if (const auto &props = item->properties(); !props.empty()) {
+        if (const auto &props = item->properties; !props.empty()) {
             set_attribute(item_node, u8"properties", props);
         }
     }
@@ -164,7 +164,7 @@ void write_manifest(node_ptr manifest_node, Manifest &&m) {
 void write_spine(node_ptr spine, const class spine &s) {
     for (auto &&itemref : s) {
         auto node = new_child_node(spine, nullptr, u8"itemref");
-        set_attribute(node, u8"idref", itemref->id());
+        set_attribute(node, u8"idref", itemref->id);
     }
 }
 
@@ -225,8 +225,8 @@ void write_navigation(const std::filesystem::path &path,
     auto ol = new_child_node(nav, h_ns, u8"ol");
 
     for (auto &&item : n) {
-        const auto &title = item->metadata().at(u8"title");
-        auto href = item->path().u8string();
+        const auto &title = item->metadata.at(u8"title");
+        auto href = item->path.u8string();
 
         auto li = new_child_node(ol, h_ns, u8"li");
         auto a = new_child_node(li, h_ns, u8"a", title);

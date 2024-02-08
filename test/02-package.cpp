@@ -36,7 +36,7 @@ int main(int, const char** argv) {
             "nav.xhtml", u8"nav",
             epub::file_metadata{
                 {u8"media-type", u8"application/xhtml+xml"}}));
-        p.manifest().back()->id(u8"nav");
+        p.manifest().back()->id = u8"nav";
         p.spine().add(p.manifest().back());
 
         p.write(output_file);

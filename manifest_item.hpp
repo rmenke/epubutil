@@ -17,13 +17,12 @@ namespace epub {
 /// list.  This includes linked assets such as images, fonts, and
 /// stylesheets.
 ///
-class manifest_item {
-    std::u8string _id;
-    std::filesystem::path _path;
-    std::u8string _properties;
-    file_metadata _metadata;
+struct manifest_item {
+    std::u8string id;
+    std::filesystem::path path;
+    std::u8string properties;
+    file_metadata metadata;
 
-  public:
     /// @brief Create a manifest item.
     ///
     /// @param path the local path relative to the package document of
@@ -35,68 +34,9 @@ class manifest_item {
     manifest_item(const std::filesystem::path &path,
                   const std::u8string &properties,
                   const file_metadata &metadata)
-        : _path(path)
-        , _properties(properties)
-        , _metadata(metadata) {}
-
-    /// @brief The identifier of this item.
-    ///
-    /// This is initially empty.  If unset at the time of document
-    /// generation, a unique identifier will be supplied.
-    ///
-    /// @returns the identifier string
-    ///
-    const std::u8string &id() const {
-        return _id;
-    }
-
-    /// @brief Set the identifier of this item.
-    ///
-    /// This is initially empty.  If unset at the time of document
-    /// generation, a unique identifier will be supplied.
-    ///
-    /// @param id the new identifier of the asset
-    ///
-    void id(std::u8string id) {
-        _id = std::move(id);
-    }
-
-    /// @brief The local path of the item.
-    ///
-    /// The path is relative to the package document and should not go
-    /// upwards.
-    ///
-    /// @returns a relative path
-    ///
-    const std::filesystem::path &path() const {
-        return _path;
-    }
-
-    /// @brief Additional manifest properties.
-    ///
-    /// Certain content documents may require additional properties.
-    /// Examples include "svg" for XHTML documents with @b embedded
-    /// SVG, "scripted" for interactive pages, "mathml" for technical
-    /// articles, and so on.
-    ///
-    /// @returns a space-separated list of additional properties
-    ///
-    const auto &properties() const {
-        return _properties;
-    }
-
-    /// @brief Additional file properties.
-    ///
-    /// Some information necessary for assembling the EPUB is embedded
-    /// in the files themselves.  All files will have at least the
-    /// "media-type" property set, which is the MIME identifier of the
-    /// file.
-    ///
-    /// @returns a mapping of keys to properies
-    ///
-    const file_metadata &metadata() const {
-        return _metadata;
-    }
+        : path(path)
+        , properties(properties)
+        , metadata(metadata) {}
 };
 
 } // namespace epub
