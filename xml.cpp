@@ -1,6 +1,5 @@
 #include "xml.hpp"
 
-#include "manifest.hpp"
 #include "minidom.hpp"
 #include "navigation.hpp"
 #include "package.hpp"
@@ -144,7 +143,8 @@ void write_metadata(node_ptr metadata_node, const class metadata &m) {
     }
 }
 
-void write_manifest(node_ptr manifest_node, const class manifest &m) {
+template <class Manifest>
+void write_manifest(node_ptr manifest_node, Manifest &&m) {
     for (auto &&item : m) {
         auto item_node = new_child_node(manifest_node, nullptr, u8"item");
 

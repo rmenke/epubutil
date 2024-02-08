@@ -1,7 +1,13 @@
 #include "container.hpp"
 #include "epub_options.hpp"
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wall"
+#pragma clang diagnostic ignored "-Wextra"
 #include "imageinfo/imageinfo.hpp"
-#include "manifest.hpp"
+#pragma clang diagnostic pop
+
+#include "manifest_item.hpp"
 #include "metadata.hpp"
 #include "minidom.hpp"
 #include "options.hpp"
@@ -494,7 +500,6 @@ int main(int argc, char **argv) {
     if (config->overwrite) remove_all(config->output);
 
     epub::container c{epub::container::options::omit_toc};
-    epub::manifest &m = c.package().manifest();
     epub::spine &s = c.package().spine();
     epub::navigation &n = c.navigation();
 
@@ -525,7 +530,7 @@ int main(int argc, char **argv) {
             auto item = std::make_shared<epub::manifest_item>(page.path(),
                                                               u8"", fm);
             item->id(page.path().stem().u8string());
-            m.push_back(item);
+            c.package().add_to_manifest(item);
             s.add(item);
 
             if (!mark) mark = item;
@@ -534,7 +539,7 @@ int main(int argc, char **argv) {
                 auto item = std::make_shared<epub::manifest_item>(
                     image.local, u8"", image.metadata());
                 item->id(image.local.stem().u8string());
-                m.push_back(item);
+                c.package().add_to_manifest(item);
             }
         }
 

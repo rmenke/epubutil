@@ -1,6 +1,6 @@
 #include "container.hpp"
 
-#include "manifest.hpp"
+#include "manifest_item.hpp"
 #include "media_type.hpp"
 #include "xml.hpp"
 
@@ -28,7 +28,7 @@ container::container(container::options options) {
         u8"nav.xhtml", u8"nav",
         file_metadata{{u8"title", u8"Table of Contents"},
                       {u8"media-type", u8"application/xhtml+xml"}});
-    _package.manifest().push_back(item);
+    _package.add_to_manifest(item);
 
     if (!IS_SET(options, omit_toc)) {
         _package.spine().add(item);
@@ -63,7 +63,7 @@ void container::add(const std::filesystem::path &source,
 
         auto item =
             std::make_shared<manifest_item>(local, properties, metadata);
-        _package.manifest().push_back(item);
+        _package.add_to_manifest(item);
 
         if (metadata.get(u8"spine", u8"include") != u8"omit") {
             _package.spine().add(item);
@@ -84,7 +84,7 @@ void container::add(const std::filesystem::path &source,
 
         auto item =
             std::make_shared<manifest_item>(local, properties, metadata);
-        _package.manifest().push_back(item);
+        _package.add_to_manifest(item);
 
         if (metadata.get(u8"spine", u8"omit") != u8"omit") {
             _package.spine().add(item);
@@ -97,7 +97,7 @@ void container::add(const std::filesystem::path &source,
     else {
         auto item =
             std::make_shared<manifest_item>(local, properties, metadata);
-        _package.manifest().push_back(item);
+        _package.add_to_manifest(item);
     }
 }
 

@@ -1,7 +1,7 @@
 #ifndef _spine_hpp_
 #define _spine_hpp_
 
-#include "manifest.hpp"
+#include "manifest_item.hpp"
 
 #include <functional>
 #include <iostream>

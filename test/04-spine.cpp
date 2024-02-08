@@ -1,11 +1,11 @@
-#include "manifest.hpp"
+#include "manifest_item.hpp"
 #include "spine.hpp"
 
 #include <exception>
 
 #include "tap.hpp"
 
-int main(int argc, char **argv) {
+int main() {
     using namespace tap;
     using namespace epub;
 

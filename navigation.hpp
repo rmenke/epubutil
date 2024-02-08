@@ -1,7 +1,7 @@
 #ifndef _navigation_hpp_
 #define _navigation_hpp_
 
-#include "manifest.hpp"
+#include "manifest_item.hpp"
 #include "xml.hpp"
 
 #include <filesystem>

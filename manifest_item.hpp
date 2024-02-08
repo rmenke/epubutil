@@ -1,5 +1,5 @@
-#ifndef _manifest_hpp_
-#define _manifest_hpp_
+#ifndef _manifest_item_hpp_
+#define _manifest_item_hpp_
 
 #include "file_metadata.hpp"
 
@@ -97,35 +97,6 @@ class manifest_item {
     const file_metadata &metadata() const {
         return _metadata;
     }
-};
-
-/// @brief A listing of all the assets in a container.
-///
-/// Every asset in an EPUB (both content documents and linked files)
-/// must be recorded in the manifest.  Some EPUB readers will ignore
-/// non-listed items; others may flag the publication as corrupted.
-///
-class manifest : std::vector<std::shared_ptr<manifest_item>> {
-  public:
-    manifest() = default;
-
-    /// Manifest objects cannot be copied.
-    manifest(const manifest &) = delete;
-    /// Manifest objects cannot be moved.
-    manifest(manifest &&) = delete;
-
-    ~manifest() = default;
-
-    /// Manifest objects cannot be copied.
-    manifest &operator=(const manifest &) = delete;
-    /// Manifest objects cannot be moved.
-    manifest &operator=(manifest &&) = delete;
-
-    using vector::back;
-    using vector::begin;
-    using vector::end;
-    using vector::front;
-    using vector::push_back;
 };
 
 } // namespace epub

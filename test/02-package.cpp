@@ -1,4 +1,4 @@
-#include "manifest.hpp"
+#include "manifest_item.hpp"
 #include "package.hpp"
 
 #include <exception>
@@ -7,7 +7,7 @@
 
 #include "tap.hpp"
 
-int main(int argc, const char** argv) {
+int main(int, const char** argv) {
     using namespace tap;
     using namespace epub;
     using namespace std::literals;
@@ -32,7 +32,7 @@ int main(int argc, const char** argv) {
         p.metadata().creators() =
             std::vector<epub::creator>{creators.begin(), creators.end()};
 
-        p.manifest().push_back(std::make_shared<epub::manifest_item>(
+        p.add_to_manifest(std::make_shared<epub::manifest_item>(
             "nav.xhtml", u8"nav",
             epub::file_metadata{
                 {u8"media-type", u8"application/xhtml+xml"}}));

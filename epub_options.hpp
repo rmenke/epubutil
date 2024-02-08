@@ -150,6 +150,8 @@ void common_options(cli::option_processor &opt,
                 throw cli::usage_error(
                     "only one identifier per publication");
             }
+            config->identifier =
+                reinterpret_cast<const char8_t *>(arg.c_str());
         },
         "the publication identifier of the EPUB (default: generate)");
     opt.add_option(
