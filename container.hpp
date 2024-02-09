@@ -1,7 +1,6 @@
 #ifndef _container_hpp_
 #define _container_hpp_
 
-#include "navigation.hpp"
 #include "package.hpp"
 
 #include <filesystem>
@@ -65,8 +64,9 @@ class container {
     /// @brief The EPUB package document.
     class package _package;
 
-    /// @brief The EPUB navigation document.
-    class navigation _navigation;
+    /// @brief A path to the stylesheet used when generating a table
+    /// of contents.
+    std::filesystem::path _toc_stylesheet;
 
   public:
     enum class options { none = 0, omit_toc = 1 };
@@ -110,12 +110,27 @@ class container {
     }
 
     /// @brief The navigation document.
-    auto &navigation() {
-        return _navigation;
+    auto navigation() const {
+        return _package.manifest() |
+               std::views::filter(&manifest_item::in_toc);
     }
-    /// @brief The navigation document.
-    const auto &navigation() const {
-        return _navigation;
+
+    /// @brief The stylesheet (if any) to apply to the Table of
+    /// Contents.
+    ///
+    /// @returns a path to the stylesheet, or an empty path
+    ///
+    const auto &toc_stylesheet() const {
+        return _toc_stylesheet;
+    }
+
+    /// @brief The stylesheet (if any) to apply to the Table of
+    /// Contents.
+    ///
+    /// @param path a path to the stylesheet, or an empty path
+    ///
+    void toc_stylesheet(std::filesystem::path path) {
+        _toc_stylesheet = std::move(path);
     }
 
     /// @brief Write the EPUB container to the given path.

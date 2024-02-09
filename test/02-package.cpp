@@ -1,4 +1,5 @@
 #include "manifest_item.hpp"
+#include "xml.hpp"
 #include "package.hpp"
 
 #include <exception>
@@ -41,7 +42,7 @@ int main(int, const char** argv) {
 
         p.add_to_manifest(item);
 
-        p.write(output_file);
+        xml::write_package(output_file, p);
 
         ok(fs::exists(output_file), "file created");
         diag("created ", output_file);

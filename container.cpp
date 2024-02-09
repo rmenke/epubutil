@@ -10,17 +10,6 @@ namespace fs = std::filesystem;
 
 namespace epub {
 
-static constexpr std::string_view container_xml =
-    R"%%(<?xml version="1.0" standalone="yes"?>
-<container xmlns="urn:oasis:names:tc:opendocument:xmlns:container"
-           version="1.0">
-  <rootfiles>
-    <rootfile full-path="Contents/package.opf"
-              media-type="application/oebps-package+xml"/>
-  </rootfiles>
-</container>
-)%%";
-
 container::container(container::options options) {
 #define IS_SET(opts, flag) ((opts & options::flag) == options::flag)
 
@@ -32,7 +21,7 @@ container::container(container::options options) {
 
     if (!IS_SET(options, omit_toc)) {
         item->in_spine = true;
-        _navigation.add(item);
+        item->in_toc = true;
     }
 
 #undef IS_SET
@@ -69,7 +58,7 @@ void container::add(const std::filesystem::path &source,
             item->in_spine = true;
 
             if (metadata.get(u8"toc", u8"include") != u8"omit") {
-                _navigation.add(item);
+                item->in_toc = true;
             }
         }
     }
@@ -90,7 +79,7 @@ void container::add(const std::filesystem::path &source,
             item->in_spine = true;
 
             if (metadata.get(u8"toc", u8"include") != u8"omit") {
-                _navigation.add(item);
+                item->in_toc = true;
             }
         }
     }
@@ -123,14 +112,7 @@ void container::write(const fs::path &path) const {
     auto meta_inf_dir = path / "META-INF";
     fs::create_directory(meta_inf_dir);
 
-    write_file(meta_inf_dir / "container.xml", container_xml);
-
-    auto contents_dir = path / "Contents";
-    fs::create_directory(contents_dir);
-
-    _package.write(contents_dir / "package.opf");
-
-    _navigation.write(contents_dir / "nav.xhtml");
+    xml::write_container(path, *this);
 
     for (auto &[key, source] : _files) {
         auto local = path / key;

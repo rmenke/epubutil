@@ -23,6 +23,7 @@ struct manifest_item {
     std::u8string properties;
     file_metadata metadata;
     bool in_spine = false;
+    bool in_toc = false;
 
     /// @brief Create a manifest item.
     ///

@@ -1,7 +1,7 @@
 #include "xml.hpp"
 
+#include "container.hpp"
 #include "minidom.hpp"
-#include "navigation.hpp"
 #include "package.hpp"
 
 #include <cassert>
@@ -193,8 +193,10 @@ void write_package(const std::filesystem::path &path, const package &p) {
     save_file(path, doc, 1);
 }
 
+template <class Navigation>
 void write_navigation(const std::filesystem::path &path,
-                      const navigation &n) {
+                      Navigation &&navigation,
+                      const std::filesystem::path &ss) {
     auto doc = new_doc(u8"1.0");
 
     auto html = new_node(doc, nullptr, u8"html");
@@ -210,11 +212,11 @@ void write_navigation(const std::filesystem::path &path,
 
     new_child_node(head, h_ns, u8"title", u8"Table of Contents");
 
-    if (!n.stylesheet().empty()) {
+    if (!ss.empty()) {
         auto ss_link = new_child_node(head, h_ns, u8"link");
         set_attribute(ss_link, u8"rel", u8"stylesheet");
         set_attribute(ss_link, u8"type", u8"text/css");
-        set_attribute(ss_link, u8"href", n.stylesheet().u8string());
+        set_attribute(ss_link, u8"href", ss.u8string());
     }
 
     new_child_node(body, h_ns, u8"h1", u8"Table of Contents");
@@ -225,7 +227,7 @@ void write_navigation(const std::filesystem::path &path,
 
     auto ol = new_child_node(nav, h_ns, u8"ol");
 
-    for (auto &&item : n) {
+    for (auto &&item : std::forward<Navigation>(navigation)) {
         const auto &title = item->metadata.at(u8"title");
         auto href = item->path.u8string();
 
@@ -235,6 +237,36 @@ void write_navigation(const std::filesystem::path &path,
     }
 
     save_file(path, doc, 1);
+}
+
+void write_container(const std::filesystem::path &path,
+                     const container &container) {
+    auto meta_inf_dir = path / "META-INF";
+    create_directory(meta_inf_dir);
+
+    auto doc = new_doc(u8"1.0");
+    auto root = new_node(doc, nullptr, u8"container");
+    auto ns = new_ns(root, odc_ns_uri);
+
+    set_ns(root, ns);
+    set_attribute(root, u8"version", u8"1.0");
+    set_root_element(doc, root);
+
+    auto rootfiles = new_child_node(root, ns, u8"rootfiles");
+    auto rootfile = new_child_node(rootfiles, ns, u8"rootfile");
+    set_attribute(rootfile, u8"full-path", u8"Contents/package.opf");
+    set_attribute(rootfile, u8"media-type",
+                  u8"application/oebps-package+xml");
+
+    save_file(meta_inf_dir / "container.xml", doc, 1);
+
+    auto contents_dir = path / "Contents";
+    create_directory(contents_dir);
+
+    write_package(contents_dir / "package.opf", container.package());
+
+    write_navigation(contents_dir / "nav.xhtml", container.navigation(),
+                     container.toc_stylesheet());
 }
 
 void get_xhtml_metadata(const std::filesystem::path &path,

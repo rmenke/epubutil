@@ -88,7 +88,7 @@ int main(int argc, char **argv) {
     if (config->overwrite) std::filesystem::remove_all(config->output);
 
     if (!config->toc_stylesheet.empty()) {
-        container.navigation().stylesheet(config->toc_stylesheet);
+        container.toc_stylesheet(config->toc_stylesheet);
     }
 
     container.write(config->output);

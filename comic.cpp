@@ -1,16 +1,16 @@
-#include "container.hpp"
-#include "epub_options.hpp"
-
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wall"
 #pragma clang diagnostic ignored "-Wextra"
 #include "imageinfo/imageinfo.hpp"
 #pragma clang diagnostic pop
 
+#include "container.hpp"
+#include "epub_options.hpp"
 #include "manifest_item.hpp"
 #include "metadata.hpp"
 #include "minidom.hpp"
 #include "options.hpp"
+#include "xml.hpp"
 
 #include <array>
 #include <cmath>
@@ -130,7 +130,8 @@ struct image_ref {
     }
 
     epub::file_metadata metadata() const {
-        auto mimetype = reinterpret_cast<const char8_t *>(media_type.c_str());
+        auto mimetype =
+            reinterpret_cast<const char8_t *>(media_type.c_str());
         return epub::file_metadata{{u8"media-type", mimetype}};
     }
 
@@ -418,7 +419,7 @@ int main(int argc, char **argv) {
 
     args.erase(args.begin(), opt.process(args.begin(), args.end()));
 
-    for (auto iter = args.begin(); iter != args.end(); ) {
+    for (auto iter = args.begin(); iter != args.end();) {
         const std::string &arg = *iter;
 
         if (!arg.starts_with('@')) {
@@ -499,7 +500,6 @@ int main(int argc, char **argv) {
     if (config->overwrite) remove_all(config->output);
 
     epub::container c{epub::container::options::omit_toc};
-    epub::navigation &n = c.navigation();
 
     c.package().metadata().pre_paginated();
     c.package().metadata().creators() = std::move(config->creators);
@@ -514,7 +514,7 @@ int main(int argc, char **argv) {
             reinterpret_cast<const char8_t *>(config->identifier.c_str()));
     }
     if (!config->toc_stylesheet.empty()) {
-        n.stylesheet(config->toc_stylesheet);
+        c.toc_stylesheet(config->toc_stylesheet);
     }
 
     for (auto &&chapter : the_book) {
@@ -541,7 +541,7 @@ int main(int argc, char **argv) {
             }
         }
 
-        n.add(mark);
+        mark->in_toc = true;
     }
 
     if (!config->cover_image.empty()) {

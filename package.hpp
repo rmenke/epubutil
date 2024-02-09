@@ -3,9 +3,6 @@
 
 #include "manifest_item.hpp"
 #include "metadata.hpp"
-#include "xml.hpp"
-
-#include <__ranges/ref_view.h>
 
 #include <filesystem>
 
@@ -24,9 +21,6 @@ class package {
         return _metadata;
     }
 
-    auto manifest() {
-        return std::ranges::ref_view(_items);
-    }
     auto manifest() const {
         return std::ranges::ref_view(_items);
     }
@@ -38,10 +32,6 @@ class package {
     auto spine() const {
         return std::ranges::ref_view(_items) |
                std::views::filter(&manifest_item::in_spine);
-    }
-
-    void write(const std::filesystem::path &path) const {
-        xml::write_package(path, *this);
     }
 };
 
