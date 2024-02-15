@@ -1,14 +1,29 @@
 #include "manifest_item.hpp"
+#include "media_type.hpp"
+#include "metadata.hpp"
 #include "package.hpp"
 #include "xml.hpp"
+
+#include <__ranges/common_view.h>
+#include <__ranges/filter_view.h>
+#include <__ranges/transform_view.h>
 
 #include <exception>
 #include <filesystem>
 #include <fstream>
+#include <ostream>
 
 #include "tap.hpp"
 
-int main(int, const char** argv) {
+namespace std {
+
+void sprint_one(std::ostream &os, const u8string &str) {
+    os << reinterpret_cast<const char *>(str.c_str());
+}
+
+} // namespace std
+
+int main(int, const char **argv) {
     using namespace tap;
     using namespace epub;
     using namespace std::literals;
@@ -26,12 +41,21 @@ int main(int, const char** argv) {
     try {
         package p;
 
-        std::array<epub::creator, 1> creators{u8"Percy Marks"s};
-        creators.back().file_as(u8"Marks, Percy");
-        creators.back().role(u8"aut");
+        p.metadata().description(
+            u8"A look at college life in the 1920’s, "
+            "including hazing, smoking, and petting.");
 
-        p.metadata().creators() =
-            std::vector<epub::creator>{creators.begin(), creators.end()};
+        epub::creator creator{u8"Percy Marks"s};
+        creator.file_as(u8"Marks, Percy");
+        creator.role(u8"aut");
+
+        p.metadata().creators().push_back(std::move(creator));
+
+        epub::collection collection{u8"Lost American Fiction"};
+        collection.type(epub::collection::type::set);
+        collection.group_position(23);
+
+        p.metadata().collections().push_back(collection);
 
         epub::manifest_item item = {
             .id = u8"nav",
@@ -65,6 +89,13 @@ int main(int, const char** argv) {
 #else
         skip(1, "epubcheck disabled");
 #endif
+
+        eq(u8"image/jpeg"s, epub::guess_media_type("foo.jpg"),
+           "media type addition");
+
+        std::cerr << "# "; // so warning is visible
+        eq(u8"application/octet-stream"s, epub::guess_media_type("foo.bar"),
+           "media type corner case");
     }
     catch (...) {
         bail_out(std::current_exception());

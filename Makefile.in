@@ -457,6 +457,7 @@ comic_SOURCES = comic.cpp options.hpp imageinfo/imageinfo.hpp
 AM_CPPFLAGS = $(LIBXML2_CPPFLAGS) $(CODE_COVERAGE_CPPFLAGS)
 AM_CXXFLAGS = $(CODE_COVERAGE_CXXFLAGS)
 CODE_COVERAGE_IGNORE_PATTERN = "$(abspath $(abs_top_builddir))/test/*"
+CODE_COVERAGE_GENHTML_OPTIONS = --demangle-cpp $(CODE_COVERAGE_GENHTML_OPTIONS_DEFAULT)
 all: all-recursive
 
 .SUFFIXES:
