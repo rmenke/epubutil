@@ -18,6 +18,12 @@ libepubutil_la_SOURCES = container.hpp container.cpp epub_options.hpp	\
 
 bin_PROGRAMS = binder comic
 
+
+if HAVE_ZIP
+dist_bin_SCRIPTS = pack
+CLEANFILES = $(bin_SCRIPTS)
+endif
+
 binder_LDADD = libepubutil.la
 binder_SOURCES = binder.cpp options.hpp
 

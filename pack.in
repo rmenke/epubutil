@@ -1,0 +1,75 @@
+#!/bin/bash
+#
+# @PACKAGE_STRING@
+
+set -e
+
+if [[ -z "@ZIP@" ]]
+then
+    echo >&2 ${0##*/} is not supported and should not have been installed.
+    exit 1
+fi
+
+if [[ $# = 0 || $1 == '--help' ]]
+then
+    cat >&2 <<END_USAGE
+usage: ${0##*/} epub-dir...
+
+Compress the EPUB container directories into EPUB documents.  If the
+directories end in '.epub', they will be replaced; otherwise, a document
+will be created with '.epub' appended and the original directory will be
+untouched.
+
+If the environment variable EPUB_COMPRESSION is set to a number
+use that as the compression level (higher values == more compression).
+END_USAGE
+
+    exit $(($# == 0))
+fi
+
+# Environment variables
+: ${EPUB_COMPRESSION:=4}
+
+if [[ ! $EPUB_COMPRESSION =~ ^-?[0-9]+$ ]]
+then
+    EPUB_COMPRESSION=4
+fi
+
+((EPUB_COMPRESSION < 0)) && EPUB_COMPRESSION=0
+((EPUB_COMPRESSION > 9)) && EPUB_COMPRESSION=9
+
+for INPUT in "$@"; do
+    while [[ "x${INPUT%/}" != "x${INPUT}" ]]
+    do INPUT="${INPUT%/}"
+    done
+
+    if ! [[ -f "${INPUT}/META-INF/container.xml" ]]
+    then
+        echo >&2 "${INPUT}: not an EPUB folder"
+        ERROR=1
+        continue
+    fi
+
+    if [[ "x${INPUT%.epub}" != "x${INPUT}" ]]
+    then
+        OUTPUT="$(realpath "${INPUT}")"
+        INPUT="$(mktemp -d -t epub-pack)"
+        mv "${OUTPUT}"/* "${INPUT}"
+        rm -r "${OUTPUT}"
+        trap "rm -rf ${INPUT}" 0 1 2 15
+    else
+        OUTPUT="$(realpath "${INPUT}").epub"
+    fi
+
+    cd "${INPUT}"
+
+    # The 'mimetype' file MUST be first and MUST NOT be compressed.
+    "@ZIP@" -0Xq "${OUTPUT}" 'mimetype'
+
+    find -d -s * ! -path 'mimetype' |
+        "@ZIP@" "-${EPUB_COMPRESSION}Xq" "${OUTPUT}" -@
+
+    cd "${OLDPWD}"
+done
+
+exit $((ERROR))

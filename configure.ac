@@ -53,9 +53,16 @@ AS_IF([test "x$need_xml2_configuration" != xno],[
     AC_MSG_NOTICE([skipping libxml2 configuration])
 ])
 
+AC_ARG_VAR([ZIP],[the Info-ZIP program])
+AC_CHECK_PROGS([ZIP],[zip])
+AM_CONDITIONAL([HAVE_ZIP],[test -n "$ZIP"])
+
 AX_CODE_COVERAGE
 
 AC_CONFIG_FILES([Makefile test/Makefile Doxyfile])
 
-AC_OUTPUT
+AS_IF([test -n "$ZIP"],[
+    AC_CONFIG_FILES([pack])
+])
 
+AC_OUTPUT
