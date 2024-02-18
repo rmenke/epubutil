@@ -1,9 +1,13 @@
 <map id="metadata.cpp" name="metadata.cpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="235,5,337,29"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="335,5,437,29"/>
 <area shape="rect" id="Node000002" href="$metadata_8hpp.html" title=" " alt="" coords="180,77,282,101"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="279,31,250,68,246,65,275,28"/>
-<area shape="rect" id="Node000008" title=" " alt="" coords="307,77,374,101"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="296,28,325,65,321,68,292,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="363,32,269,74,267,69,361,27"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="306,77,374,101"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="381,31,357,67,353,64,376,28"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="398,77,464,101"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="395,28,419,64,414,67,391,31"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="489,77,557,101"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="408,27,491,69,488,73,406,32"/>
 <area shape="rect" id="Node000003" title=" " alt="" coords="5,149,81,173"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="203,104,86,147,84,142,201,99"/>
 <area shape="rect" id="Node000004" title=" " alt="" coords="105,149,167,173"/>

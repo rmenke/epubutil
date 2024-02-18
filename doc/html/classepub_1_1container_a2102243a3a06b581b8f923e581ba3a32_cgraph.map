@@ -1,0 +1,27 @@
+<map id="epub::container::add" name="epub::container::add">
+<area shape="rect" id="Node000001" title="Add a file to the container." alt="" coords="5,109,148,133"/>
+<area shape="rect" id="Node000002" href="$classepub_1_1container.html#a21f09459a7a7707799595d1199f36823" title="Add a file to the container." alt="" coords="196,109,339,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,119,182,119,182,124,149,124"/>
+<area shape="rect" id="Node000003" href="$classepub_1_1package.html#af7f9775a7953713b225cc85cd4cb75f1" title=" " alt="" coords="403,9,542,47"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="294,107,417,50,419,55,296,112"/>
+<area shape="rect" id="Node000005" href="$structepub_1_1file__metadata.html#a1860a627a4400926c2ea7c0f5dc3d28a" title="Access a specified element." alt="" coords="390,81,555,105"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="339,109,376,104,377,109,340,114"/>
+<area shape="rect" id="Node000006" href="$namespaceepub_1_1xml.html#af7cb46a3f8e02006f205fc5d4461363e" title=" " alt="" coords="400,129,544,167"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="340,128,387,134,386,139,339,133"/>
+<area shape="rect" id="Node000013" href="$namespaceepub.html#a23b48ddfbe26f7c4240f3772b035a163" title="Guess the MIME type based on the file extension." alt="" coords="387,191,557,215"/>
+<area shape="poly" id="edge12_Node000002_Node000013" title=" " alt="" coords="292,131,336,153,388,176,411,184,409,189,386,181,334,158,290,136"/>
+<area shape="rect" id="Node000004" href="$namespaceepub.html#a066b00e6e19cee9ebbb898c4182c0ad0" title="Generate a XML ID." alt="" coords="637,5,766,29"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="542,22,624,18,624,24,542,27"/>
+<area shape="rect" id="Node000007" href="$namespaceepub_1_1xml_1_1xpath.html#a3ddb6b7c8b6f479466d5f5e6744ba73f" title=" " alt="" coords="626,53,777,77"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="528,127,556,115,580,101,604,87,628,79,629,84,607,92,583,105,559,120,530,132"/>
+<area shape="rect" id="Node000009" href="$namespaceepub_1_1xml.html#adb9b3025131fbd5e1dda00e726b90a2e" title=" " alt="" coords="621,101,782,125"/>
+<area shape="poly" id="edge8_Node000006_Node000009" title=" " alt="" coords="544,134,608,125,608,130,545,140"/>
+<area shape="rect" id="Node000010" href="$namespaceepub_1_1xml_1_1xpath.html#a744d92700f8fe704d7c4171125ffb50e" title=" " alt="" coords="626,149,777,187"/>
+<area shape="poly" id="edge9_Node000006_Node000010" title=" " alt="" coords="545,152,613,158,612,163,545,157"/>
+<area shape="rect" id="Node000011" href="$namespaceepub_1_1xml.html#aaf0bffb7886a36821341a97094892086" title=" " alt="" coords="633,211,771,235"/>
+<area shape="poly" id="edge10_Node000006_Node000011" title=" " alt="" coords="527,164,558,176,606,196,635,205,633,210,605,201,556,181,525,169"/>
+<area shape="rect" id="Node000012" href="$namespaceepub_1_1xml_1_1xpath.html#a543037a98da24d06682a680af1173d70" title=" " alt="" coords="605,259,798,283"/>
+<area shape="poly" id="edge11_Node000006_Node000012" title=" " alt="" coords="539,164,559,177,575,194,583,212,591,229,607,245,618,251,615,255,604,249,587,232,579,214,571,197,556,181,536,169"/>
+<area shape="rect" id="Node000008" href="$namespaceepub_1_1xml_1_1xpath.html#aa18238d88cd31a713575de9b3e3892a1" title=" " alt="" coords="846,53,1020,77"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="777,63,833,63,833,68,777,68"/>
+</map>

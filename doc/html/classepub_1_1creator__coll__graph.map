@@ -1,7 +1,7 @@
 <map id="epub::creator" name="epub::creator">
-<area shape="rect" id="Node000001" title="An individual or organizational creator." alt="" coords="5,279,135,447"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="27,129,113,191"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="73,191,73,262,67,262,67,191"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="11,5,129,80"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="73,94,73,129,67,129,67,94"/>
+<area shape="rect" id="Node000001" title="An individual or organizational creator." alt="" coords="5,279,189,487"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="55,129,140,191"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="100,191,100,262,95,262,95,191"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="39,5,156,80"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="100,94,100,129,95,129,95,94"/>
 </map>

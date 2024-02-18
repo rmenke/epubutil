@@ -1,7 +1,7 @@
 <map id="cli::option" name="cli::option">
-<area shape="rect" id="Node000001" title=" " alt="" coords="67,5,160,216"/>
-<area shape="rect" id="Node000002" href="$classcli_1_1arg__option.html" title=" " alt="" coords="5,264,101,363"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="81,230,70,265,65,263,76,228"/>
-<area shape="rect" id="Node000003" href="$classcli_1_1flag__option.html" title=" " alt="" coords="126,264,223,363"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="152,228,162,263,157,265,147,230"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="93,5,260,309"/>
+<area shape="rect" id="Node000002" href="$classcli_1_1arg__option.html" title=" " alt="" coords="5,357,164,509"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="124,324,112,358,107,356,119,322"/>
+<area shape="rect" id="Node000003" href="$classcli_1_1flag__option.html" title=" " alt="" coords="188,364,352,503"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="235,322,249,363,244,364,230,323"/>
 </map>

@@ -1,5 +1,5 @@
 <map id="book" name="book">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,115,111,195"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,111,67"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="61,81,61,114,55,114,55,81"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,115,153,208"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="27,5,132,67"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="82,81,82,114,77,114,77,81"/>
 </map>

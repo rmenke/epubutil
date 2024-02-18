@@ -1,13 +1,13 @@
 <map id="image_ref" name="image_ref">
-<area shape="rect" id="Node000001" title=" " alt="" coords="83,444,173,655"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="35,237,106,299"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="72,299,72,355,80,420,81,428,76,429,74,420,67,356,66,299"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="5,17,123,92"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="68,106,72,237,67,237,63,106"/>
-<area shape="rect" id="Node000004" href="$structgeom_1_1rect.html" title=" " alt="" coords="144,153,232,383"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="168,383,160,421,158,429,153,428,155,419,163,382"/>
-<area shape="rect" id="Node000005" href="$structgeom_1_1point.html" title=" " alt="" coords="147,5,229,104"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="191,118,191,153,185,153,185,118"/>
-<area shape="rect" id="Node000006" href="$structgeom_1_1size.html" title=" " alt="" coords="253,5,331,104"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="265,118,235,178,230,176,260,115"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="43,577,232,940"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="33,317,103,379"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="73,379,96,553,97,561,92,562,90,554,68,379"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,31,123,105"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="67,119,70,317,65,317,62,119"/>
+<area shape="rect" id="Node000004" href="$structgeom_1_1rect.html" title=" " alt="" coords="132,180,292,516"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="184,517,176,562,171,561,179,516"/>
+<area shape="rect" id="Node000005" href="$structgeom_1_1point.html" title=" " alt="" coords="147,5,277,131"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="215,145,215,179,209,179,209,145"/>
+<area shape="rect" id="Node000006" href="$structgeom_1_1size.html" title=" " alt="" coords="301,12,451,124"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="339,137,295,212,290,210,334,134"/>
 </map>

@@ -1,0 +1,18 @@
+<map id="manifest_item.hpp" name="manifest_item.hpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="117,5,247,29"/>
+<area shape="rect" id="Node000002" href="$comic_8cpp.html" title=" " alt="" coords="5,221,87,245"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,40,123,79,98,118,78,159,52,222,47,220,73,157,94,115,119,76,156,37"/>
+<area shape="rect" id="Node000003" href="$container_8cpp.html" title=" " alt="" coords="309,221,410,245"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="206,37,245,76,310,157,354,219,350,223,306,160,241,79,203,40"/>
+<area shape="rect" id="Node000004" href="$package_8hpp.html" title=" " alt="" coords="133,77,231,101"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="185,43,185,77,179,77,179,43"/>
+<area shape="rect" id="Node000005" href="$container_8hpp.html" title=" " alt="" coords="182,149,283,173"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="200,111,227,147,222,151,196,114"/>
+<area shape="rect" id="Node000007" href="$xml_8cpp.html" title=" " alt="" coords="111,221,178,245"/>
+<area shape="poly" id="edge9_Node000004_Node000007" title=" " alt="" coords="178,116,150,222,145,220,173,114"/>
+<area shape="poly" id="edge6_Node000005_Node000002" title=" " alt="" coords="192,181,76,224,74,219,190,176"/>
+<area shape="poly" id="edge7_Node000005_Node000003" title=" " alt="" coords="266,178,341,219,338,224,263,183"/>
+<area shape="rect" id="Node000006" href="$binder_8cpp.html" title=" " alt="" coords="202,221,285,245"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="239,186,244,221,239,221,234,187"/>
+<area shape="poly" id="edge8_Node000005_Node000007" title=" " alt="" coords="210,184,160,223,157,219,207,180"/>
+</map>

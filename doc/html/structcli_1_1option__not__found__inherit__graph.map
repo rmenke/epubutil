@@ -1,9 +1,9 @@
 <map id="cli::option_not_found" name="cli::option_not_found">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,333,141,395"/>
-<area shape="rect" id="Node000002" href="$structcli_1_1option__error.html" title=" " alt="" coords="21,224,125,285"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="76,299,76,333,71,333,71,299"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="15,115,132,176"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="76,190,76,224,71,224,71,190"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="26,5,121,67"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="76,80,76,114,71,114,71,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,333,169,408"/>
+<area shape="rect" id="Node000002" href="$structcli_1_1option__error.html" title=" " alt="" coords="35,224,139,285"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="90,299,90,333,85,333,85,299"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="29,115,146,176"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="90,190,90,224,85,224,85,190"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="40,5,135,67"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="90,80,90,114,85,114,85,80"/>
 </map>

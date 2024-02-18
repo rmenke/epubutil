@@ -1,5 +1,5 @@
 <map id="chapter" name="chapter">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,115,135,251"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="17,5,123,67"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="73,80,73,114,67,114,67,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,115,181,291"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="41,5,146,67"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="96,81,96,115,91,115,91,81"/>
 </map>

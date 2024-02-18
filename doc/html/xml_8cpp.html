@@ -26,7 +26,7 @@ MathJax.Hub.Config({
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">EPUB Utilities<span id="projectnumber">&#160;1.0.0</span>
+   <div id="projectname">EPUB Utilities<span id="projectnumber">&#160;1.0.4</span>
    </div>
    <div id="projectbrief">EPUB CLI Utilities</div>
   </td>
@@ -55,26 +55,14 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="xml_8hpp_source.html">xml.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="manifest_8hpp_source.html">manifest.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="container_8hpp_source.html">container.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="minidom_8hpp_source.html">minidom.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="navigation_8hpp_source.html">navigation.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="package_8hpp_source.html">package.hpp</a>&quot;</code><br />
-<code>#include &lt;cassert&gt;</code><br />
-<code>#include &lt;cstdio&gt;</code><br />
-<code>#include &lt;ctime&gt;</code><br />
-<code>#include &lt;filesystem&gt;</code><br />
-<code>#include &lt;fstream&gt;</code><br />
-<code>#include &lt;future&gt;</code><br />
-<code>#include &lt;iomanip&gt;</code><br />
-<code>#include &lt;memory&gt;</code><br />
-<code>#include &lt;span&gt;</code><br />
 <code>#include &lt;sstream&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for xml.cpp:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="xml_8cpp__incl.svg" width="1458" height="395"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="xml_8cpp__incl.svg" width="1100" height="395"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
@@ -86,29 +74,32 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a4a21074c41cb4d38816f8b46a3d60b69" id="r_a4a21074c41cb4d38816f8b46a3d60b69"><td class="memItemLeft" align="right" valign="top">static std::u8string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceepub_1_1xml.html#a4a21074c41cb4d38816f8b46a3d60b69">epub::xml::generate_id</a> ()</td></tr>
-<tr class="separator:a4a21074c41cb4d38816f8b46a3d60b69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a963274c442c95b1fc19777e4b465affc" id="r_a963274c442c95b1fc19777e4b465affc"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="namespaceepub_1_1xml.html#a42702156b5f2e36199dd7dd3baea24cd">node_ptr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceepub_1_1xml.html#a963274c442c95b1fc19777e4b465affc">epub::xml::add_refinement</a> (<a class="el" href="namespaceepub_1_1xml.html#a42702156b5f2e36199dd7dd3baea24cd">node_ptr</a> parent, const std::u8string &amp;id, const std::u8string &amp;property, const std::u8string &amp;content)</td></tr>
 <tr class="separator:a963274c442c95b1fc19777e4b465affc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5edfda4902a9333233c3f3b1280c5b60" id="r_a5edfda4902a9333233c3f3b1280c5b60"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="namespaceepub_1_1xml.html#a42702156b5f2e36199dd7dd3baea24cd">node_ptr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceepub_1_1xml.html#a5edfda4902a9333233c3f3b1280c5b60">epub::xml::add_refinement</a> (<a class="el" href="namespaceepub_1_1xml.html#a42702156b5f2e36199dd7dd3baea24cd">node_ptr</a> parent, const std::u8string &amp;id, const std::u8string &amp;property, const std::u8string &amp;content, const std::u8string scheme)</td></tr>
 <tr class="separator:a5edfda4902a9333233c3f3b1280c5b60"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a667dc5dbfff6a402c36bceb2f3bc835c" id="r_a667dc5dbfff6a402c36bceb2f3bc835c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceepub_1_1xml.html#a667dc5dbfff6a402c36bceb2f3bc835c">epub::xml::write_metadata</a> (<a class="el" href="namespaceepub_1_1xml.html#a42702156b5f2e36199dd7dd3baea24cd">node_ptr</a> metadata_node, const class <a class="el" href="classepub_1_1metadata.html">metadata</a> &amp;m)</td></tr>
 <tr class="separator:a667dc5dbfff6a402c36bceb2f3bc835c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8e05595035e9b99cb389d4ba898f6571" id="r_a8e05595035e9b99cb389d4ba898f6571"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceepub_1_1xml.html#a8e05595035e9b99cb389d4ba898f6571">epub::xml::write_manifest</a> (<a class="el" href="namespaceepub_1_1xml.html#a42702156b5f2e36199dd7dd3baea24cd">node_ptr</a> manifest_node, const class <a class="el" href="classepub_1_1manifest.html">manifest</a> &amp;m)</td></tr>
-<tr class="separator:a8e05595035e9b99cb389d4ba898f6571"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7eef0c940793050bc4aac8ab6263e7b4" id="r_a7eef0c940793050bc4aac8ab6263e7b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceepub_1_1xml.html#a7eef0c940793050bc4aac8ab6263e7b4">epub::xml::write_spine</a> (<a class="el" href="namespaceepub_1_1xml.html#a42702156b5f2e36199dd7dd3baea24cd">node_ptr</a> <a class="el" href="classepub_1_1spine.html">spine</a>, const class <a class="el" href="classepub_1_1spine.html">spine</a> &amp;s)</td></tr>
-<tr class="separator:a7eef0c940793050bc4aac8ab6263e7b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7d7288e9485a8dde5ad1db225ddc18a" id="r_ae7d7288e9485a8dde5ad1db225ddc18a"><td class="memTemplParams" colspan="2">template&lt;class Manifest &gt; </td></tr>
+<tr class="memitem:ae7d7288e9485a8dde5ad1db225ddc18a"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceepub_1_1xml.html#ae7d7288e9485a8dde5ad1db225ddc18a">epub::xml::write_manifest</a> (<a class="el" href="namespaceepub_1_1xml.html#a42702156b5f2e36199dd7dd3baea24cd">node_ptr</a> manifest_node, Manifest &amp;&amp;manifest)</td></tr>
+<tr class="separator:ae7d7288e9485a8dde5ad1db225ddc18a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac894e86ccd29ead7c97018b770869a91" id="r_ac894e86ccd29ead7c97018b770869a91"><td class="memTemplParams" colspan="2">template&lt;class Spine &gt; </td></tr>
+<tr class="memitem:ac894e86ccd29ead7c97018b770869a91"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceepub_1_1xml.html#ac894e86ccd29ead7c97018b770869a91">epub::xml::write_spine</a> (<a class="el" href="namespaceepub_1_1xml.html#a42702156b5f2e36199dd7dd3baea24cd">node_ptr</a> spine_node, Spine &amp;&amp;spine)</td></tr>
+<tr class="separator:ac894e86ccd29ead7c97018b770869a91"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a65bb7385eab67a1688e5ab6f6ba2ccd0" id="r_a65bb7385eab67a1688e5ab6f6ba2ccd0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceepub_1_1xml.html#a65bb7385eab67a1688e5ab6f6ba2ccd0">epub::xml::write_package</a> (const std::filesystem::path &amp;path, const <a class="el" href="classepub_1_1package.html">package</a> &amp;p)</td></tr>
 <tr class="separator:a65bb7385eab67a1688e5ab6f6ba2ccd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8be3ed3110cf08b6ab355877f0c50958" id="r_a8be3ed3110cf08b6ab355877f0c50958"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceepub_1_1xml.html#a8be3ed3110cf08b6ab355877f0c50958">epub::xml::write_navigation</a> (const std::filesystem::path &amp;path, const <a class="el" href="classepub_1_1navigation.html">navigation</a> &amp;n)</td></tr>
-<tr class="separator:a8be3ed3110cf08b6ab355877f0c50958"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81f3d8befa9ef4815a18df0e9b7b0193" id="r_a81f3d8befa9ef4815a18df0e9b7b0193"><td class="memTemplParams" colspan="2">template&lt;class Navigation &gt; </td></tr>
+<tr class="memitem:a81f3d8befa9ef4815a18df0e9b7b0193"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceepub_1_1xml.html#a81f3d8befa9ef4815a18df0e9b7b0193">epub::xml::write_navigation</a> (const std::filesystem::path &amp;path, Navigation &amp;&amp;navigation, const std::filesystem::path &amp;ss)</td></tr>
+<tr class="separator:a81f3d8befa9ef4815a18df0e9b7b0193"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8206a67c545594231d31ad85befa4cc4" id="r_a8206a67c545594231d31ad85befa4cc4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceepub_1_1xml.html#a8206a67c545594231d31ad85befa4cc4">epub::xml::write_container</a> (const std::filesystem::path &amp;path, const <a class="el" href="classepub_1_1container.html">container</a> &amp;<a class="el" href="classepub_1_1container.html">container</a>)</td></tr>
+<tr class="separator:a8206a67c545594231d31ad85befa4cc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af7cb46a3f8e02006f205fc5d4461363e" id="r_af7cb46a3f8e02006f205fc5d4461363e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceepub_1_1xml.html#af7cb46a3f8e02006f205fc5d4461363e">epub::xml::get_xhtml_metadata</a> (const std::filesystem::path &amp;path, <a class="el" href="structepub_1_1file__metadata.html">file_metadata</a> &amp;<a class="el" href="classepub_1_1metadata.html">metadata</a>)</td></tr>
 <tr class="separator:af7cb46a3f8e02006f205fc5d4461363e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 3 2024 for EPUB Utilities by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0
+Generated on Sun Feb 18 2024 for EPUB Utilities by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0
 </small></address>
 </body>
 </html>

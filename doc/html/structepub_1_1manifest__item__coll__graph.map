@@ -1,0 +1,15 @@
+<map id="epub::manifest_item" name="epub::manifest_item">
+<area shape="rect" id="Node000001" title="An asset of the EPUB." alt="" coords="59,487,229,585"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="21,301,107,363"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="77,362,115,462,119,470,114,472,110,464,72,364"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,128,123,203"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="67,216,67,301,61,301,61,216"/>
+<area shape="rect" id="Node000004" href="$structepub_1_1file__metadata.html" title="A class for managing metadata key&#45;value pairs." alt="" coords="131,252,322,412"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="202,413,182,464,178,473,173,471,178,462,197,411"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="171,135,282,196"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="229,210,229,252,224,252,224,210"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="181,5,203,67"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="192,67,196,103,201,119,196,120,190,105,187,67"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="251,5,272,67"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="256,67,242,119,237,118,251,66"/>
+</map>
