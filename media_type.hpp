@@ -30,16 +30,11 @@ static inline const std::map<std::filesystem::path, std::u8string_view>
 ///
 /// @param path the path to the file
 /// @returns the MIME type as a utf-8 string
+/// @throws std::out_of_range if the extension does not name a known type
 ///
-/// @todo Make type guessing more robust.
-inline std::u8string guess_media_type(const std::filesystem::path &path) {
-    auto ext = path.extension();
-    if (auto found = core_media.find(ext); found != core_media.end()) {
-        return static_cast<std::u8string>(found->second);
-    }
-
-    std::cerr << "warning: unrecognized extension " << ext << std::endl;
-    return u8"application/octet-stream";
+static inline std::u8string
+guess_media_type(const std::filesystem::path &path) {
+    return static_cast<std::u8string>(core_media.at(path.extension()));
 }
 
 } // namespace epub

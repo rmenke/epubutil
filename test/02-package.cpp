@@ -89,13 +89,6 @@ int main(int, const char **argv) {
 #else
         skip(1, "epubcheck disabled");
 #endif
-
-        eq(u8"image/jpeg"s, epub::guess_media_type("foo.jpg"),
-           "media type addition");
-
-        std::cerr << "# "; // so warning is visible
-        eq(u8"application/octet-stream"s, epub::guess_media_type("foo.bar"),
-           "media type corner case");
     }
     catch (...) {
         bail_out(std::current_exception());

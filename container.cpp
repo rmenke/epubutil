@@ -47,8 +47,15 @@ void container::add(const std::filesystem::path &source,
         .properties = std::move(properties),
     };
 
-    const auto &media_type = item.metadata[u8"media-type"] =
-        guess_media_type(item.path);
+    std::u8string media_type;
+
+    try {
+        media_type = guess_media_type(item.path);
+    }
+    catch (const std::out_of_range &ex) {
+        std::throw_with_nested(std::invalid_argument(
+            __func__ + std::string{": unknown file type"}));
+    }
 
     if (media_type == xhtml_media_type) {
         xml::get_xhtml_metadata(source, item.metadata);
@@ -81,6 +88,8 @@ void container::add(const std::filesystem::path &source,
             }
         }
     }
+
+    item.metadata[u8"media-type"] = std::move(media_type);
 
     _package.add_to_manifest(std::move(item));
 }
