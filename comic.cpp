@@ -1,4 +1,3 @@
-#include "file_metadata.hpp"
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wall"
 #pragma clang diagnostic ignored "-Wextra"
@@ -7,25 +6,10 @@
 
 #include "container.hpp"
 #include "epub_options.hpp"
+#include "file_metadata.hpp"
 #include "manifest_item.hpp"
-#include "metadata.hpp"
 #include "minidom.hpp"
 #include "options.hpp"
-#include "xml.hpp"
-
-#include <array>
-#include <cmath>
-#include <filesystem>
-#include <functional>
-#include <ios>
-#include <iostream>
-#include <numeric>
-#include <ranges>
-#include <regex>
-#include <span>
-#include <stdexcept>
-#include <string>
-#include <vector>
 
 inline std::string to_digits(unsigned n, unsigned d) {
     std::string str(d, '0');
@@ -138,56 +122,43 @@ struct image_ref {
 
     image_ref &scale(std::size_t max_width, std::size_t max_height,
                      bool upscale) {
-        double max_w = static_cast<double>(max_width);
-        double max_h = static_cast<double>(max_height);
-        double w = static_cast<double>(frame.w);
-        double h = static_cast<double>(frame.h);
+        const double to_width = static_cast<double>(max_width);
+        const double to_height = static_cast<double>(max_height);
 
-        if (upscale && (w < max_w)) {
-            double scale = max_w / w;
-            w *= scale;
-            h *= scale;
+        double width = static_cast<double>(frame.w);
+        double height = static_cast<double>(frame.h);
+
+        if (upscale && width < to_width) {
+            height *= to_width / width;
+            width = to_width;
+            upscaled = true;
         }
 
-        upscaled = upscale;
-
-        if (w > max_w) {
-            double scale = max_w / w;
-            w *= scale;
-            h *= scale;
+        if (width > to_width) {
+            height *= to_width / width;
+            width = to_width;
         }
-        if (h > max_h) {
-            double scale = max_h / h;
-            w *= scale;
-            h *= scale;
+        if (height > to_height) {
+            width *= to_height / height;
+            height = to_height;
         }
 
-        frame.w = static_cast<std::size_t>(std::min(max_w, w));
-        frame.h = static_cast<std::size_t>(std::min(max_h, h));
+        frame.w = static_cast<std::size_t>(std::min(to_width, width));
+        frame.h = static_cast<std::size_t>(std::min(to_height, height));
 
         return *this;
     }
 
     auto style() const {
-        std::map<std::string, std::string> css;
+        using namespace std::literals;
 
-        std::u8string result;
+        auto css = "position: absolute; top: "s + std::to_string(frame.y) +
+                   "px; left: "s + std::to_string(frame.x) +
+                   "px; width: "s + std::to_string(frame.w) +
+                   "px; height: "s + std::to_string(frame.h) + "px"s;
 
-        auto px_rule = [](std::u8string rule,
-                          std::size_t value) -> std::u8string {
-            auto v = std::to_string(value) + "px";
-            auto s = u8"; " + std::move(rule) + u8": " +
-                     std::u8string{v.begin(), v.end()};
-            return s;
-        };
-
-        result = u8"position: absolute";
-        result.append(px_rule(u8"top", frame.y));
-        result.append(px_rule(u8"left", frame.x));
-        result.append(px_rule(u8"width", frame.w));
-        result.append(px_rule(u8"height", frame.h));
-
-        return result;
+        return std::u8string{
+            reinterpret_cast<const char8_t *>(css.c_str())};
     }
 
     friend std::ostream &operator<<(std::ostream &os, const image_ref &i) {
@@ -415,6 +386,13 @@ int main(int argc, char **argv) {
             config->page_size.h = std::stoul(arg);
         },
         "the height of the page");
+    opt.add_flag(
+        "pack", [config]() { config->spacing = separation_mode::external; },
+        "minimize space between images");
+    opt.add_flag(
+        "spread",
+        [config]() { config->spacing = separation_mode::internal; },
+        "maximize space between images");
 
     std::vector<std::string> args(argv + 1, argv + argc);
 
