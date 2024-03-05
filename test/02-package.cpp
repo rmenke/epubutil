@@ -4,14 +4,11 @@
 #include "package.hpp"
 #include "xml.hpp"
 
-#include <__ranges/common_view.h>
-#include <__ranges/filter_view.h>
-#include <__ranges/transform_view.h>
-
 #include <exception>
 #include <filesystem>
 #include <fstream>
 #include <ostream>
+#include <ranges>
 
 #include "tap.hpp"
 
