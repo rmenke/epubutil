@@ -84,6 +84,22 @@ struct rect : point, size {
 
 namespace fs = std::filesystem;
 
+static unsigned log_level = 0; // NOLINT
+
+template <class... Args>
+void log(unsigned level, Args &&...args) {
+    if (log_level < level) return;
+
+    auto now = time(0);
+
+    auto tstamp = std::string{ctime(&now)};
+    tstamp.pop_back();
+
+    std::clog << "[" << tstamp << "] ";
+    (std::clog << ... << std::forward<Args>(args));
+    std::clog << std::endl;
+}
+
 struct image_ref {
     fs::path path;
     fs::path local;
@@ -345,10 +361,14 @@ int main(int argc, char **argv) {
     epub::common_options(opt, config);
 
     opt.synopsis() +=
-        " [--link] [--upscale]"
+        " [--verbose] [--link] [--upscale]"
         " [--page-size=WIDTHxHEIGHT | --width=WIDTH --height=HEIGHT]"
         " image-file...";
 
+    opt.add_flag(
+        'v', "verbose", [] { ++log_level; },
+        "increase verbosity "
+        "(may be specified more than once)");
     opt.add_flag(
         'l', "link",
         [config] {
@@ -449,6 +469,8 @@ int main(int argc, char **argv) {
         auto &current_chapter = the_book.last_chapter();
 
         image_ref image{path, ++img_num};
+
+        log(2, "adding image ", image.path.filename());
 
         image.scale(config->page_size.w, config->page_size.h,
                     config->upscale);
