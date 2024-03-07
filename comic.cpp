@@ -1,88 +1,16 @@
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wall"
-#pragma clang diagnostic ignored "-Wextra"
-#include "imageinfo/imageinfo.hpp"
-#pragma clang diagnostic pop
-
 #include "container.hpp"
 #include "epub_options.hpp"
 #include "file_metadata.hpp"
 #include "manifest_item.hpp"
 #include "minidom.hpp"
 #include "options.hpp"
+#include "src/geom.hpp"
+#include "src/image_ref.hpp"
+#include "src/page.hpp"
 
-inline std::string to_digits(unsigned n, unsigned d) {
-    std::string str(d, '0');
-
-    for (char &c : str | std::views::reverse) {
-        c = static_cast<char>('0' + n % 10);
-        n /= 10;
-    }
-
-    return str;
-}
-
-inline namespace geom {
-
-// clang-format off
-
-struct point {
-    std::size_t x, y;
-
-    point() : x(0), y(0) {}
-    point(std::size_t x_pos, std::size_t y_pos)
-        : x(x_pos), y(y_pos) {}
-
-    friend std::ostream &operator<<(std::ostream &os, const point &p) {
-        return os << '+' << p.x << '+' << p.y;
-    }
-};
-
-struct size {
-    std::size_t w, h;
-
-    size() : w(0), h(0) {}
-    size(std::size_t width, std::size_t height)
-        : w(width), h(height) {}
-
-    friend std::ostream &operator<<(std::ostream &os, const size &sz) {
-        return os << sz.w << 'x' << sz.h;
-    }
-};
-
-struct rect : point, size {
-    explicit rect(point p = point(), size sz = size())
-        : point(p), size(sz) {}
-    explicit rect(size sz)
-        : point(), size(sz) {}
-    rect(std::size_t x, std::size_t y, std::size_t w, std::size_t h)
-        : point(x, y), size(w, h) {}
-    rect(const rect&) = default;
-    rect(rect&&) = delete;
-
-    ~rect() = default;
-
-    rect &operator=(const rect &) = default;
-    rect &operator=(rect&&) = delete;
-
-    rect &operator=(const point &rhs) {
-        *static_cast<point *>(this) = rhs; return *this;
-    }
-    rect &operator=(const size &rhs) {
-        *static_cast<size *>(this) = rhs; return *this;
-    }
-
-    friend std::ostream &operator<<(std::ostream &os, const rect &r) {
-        return os << static_cast<const size &>(r)
-                  << static_cast<const point &>(r);
-    }
-};
-
-// clang-format on
-
-} // namespace geom
-
-namespace fs = std::filesystem;
+using epub::comic::image_ref;
+using epub::comic::page;
+using epub::comic::separation_mode;
 
 static unsigned log_level = 0; // NOLINT
 
@@ -99,207 +27,6 @@ void log(unsigned level, Args &&...args) {
     (std::clog << ... << std::forward<Args>(args));
     std::clog << std::endl;
 }
-
-struct image_ref {
-    fs::path path;
-    fs::path local;
-    std::string media_type;
-    geom::rect frame;
-    bool upscaled = false;
-
-  private:
-    image_ref(const fs::path &path, const fs::path &local,
-              const ImageInfo &info)
-        : path(path)
-        , local(local)
-        , media_type(info.getMimetype())
-        , frame(geom::size(info.getWidth(), info.getHeight())) {
-        this->local.replace_extension(info.getExt());
-    }
-
-  public:
-    image_ref(const fs::path &path, const fs::path &local)
-        : image_ref(path, local, getImageInfo<IIFilePathReader>(path)) {}
-    image_ref(const fs::path &path, unsigned num)
-        : image_ref(path, "im" + to_digits(num, 5)) {}
-
-    auto width() const {
-        return frame.w;
-    }
-    auto height() const {
-        return frame.h;
-    }
-
-    epub::file_metadata metadata() const {
-        auto mimetype =
-            reinterpret_cast<const char8_t *>(media_type.c_str());
-        return epub::file_metadata{{u8"media-type", mimetype}};
-    }
-
-    image_ref &scale(std::size_t max_width, std::size_t max_height,
-                     bool upscale) {
-        const double to_width = static_cast<double>(max_width);
-        const double to_height = static_cast<double>(max_height);
-
-        double width = static_cast<double>(frame.w);
-        double height = static_cast<double>(frame.h);
-
-        if (upscale && width < to_width) {
-            height *= to_width / width;
-            width = to_width;
-            upscaled = true;
-        }
-
-        if (width > to_width) {
-            height *= to_width / width;
-            width = to_width;
-        }
-        if (height > to_height) {
-            width *= to_height / height;
-            height = to_height;
-        }
-
-        frame.w = static_cast<std::size_t>(std::min(to_width, width));
-        frame.h = static_cast<std::size_t>(std::min(to_height, height));
-
-        return *this;
-    }
-
-    auto style() const {
-        using namespace std::literals;
-
-        auto css = "position: absolute; top: "s + std::to_string(frame.y) +
-                   "px; left: "s + std::to_string(frame.x) +
-                   "px; width: "s + std::to_string(frame.w) +
-                   "px; height: "s + std::to_string(frame.h) + "px"s;
-
-        return std::u8string{
-            reinterpret_cast<const char8_t *>(css.c_str())};
-    }
-
-    friend std::ostream &operator<<(std::ostream &os, const image_ref &i) {
-        auto css = i.style();
-        std::string style{css.begin(), css.end()};
-        return os << i.path.filename() << ' ' << style;
-    }
-};
-
-enum class separation_mode {
-    external,    ///< Place maximum space between images.
-    distributed, ///< Evenly space images.
-    internal,    ///< Place no space between images.
-};
-
-/// @brief A collection of images that can fit on a single content
-/// page.
-///
-/// Images should not be added to the page if the collective height of
-/// the images would exceed the page size.
-///
-class page : std::vector<image_ref> {
-    /// @brief The collective size of the images stacked vertically.
-    geom::size _content_size;
-
-    /// @brief The relative path of the content page.
-    fs::path _path;
-
-  public:
-    page(unsigned num)
-        : _path("pg" + to_digits(num, 4) + ".xhtml") {}
-
-    /// @brief The width of the widest image.
-    auto width() const {
-        return _content_size.w;
-    }
-
-    /// @brief The total height of the images.
-    auto height() const {
-        return _content_size.h;
-    }
-
-    /// @brief The relative path to the page to be generated.
-    auto path() const {
-        return _path;
-    }
-
-    /// @brief Get a @c file_metadata object that describes the page.
-    epub::file_metadata metadata(const std::string &chapter) const {
-        return epub::file_metadata{
-            {u8"media-type", u8"application/xhtml+xml"},
-            {u8"title",
-             reinterpret_cast<const char8_t *>(chapter.c_str())}};
-    }
-
-    using std::vector<image_ref>::empty;
-
-    /// @brief Add an image to the collection.
-    ///
-    /// As a side effect, updates the content size.
-    ///
-    void push_back(image_ref image) {
-        _content_size.w = std::max(_content_size.w, image.width());
-        _content_size.h += image.height();
-        emplace_back(std::move(image));
-    }
-
-    using std::vector<image_ref>::cbegin;
-    using std::vector<image_ref>::cend;
-
-    auto begin() const {
-        return cbegin();
-    }
-    auto end() const {
-        return cend();
-    }
-
-    /// @brief Adjust the frames of the image on the page.
-    ///
-    /// The @c mode argument determines the disposition of white space
-    /// on the page.
-    ///
-    /// @param mode the disposition of white space on the page
-    /// @param page_size the size of the page in pixels
-    ///
-    void layout(separation_mode mode, const geom::size &page_size) {
-        if (_content_size.w > page_size.w ||
-            _content_size.h > page_size.h) {
-            throw std::invalid_argument{__func__};
-        }
-
-        float origin_y, y_spacing; // NOLINT
-
-        switch (mode) {
-            case separation_mode::external:
-                origin_y = 0;
-                y_spacing =
-                    static_cast<float>(page_size.h - _content_size.h) /
-                    static_cast<float>(size() - 1);
-                break;
-            case separation_mode::distributed:
-                origin_y = y_spacing =
-                    static_cast<float>(page_size.h - _content_size.h) /
-                    static_cast<float>(size() + 1);
-                break;
-            case separation_mode::internal:
-                origin_y =
-                    static_cast<float>(page_size.h - _content_size.h) / 2;
-                y_spacing = 0;
-                break;
-            default:
-                throw std::invalid_argument{__func__};
-        }
-
-        for (auto &image : static_cast<vector &>(*this)) {
-            auto origin_x = (page_size.w - image.width()) / 2;
-            image.frame =
-                geom::point{origin_x, static_cast<size_t>(origin_y)};
-            origin_y += static_cast<float>(image.height());
-            origin_y += y_spacing;
-        }
-    }
-};
-
-static_assert(std::ranges::range<page>);
 
 struct chapter : std::vector<page> {
     const std::u8string name; // NOLINT
@@ -347,13 +74,14 @@ class book : std::vector<chapter> {
 };
 
 int main(int argc, char **argv) {
-    cli::option_processor opt{fs::path{argv[0]}.filename()};
+    cli::option_processor opt{std::filesystem::path{argv[0]}.filename()};
 
     struct configuration : epub::configuration {
         geom::size page_size = {1536U, 2048U};
         bool upscale = false;
         separation_mode spacing = separation_mode::distributed;
-        fs::copy_options image_copy_options = fs::copy_options::none;
+        std::filesystem::copy_options image_copy_options =
+            std::filesystem::copy_options::none;
     };
 
     auto config = std::make_shared<configuration>();
@@ -373,7 +101,7 @@ int main(int argc, char **argv) {
         'l', "link",
         [config] {
             config->image_copy_options =
-                fs::copy_options::create_hard_links;
+                std::filesystem::copy_options::create_hard_links;
         },
         "link rather than copy images into the generated EPUB");
     opt.add_flag(
@@ -453,8 +181,10 @@ int main(int argc, char **argv) {
     unsigned img_num = 0U;
 
     for (auto &&path : args) {
-        auto chapter_name =
-            fs::absolute(path).parent_path().filename().u8string();
+        auto chapter_name = std::filesystem::absolute(path)
+                                .parent_path()
+                                .filename()
+                                .u8string();
 
         if (chapter_name.empty()) {
             throw std::runtime_error{"cannot work in root directory"};
@@ -472,12 +202,12 @@ int main(int argc, char **argv) {
 
         log(2, "adding image ", image.path.filename());
 
-        image.scale(config->page_size.w, config->page_size.h,
-                    config->upscale);
+        image.scale_to(config->page_size, config->upscale);
 
-        const auto current_height = current_chapter.current_page().height();
+        const auto current_height =
+            current_chapter.current_page().content_size.h;
 
-        if (current_height + image.height() > config->page_size.h) {
+        if (current_height + image.frame.h > config->page_size.h) {
             current_chapter.add_blank_page(++page_num);
         }
 
@@ -526,8 +256,8 @@ int main(int argc, char **argv) {
 
         for (auto &&page : chapter) {
             epub::manifest_item item = {
-                .id = page.path().stem().u8string(),
-                .path = page.path(),
+                .id = page.path.stem().u8string(),
+                .path = page.path,
                 .metadata = page_metadata,
                 .in_spine = true,
             };
@@ -544,7 +274,7 @@ int main(int argc, char **argv) {
                 epub::manifest_item image_item = {
                     .id = image.local.stem().u8string(),
                     .path = image.local,
-                    .metadata = image.metadata(),
+                    .metadata = {{u8"media-type", image.media_type}},
                 };
                 c.package().add_to_manifest(std::move(image_item));
             }
@@ -598,7 +328,7 @@ int main(int argc, char **argv) {
                      config->image_copy_options);
             }
 
-            save_file(content_dir / page.path(), doc, true);
+            save_file(content_dir / page.path, doc, true);
         }
     }
 }

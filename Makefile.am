@@ -18,7 +18,6 @@ libepubutil_la_SOURCES = container.hpp container.cpp epub_options.hpp	\
 
 bin_PROGRAMS = binder comic
 
-
 if HAVE_ZIP
 dist_bin_SCRIPTS = pack
 CLEANFILES = $(bin_SCRIPTS)
@@ -28,7 +27,9 @@ binder_LDADD = libepubutil.la
 binder_SOURCES = binder.cpp options.hpp
 
 comic_LDADD = libepubutil.la
-comic_SOURCES = comic.cpp options.hpp imageinfo/imageinfo.hpp
+comic_SOURCES = comic.cpp options.hpp src/geom.hpp src/image_ref.hpp	\
+                src/image_ref.cpp src/page.hpp src/page.cpp		\
+                imageinfo/imageinfo.hpp
 
 AM_CPPFLAGS = $(LIBXML2_CPPFLAGS)
 AM_CXXFLAGS =
@@ -38,7 +39,7 @@ AM_CPPFLAGS += $(CODE_COVERAGE_CPPFLAGS)
 AM_CXXFLAGS += $(CODE_COVERAGE_CXXFLAGS)
 LIBS += $(CODE_COVERAGE_LIBS)
 
-CODE_COVERAGE_IGNORE_PATTERN = "$(abspath $(abs_top_builddir))/test/*"
+CODE_COVERAGE_IGNORE_PATTERN = "$(abspath $(abs_top_builddir)/test/*)" "$(abspath $(abs_top_builddir)/imageinfo/*)"
 CODE_COVERAGE_GENHTML_OPTIONS = --demangle-cpp $(CODE_COVERAGE_GENHTML_OPTIONS_DEFAULT)
 
 git-add:

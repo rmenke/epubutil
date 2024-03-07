@@ -129,7 +129,9 @@ am__v_lt_1 =
 am_binder_OBJECTS = binder.$(OBJEXT)
 binder_OBJECTS = $(am_binder_OBJECTS)
 binder_DEPENDENCIES = libepubutil.la
-am_comic_OBJECTS = comic.$(OBJEXT)
+am__dirstamp = $(am__leading_dot)dirstamp
+am_comic_OBJECTS = comic.$(OBJEXT) src/image_ref.$(OBJEXT) \
+	src/page.$(OBJEXT)
 comic_OBJECTS = $(am_comic_OBJECTS)
 comic_DEPENDENCIES = libepubutil.la
 am__dist_bin_SCRIPTS_DIST = pack
@@ -178,7 +180,8 @@ depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = ./$(DEPDIR)/binder.Po ./$(DEPDIR)/comic.Po \
 	./$(DEPDIR)/container.Plo ./$(DEPDIR)/metadata.Plo \
-	./$(DEPDIR)/minidom.Plo ./$(DEPDIR)/xml.Plo
+	./$(DEPDIR)/minidom.Plo ./$(DEPDIR)/xml.Plo \
+	src/$(DEPDIR)/image_ref.Po src/$(DEPDIR)/page.Po
 am__mv = mv -f
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -487,10 +490,13 @@ libepubutil_la_SOURCES = container.hpp container.cpp epub_options.hpp	\
 binder_LDADD = libepubutil.la
 binder_SOURCES = binder.cpp options.hpp
 comic_LDADD = libepubutil.la
-comic_SOURCES = comic.cpp options.hpp imageinfo/imageinfo.hpp
+comic_SOURCES = comic.cpp options.hpp src/geom.hpp src/image_ref.hpp	\
+                src/image_ref.cpp src/page.hpp src/page.cpp		\
+                imageinfo/imageinfo.hpp
+
 AM_CPPFLAGS = $(LIBXML2_CPPFLAGS) $(CODE_COVERAGE_CPPFLAGS)
 AM_CXXFLAGS = $(CODE_COVERAGE_CXXFLAGS)
-CODE_COVERAGE_IGNORE_PATTERN = "$(abspath $(abs_top_builddir))/test/*"
+CODE_COVERAGE_IGNORE_PATTERN = "$(abspath $(abs_top_builddir)/test/*)" "$(abspath $(abs_top_builddir)/imageinfo/*)"
 CODE_COVERAGE_GENHTML_OPTIONS = --demangle-cpp $(CODE_COVERAGE_GENHTML_OPTIONS_DEFAULT)
 all: all-recursive
 
@@ -601,6 +607,15 @@ libepubutil.la: $(libepubutil_la_OBJECTS) $(libepubutil_la_DEPENDENCIES) $(EXTRA
 binder$(EXEEXT): $(binder_OBJECTS) $(binder_DEPENDENCIES) $(EXTRA_binder_DEPENDENCIES) 
 	@rm -f binder$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(binder_OBJECTS) $(binder_LDADD) $(LIBS)
+src/$(am__dirstamp):
+	@$(MKDIR_P) src
+	@: > src/$(am__dirstamp)
+src/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) src/$(DEPDIR)
+	@: > src/$(DEPDIR)/$(am__dirstamp)
+src/image_ref.$(OBJEXT): src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/page.$(OBJEXT): src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
 
 comic$(EXEEXT): $(comic_OBJECTS) $(comic_DEPENDENCIES) $(EXTRA_comic_DEPENDENCIES) 
 	@rm -f comic$(EXEEXT)
@@ -643,6 +658,7 @@ uninstall-dist_binSCRIPTS:
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
+	-rm -f src/*.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
@@ -653,6 +669,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/metadata.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/minidom.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xml.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/image_ref.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/page.Po@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -1030,6 +1048,8 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
+	-rm -f src/$(DEPDIR)/$(am__dirstamp)
+	-rm -f src/$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -1047,6 +1067,8 @@ distclean: distclean-recursive
 	-rm -f ./$(DEPDIR)/metadata.Plo
 	-rm -f ./$(DEPDIR)/minidom.Plo
 	-rm -f ./$(DEPDIR)/xml.Plo
+	-rm -f src/$(DEPDIR)/image_ref.Po
+	-rm -f src/$(DEPDIR)/page.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-libtool distclean-tags
@@ -1100,6 +1122,8 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f ./$(DEPDIR)/metadata.Plo
 	-rm -f ./$(DEPDIR)/minidom.Plo
 	-rm -f ./$(DEPDIR)/xml.Plo
+	-rm -f src/$(DEPDIR)/image_ref.Po
+	-rm -f src/$(DEPDIR)/page.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
