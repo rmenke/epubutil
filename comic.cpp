@@ -1,77 +1,20 @@
 #include "container.hpp"
 #include "epub_options.hpp"
 #include "file_metadata.hpp"
-#include "manifest_item.hpp"
 #include "minidom.hpp"
 #include "options.hpp"
+#include "src/book.hpp"
+#include "src/chapter.hpp"
 #include "src/geom.hpp"
 #include "src/image_ref.hpp"
 #include "src/page.hpp"
 
+using epub::comic::book;
+using epub::comic::chapter;
 using epub::comic::image_ref;
-using epub::comic::page;
 using epub::comic::separation_mode;
 
 static unsigned log_level = 0; // NOLINT
-
-template <class... Args>
-void log(unsigned level, Args &&...args) {
-    if (log_level < level) return;
-
-    auto now = time(0);
-
-    auto tstamp = std::string{ctime(&now)};
-    tstamp.pop_back();
-
-    std::clog << "[" << tstamp << "] ";
-    (std::clog << ... << std::forward<Args>(args));
-    std::clog << std::endl;
-}
-
-struct chapter : std::vector<page> {
-    const std::u8string name; // NOLINT
-
-    template <class String>
-    explicit chapter(String &&name)
-        : name(std::forward<String>(name)) {}
-
-    void layout(separation_mode mode, const geom::size &page_size) {
-        for (auto &&page : *this) page.layout(mode, page_size);
-    }
-
-    auto add_blank_page(unsigned page_number) {
-        return emplace_back(page_number);
-    }
-
-    auto pop_blank_page() {
-        if (back().empty()) pop_back();
-    }
-
-    auto &current_page() {
-        if (empty()) throw std::out_of_range{__func__};
-        return back();
-    }
-};
-
-class book : std::vector<chapter> {
-  public:
-    using vector::begin;
-    using vector::empty;
-    using vector::end;
-
-    /// @brief Checked version of vector::back().
-    ///
-    /// @returns a reference to the last element
-    /// @throws std::out_of_range if the book has no chapters
-    auto &last_chapter() {
-        if (empty()) throw std::out_of_range{__func__};
-        return back();
-    }
-
-    auto add_chapter(std::u8string name) {
-        return emplace_back(std::move(name));
-    }
-};
 
 int main(int argc, char **argv) {
     cli::option_processor opt{std::filesystem::path{argv[0]}.filename()};
@@ -199,8 +142,6 @@ int main(int argc, char **argv) {
         auto &current_chapter = the_book.last_chapter();
 
         image_ref image{path, ++img_num};
-
-        log(2, "adding image ", image.path.filename());
 
         image.scale_to(config->page_size, config->upscale);
 

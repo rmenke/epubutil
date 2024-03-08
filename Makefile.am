@@ -27,9 +27,11 @@ binder_LDADD = libepubutil.la
 binder_SOURCES = binder.cpp options.hpp
 
 comic_LDADD = libepubutil.la
-comic_SOURCES = comic.cpp options.hpp src/geom.hpp src/image_ref.hpp	\
-                src/image_ref.cpp src/page.hpp src/page.cpp		\
-                imageinfo/imageinfo.hpp
+
+comic_SOURCES = comic.cpp options.hpp imageinfo/imageinfo.hpp		\
+                src/book.hpp src/chapter.hpp src/geom.hpp		\
+                src/image_ref.cpp src/image_ref.hpp src/page.cpp	\
+                src/page.hpp
 
 AM_CPPFLAGS = $(LIBXML2_CPPFLAGS)
 AM_CXXFLAGS =
