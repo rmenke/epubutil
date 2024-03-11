@@ -11,7 +11,8 @@ EXTRA_DIST = git-semver
 
 noinst_LTLIBRARIES = libepubutil.la
 libepubutil_la_SOURCES = container.hpp container.cpp epub_options.hpp	\
-                         file_metadata.hpp manifest_item.hpp		\
+                         file_metadata.hpp src/logging.hpp		\
+                         src/logging.cpp manifest_item.hpp		\
                          media_type.hpp metadata.hpp metadata.cpp	\
                          package.hpp xml.hpp xml.cpp minidom.hpp	\
                          minidom.cpp
@@ -50,7 +51,7 @@ git-add:
 	@(cd "$(top_srcdir)"; find . -name '.gitignore' -print0 | xargs -0r git ls-files -z --other --modified --exclude-standard | xargs -0rt git add --verbose)
 	$(RM) -r "$(distdir)"
 
-doc: Doxyfile $(libepubutil_la_SOURCES)
+doc: Doxyfile $(libepubutil_la_SOURCES) $(comic_SOURCES)
 	$(RM) -r "$(top_builddir)/doc"
 	cd "$(top_srcdir)"; doxygen "$(abs_top_builddir)/Doxyfile"
 	@set -x; TMPDIR="`mktemp -d`"; trap "$(RM) -r $${TMPDIR}" 0 1 2 15; mv "$(top_srcdir)/doc" "$${TMPDIR}/doc" && $(RM) -r "$(top_builddir)/doc" && mv "$${TMPDIR}/doc" "$(top_builddir)/doc"

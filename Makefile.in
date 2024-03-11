@@ -120,7 +120,9 @@ am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libepubutil_la_LIBADD =
-am_libepubutil_la_OBJECTS = container.lo metadata.lo xml.lo minidom.lo
+am__dirstamp = $(am__leading_dot)dirstamp
+am_libepubutil_la_OBJECTS = container.lo src/logging.lo metadata.lo \
+	xml.lo minidom.lo
 libepubutil_la_OBJECTS = $(am_libepubutil_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -129,7 +131,6 @@ am__v_lt_1 =
 am_binder_OBJECTS = binder.$(OBJEXT)
 binder_OBJECTS = $(am_binder_OBJECTS)
 binder_DEPENDENCIES = libepubutil.la
-am__dirstamp = $(am__leading_dot)dirstamp
 am_comic_OBJECTS = comic.$(OBJEXT) src/image_ref.$(OBJEXT) \
 	src/page.$(OBJEXT)
 comic_OBJECTS = $(am_comic_OBJECTS)
@@ -181,7 +182,8 @@ am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = ./$(DEPDIR)/binder.Po ./$(DEPDIR)/comic.Po \
 	./$(DEPDIR)/container.Plo ./$(DEPDIR)/metadata.Plo \
 	./$(DEPDIR)/minidom.Plo ./$(DEPDIR)/xml.Plo \
-	src/$(DEPDIR)/image_ref.Po src/$(DEPDIR)/page.Po
+	src/$(DEPDIR)/image_ref.Po src/$(DEPDIR)/logging.Plo \
+	src/$(DEPDIR)/page.Po
 am__mv = mv -f
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -480,7 +482,8 @@ SUBDIRS = . test
 EXTRA_DIST = git-semver
 noinst_LTLIBRARIES = libepubutil.la
 libepubutil_la_SOURCES = container.hpp container.cpp epub_options.hpp	\
-                         file_metadata.hpp manifest_item.hpp		\
+                         file_metadata.hpp src/logging.hpp		\
+                         src/logging.cpp manifest_item.hpp		\
                          media_type.hpp metadata.hpp metadata.cpp	\
                          package.hpp xml.hpp xml.cpp minidom.hpp	\
                          minidom.cpp
@@ -601,6 +604,13 @@ clean-noinstLTLIBRARIES:
 	  echo rm -f $${locs}; \
 	  rm -f $${locs}; \
 	}
+src/$(am__dirstamp):
+	@$(MKDIR_P) src
+	@: > src/$(am__dirstamp)
+src/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) src/$(DEPDIR)
+	@: > src/$(DEPDIR)/$(am__dirstamp)
+src/logging.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
 
 libepubutil.la: $(libepubutil_la_OBJECTS) $(libepubutil_la_DEPENDENCIES) $(EXTRA_libepubutil_la_DEPENDENCIES) 
 	$(AM_V_CXXLD)$(CXXLINK)  $(libepubutil_la_OBJECTS) $(libepubutil_la_LIBADD) $(LIBS)
@@ -608,12 +618,6 @@ libepubutil.la: $(libepubutil_la_OBJECTS) $(libepubutil_la_DEPENDENCIES) $(EXTRA
 binder$(EXEEXT): $(binder_OBJECTS) $(binder_DEPENDENCIES) $(EXTRA_binder_DEPENDENCIES) 
 	@rm -f binder$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(binder_OBJECTS) $(binder_LDADD) $(LIBS)
-src/$(am__dirstamp):
-	@$(MKDIR_P) src
-	@: > src/$(am__dirstamp)
-src/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) src/$(DEPDIR)
-	@: > src/$(DEPDIR)/$(am__dirstamp)
 src/image_ref.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/page.$(OBJEXT): src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
@@ -660,6 +664,7 @@ uninstall-dist_binSCRIPTS:
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 	-rm -f src/*.$(OBJEXT)
+	-rm -f src/*.lo
 
 distclean-compile:
 	-rm -f *.tab.c
@@ -671,6 +676,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/minidom.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xml.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/image_ref.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/logging.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/page.Po@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
@@ -708,6 +714,7 @@ mostlyclean-libtool:
 
 clean-libtool:
 	-rm -rf .libs _libs
+	-rm -rf src/.libs src/_libs
 
 distclean-libtool:
 	-rm -f libtool config.lt
@@ -1069,6 +1076,7 @@ distclean: distclean-recursive
 	-rm -f ./$(DEPDIR)/minidom.Plo
 	-rm -f ./$(DEPDIR)/xml.Plo
 	-rm -f src/$(DEPDIR)/image_ref.Po
+	-rm -f src/$(DEPDIR)/logging.Plo
 	-rm -f src/$(DEPDIR)/page.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
@@ -1124,6 +1132,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f ./$(DEPDIR)/minidom.Plo
 	-rm -f ./$(DEPDIR)/xml.Plo
 	-rm -f src/$(DEPDIR)/image_ref.Po
+	-rm -f src/$(DEPDIR)/logging.Plo
 	-rm -f src/$(DEPDIR)/page.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
@@ -1274,7 +1283,7 @@ git-add:
 	@(cd "$(top_srcdir)"; find . -name '.gitignore' -print0 | xargs -0r git ls-files -z --other --modified --exclude-standard | xargs -0rt git add --verbose)
 	$(RM) -r "$(distdir)"
 
-doc: Doxyfile $(libepubutil_la_SOURCES)
+doc: Doxyfile $(libepubutil_la_SOURCES) $(comic_SOURCES)
 	$(RM) -r "$(top_builddir)/doc"
 	cd "$(top_srcdir)"; doxygen "$(abs_top_builddir)/Doxyfile"
 	@set -x; TMPDIR="`mktemp -d`"; trap "$(RM) -r $${TMPDIR}" 0 1 2 15; mv "$(top_srcdir)/doc" "$${TMPDIR}/doc" && $(RM) -r "$(top_builddir)/doc" && mv "$${TMPDIR}/doc" "$(top_builddir)/doc"
