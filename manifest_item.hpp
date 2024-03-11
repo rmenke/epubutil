@@ -21,6 +21,7 @@ struct manifest_item {
     std::u8string id;
     std::filesystem::path path;
     std::u8string properties;
+    std::u8string spine_properties;
     file_metadata metadata;
     bool in_spine = false;
     bool in_toc = false;
