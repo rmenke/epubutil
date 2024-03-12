@@ -167,12 +167,6 @@ int main(int argc, char **argv) {
         }
     }
 
-    // clang-format off
-    const std::u8string viewport(reinterpret_cast<const char8_t *>((
-        "width=" + std::to_string(config->page_size.w) + ", "
-        "height=" + std::to_string(config->page_size.h)).c_str()));
-    // clang-format on
-
     if (config->overwrite) remove_all(config->output);
 
     epub::container c{epub::container::options::omit_toc};
@@ -253,7 +247,7 @@ int main(int argc, char **argv) {
 
             auto meta = new_child_node(head, nullptr, u8"meta");
             set_attribute(meta, u8"name", u8"viewport");
-            set_attribute(meta, u8"content", viewport);
+            set_attribute(meta, u8"content", page.viewport());
 
 #ifdef USER_STYLE
             auto style = new_child_node(head, nullptr, u8"style");

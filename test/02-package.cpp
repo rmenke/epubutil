@@ -66,8 +66,7 @@ int main(int, const char **argv) {
 
         xml::write_package(output_file, p);
 
-        ok(fs::exists(output_file), "file created");
-        diag("created ", output_file);
+        ok(fs::exists(output_file), output_file.filename(), " created");
 
 #ifdef EPUBCHECK
         auto epubcheck_out = fs::path{output_file}.replace_extension("txt");

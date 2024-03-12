@@ -43,6 +43,18 @@ struct page : std::vector<image_ref> {
     /// @param mode the disposition of white space on the page
     ///
     void layout(separation_mode mode);
+
+    std::u8string viewport() const {
+        using namespace std::string_literals;
+
+        const std::string page_width = std::to_string(page_size.w);
+        const std::string page_height = std::to_string(page_size.h);
+
+        return u8"width="s +
+               reinterpret_cast<const char8_t *>(page_width.c_str()) +
+               u8", height="s +
+               reinterpret_cast<const char8_t *>(page_height.c_str());
+    }
 };
 
 static_assert(std::ranges::range<page>);
