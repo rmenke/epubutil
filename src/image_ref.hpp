@@ -21,7 +21,6 @@ struct image_ref {
     std::filesystem::path local;
     std::u8string media_type;
     geom::rect frame;
-    bool upscaled = false;
 
   private:
     image_ref(const std::filesystem::path &path,
@@ -31,8 +30,6 @@ struct image_ref {
     image_ref(const std::filesystem::path &path,
               const std::filesystem::path &local);
     image_ref(const std::filesystem::path &path, unsigned num);
-
-    void scale_to(const geom::size &max, bool upscale);
 
     std::u8string style() const;
 

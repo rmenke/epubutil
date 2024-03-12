@@ -1,8 +1,5 @@
-#include "../src/image_ref.hpp"
+#include "src/image_ref.hpp"
 #include "src/geom.hpp"
-
-#include <__ranges/common_view.h>
-#include <__ranges/split_view.h>
 
 #include <exception>
 #include <filesystem>
@@ -50,20 +47,6 @@ int main() {
         eq(geom::rect{0, 0, 480, 640}, img.frame, "frame");
 
         size page_size{1200, 1200};
-
-        auto img1 = img;
-        img1.scale_to(page_size, false);
-        eq(geom::size{480, 640}, img1.frame, "frame unchanged");
-
-        auto img2 = img;
-        img2.scale_to(page_size, true);
-        eq(geom::size{900, 1200}, img2.frame, "frame upscaled");
-
-        page_size = {320, 240};
-
-        auto img3 = img;
-        img3.scale_to(page_size, false);
-        eq(geom::size{180, 240}, img3.frame, "frame downscaled");
 
         auto css = std::string{
             reinterpret_cast<const char *>(img.style().c_str())};

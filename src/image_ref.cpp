@@ -1,3 +1,4 @@
+#include <iostream>
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wall"
 #pragma clang diagnostic ignored "-Wextra"
@@ -47,32 +48,6 @@ image_ref::image_ref(const std::filesystem::path &path,
 
 image_ref::image_ref(const std::filesystem::path &path, unsigned num)
     : image_ref(std::move(path), "im" + to_digits(num, 5)) {}
-
-void image_ref::scale_to(const geom::size &max, bool upscale) {
-    const double to_width = static_cast<double>(max.w);
-    const double to_height = static_cast<double>(max.h);
-
-    double width = static_cast<double>(frame.w);
-    double height = static_cast<double>(frame.h);
-
-    if (upscale && width < to_width) {
-        height *= to_width / width;
-        width = to_width;
-        upscaled = true;
-    }
-
-    if (width > to_width) {
-        height *= to_width / width;
-        width = to_width;
-    }
-    if (height > to_height) {
-        width *= to_height / height;
-        height = to_height;
-    }
-
-    frame.w = static_cast<std::size_t>(std::min(to_width, width));
-    frame.h = static_cast<std::size_t>(std::min(to_height, height));
-}
 
 std::u8string image_ref::style() const {
     using namespace std::literals;

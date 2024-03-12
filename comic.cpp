@@ -7,14 +7,13 @@
 #include "src/chapter.hpp"
 #include "src/geom.hpp"
 #include "src/image_ref.hpp"
+#include "src/logging.hpp"
 #include "src/page.hpp"
 
 using epub::comic::book;
 using epub::comic::chapter;
 using epub::comic::image_ref;
 using epub::comic::separation_mode;
-
-static unsigned log_level = 0; // NOLINT
 
 int main(int argc, char **argv) {
     cli::option_processor opt{std::filesystem::path{argv[0]}.filename()};
@@ -37,7 +36,7 @@ int main(int argc, char **argv) {
         " image-file...";
 
     opt.add_flag(
-        'v', "verbose", [] { ++log_level; },
+        'v', "verbose", [] { epub::logging::logger.increase_level(); },
         "increase verbosity "
         "(may be specified more than once)");
     opt.add_flag(
@@ -78,11 +77,12 @@ int main(int argc, char **argv) {
         },
         "the height of the page");
     opt.add_flag(
-        "pack", [config]() { config->spacing = separation_mode::external; },
+        "pack-frames",
+        [config] { config->spacing = separation_mode::external; },
         "minimize space between images");
     opt.add_flag(
-        "spread",
-        [config]() { config->spacing = separation_mode::internal; },
+        "spread-frames",
+        [config] { config->spacing = separation_mode::internal; },
         "maximize space between images");
 
     std::vector<std::string> args(argv + 1, argv + argc);
@@ -143,7 +143,11 @@ int main(int argc, char **argv) {
 
         image_ref image{path, ++img_num};
 
-        image.scale_to(config->page_size, config->upscale);
+        auto scale = image.frame.fit(config->page_size);
+
+        if (scale < 1.0 || config->upscale) {
+            image.frame *= scale;
+        }
 
         const auto current_height =
             current_chapter.current_page().content_size.h;
