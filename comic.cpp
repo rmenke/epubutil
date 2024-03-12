@@ -145,18 +145,11 @@ int main(int argc, char **argv) {
 
         auto scale = image.frame.fit(config->page_size);
 
-        if (scale < 1.0 || config->upscale) {
+        if (scale > 1.0 && config->upscale) {
             image.frame *= scale;
         }
 
-        const auto current_height =
-            current_chapter.current_page().content_size.h;
-
-        if (current_height + image.frame.h > config->page_size.h) {
-            current_chapter.add_blank_page(++page_num);
-        }
-
-        current_chapter.current_page().push_back(std::move(image));
+        current_chapter.add_image(image, page_num);
     }
 
     the_book.last_chapter().pop_blank_page();

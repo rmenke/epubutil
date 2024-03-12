@@ -3,6 +3,7 @@
 
 #include "image_ref.hpp"
 
+#include <cassert>
 #include <concepts>
 #include <ranges>
 #include <type_traits>
@@ -43,6 +44,34 @@ struct page : std::vector<image_ref> {
     /// @param mode the disposition of white space on the page
     ///
     void layout(separation_mode mode);
+
+    /// @brief Add an image to the page.
+    ///
+    /// If the page has enough vertical space for the image, adds the
+    /// image to itself and returns @true; otherwise, returns @c
+    /// false.
+    ///
+    /// @param image the image to add
+    /// @returns true if the image was added to the page
+    ///
+    bool add_image(image_ref image) {
+        const auto &frame = image.frame;
+
+        assert(frame.w <= page_size.w);
+        assert(frame.h <= page_size.h);
+
+        if (content_size.h + frame.h > page_size.h) return false;
+
+        content_size.h += frame.h;
+        content_size.w = std::max(content_size.w, frame.w);
+
+        assert(content_size.h <= page_size.h);
+        assert(content_size.w <= page_size.w);
+
+        emplace_back(std::move(image));
+
+        return true;
+    }
 
     std::u8string viewport() const {
         using namespace std::string_literals;
