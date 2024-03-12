@@ -8,22 +8,29 @@
 namespace epub::comic {
 
 struct chapter : std::vector<page> {
-    const std::u8string name; // NOLINT
+    const std::u8string name;    // NOLINT
+    const geom::size &page_size; // NOLINT
 
     template <class String>
-    explicit chapter(String &&name)
-        : name(std::forward<String>(name)) {}
+    chapter(String &&name, const geom::size &page_size)
+        : name(std::forward<String>(name))
+        , page_size(page_size) {}
 
-    void layout(separation_mode mode, const geom::size &page_size) {
-        for (auto &&page : *this) page.layout(mode, page_size);
+    void layout(separation_mode mode) {
+        for (auto &&page : *this) page.layout(mode);
     }
 
     auto add_blank_page(unsigned page_number) {
-        return emplace_back(page_number);
+        return emplace_back(page_size, page_number);
     }
 
     auto pop_blank_page() {
         if (back().empty()) pop_back();
+    }
+
+    auto &current_page() const {
+        if (empty()) throw std::out_of_range{__func__};
+        return back();
     }
 
     auto &current_page() {

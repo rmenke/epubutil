@@ -23,26 +23,17 @@ enum class separation_mode {
 /// the images would exceed the page size.
 ///
 struct page : std::vector<image_ref> {
-    /// @brief The collective size of the images stacked vertically
-    /// without spacing.
+    /// @brief The size of the virtual page.
+    const geom::size &page_size; // NOLINT
+
+    /// @brief The size of the images stacked vertically without
+    /// spacing.
     geom::size content_size;
 
     /// @brief The relative path of the content page.
     std::filesystem::path path;
 
-    page(unsigned num);
-
-    using std::vector<image_ref>::empty;
-
-    /// @brief Add an image to the collection.
-    ///
-    /// As a side effect, updates the content size.
-    ///
-    void push_back(image_ref image) {
-        content_size.w = std::max(content_size.w, image.frame.w);
-        content_size.h += image.frame.h;
-        emplace_back(std::move(image));
-    }
+    page(const geom::size &page_size, unsigned num);
 
     /// @brief Adjust the frames of the image on the page.
     ///
@@ -50,9 +41,8 @@ struct page : std::vector<image_ref> {
     /// on the page.
     ///
     /// @param mode the disposition of white space on the page
-    /// @param page_size the size of the page in pixels
     ///
-    void layout(separation_mode mode, const geom::size &page_size);
+    void layout(separation_mode mode);
 };
 
 static_assert(std::ranges::range<page>);

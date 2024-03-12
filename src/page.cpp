@@ -1,5 +1,7 @@
 #include "page.hpp"
 
+using namespace std::string_literals;
+
 template <std::size_t N>
 static inline std::string to_digits(std::unsigned_integral auto num) {
     using namespace std::views;
@@ -16,10 +18,11 @@ static inline std::string to_digits(std::unsigned_integral auto num) {
 
 namespace epub::comic {
 
-page::page(unsigned num)
-    : path("pg" + to_digits<4>(num) + ".xhtml") {}
+page::page(const geom::size &page_size, unsigned num)
+    : page_size(page_size)
+    , path("pg"s + to_digits<4>(num) + ".xhtml"s) {}
 
-void page::layout(separation_mode mode, const geom::size &page_size) {
+void page::layout(separation_mode mode) {
     if (content_size.w > page_size.w || content_size.h > page_size.h) {
         throw std::invalid_argument{__func__};
     }

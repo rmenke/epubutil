@@ -118,7 +118,7 @@ int main(int argc, char **argv) {
 
     if (config->output.empty()) config->output = "untitled.epub";
 
-    book the_book;
+    book the_book{config->page_size};
 
     unsigned page_num = 0U;
     unsigned img_num = 0U;
@@ -163,7 +163,7 @@ int main(int argc, char **argv) {
 
     for (auto &&chapter : the_book) {
         for (auto &&page : chapter) {
-            page.layout(config->spacing, config->page_size);
+            page.layout(config->spacing);
         }
     }
 
