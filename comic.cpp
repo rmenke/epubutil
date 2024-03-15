@@ -9,6 +9,7 @@
 #include "src/image_ref.hpp"
 #include "src/logging.hpp"
 #include "src/page.hpp"
+#include "xml.hpp"
 
 using epub::comic::book;
 using epub::comic::chapter;
