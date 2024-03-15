@@ -1,6 +1,7 @@
 #ifndef _epub_page_hpp_
 #define _epub_page_hpp_
 
+#include "constants.hpp"
 #include "image_ref.hpp"
 
 #include <cassert>
@@ -10,12 +11,6 @@
 #include <vector>
 
 namespace epub::comic {
-
-enum class separation_mode {
-    external,    ///< Place maximum space between images.
-    distributed, ///< Evenly space images.
-    internal,    ///< Place no space between images.
-};
 
 /// @brief A collection of images that can fit on a single content
 /// page.
