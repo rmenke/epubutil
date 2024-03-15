@@ -11,7 +11,7 @@ namespace epub::comic {
 
 struct chapter : std::vector<page> {
     const std::u8string name;    // NOLINT
-    const geom::size &page_size; // NOLINT
+    const geom::size page_size;  // NOLINT
 
     template <class String>
     chapter(String &&name, const geom::size &page_size)

@@ -23,7 +23,7 @@ page::page(const geom::size &page_size, unsigned num)
     , path("pg"s + to_digits<4>(num) + ".xhtml"s) {}
 
 void page::layout(separation_mode mode) {
-    if (content_size.w > page_size.w || content_size.h > page_size.h) {
+    if (content_height > page_size.h) {
         throw std::invalid_argument{__func__};
     }
 
@@ -32,16 +32,16 @@ void page::layout(separation_mode mode) {
     switch (mode) {
         case separation_mode::external:
             origin_y = 0;
-            y_spacing = static_cast<float>(page_size.h - content_size.h) /
+            y_spacing = static_cast<float>(page_size.h - content_height) /
                         static_cast<float>(size() - 1);
             break;
         case separation_mode::distributed:
             origin_y = y_spacing =
-                static_cast<float>(page_size.h - content_size.h) /
+                static_cast<float>(page_size.h - content_height) /
                 static_cast<float>(size() + 1);
             break;
         case separation_mode::internal:
-            origin_y = static_cast<float>(page_size.h - content_size.h) / 2;
+            origin_y = static_cast<float>(page_size.h - content_height) / 2;
             y_spacing = 0;
             break;
         default:

@@ -20,11 +20,10 @@ namespace epub::comic {
 ///
 struct page : std::vector<image_ref> {
     /// @brief The size of the virtual page.
-    const geom::size &page_size; // NOLINT
+    geom::size page_size;
 
-    /// @brief The size of the images stacked vertically without
-    /// spacing.
-    geom::size content_size;
+    /// @brief The aggregated height of the images.
+    std::size_t content_height = 0;
 
     /// @brief The relative path of the content page.
     std::filesystem::path path;
@@ -55,13 +54,11 @@ struct page : std::vector<image_ref> {
         assert(frame.w <= page_size.w);
         assert(frame.h <= page_size.h);
 
-        if (content_size.h + frame.h > page_size.h) return false;
+        if (content_height + frame.h > page_size.h) return false;
 
-        content_size.h += frame.h;
-        content_size.w = std::max(content_size.w, frame.w);
+        content_height += frame.h;
 
-        assert(content_size.h <= page_size.h);
-        assert(content_size.w <= page_size.w);
+        assert(content_height <= page_size.h);
 
         emplace_back(std::move(image));
 
