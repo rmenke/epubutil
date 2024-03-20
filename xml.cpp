@@ -143,6 +143,9 @@ void write_spine(node_ptr spine_node, Spine &&spine) {
     for (auto &&itemref : std::forward<Spine>(spine)) {
         auto node = new_child_node(spine_node, nullptr, u8"itemref");
         set_attribute(node, u8"idref", itemref.id);
+        if (!itemref.spine_properties.empty()) {
+            set_attribute(node, u8"properties", itemref.spine_properties);
+        }
     }
 }
 

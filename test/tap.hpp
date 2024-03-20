@@ -116,7 +116,7 @@ class test_plan {
 
     test_plan *_parent;
 
-    static inline test_plan *_current_plan = nullptr;
+    static inline test_plan *_current_plan = nullptr; // NOLINT
 
     std::string _todo;
 
@@ -287,8 +287,7 @@ inline const char *const cmp_op<std::less_equal> = "<=";
 
 template <template <class> class Comp, class X, class Y, class... Args>
 static inline bool cmp(X &&x, Y &&y, Args &&...args) {
-    using Z = typename std::common_type<X, Y>::type;
-    if (!ok(Comp<Z>{}(x, y), std::forward<Args>(args)...)) {
+    if (!ok(Comp<void>{}(x, y), std::forward<Args>(args)...)) {
         diag(x, ' ', cmp_op<Comp>, ' ', y, ": failed");
         return false;
     }

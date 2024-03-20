@@ -88,7 +88,8 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 TESTS = 01-container.test$(EXEEXT) 02-package.test$(EXEEXT) \
-	03-media.test$(EXEEXT)
+	03-media.test$(EXEEXT) 04-image.test$(EXEEXT) \
+	05-geom.test$(EXEEXT)
 check_PROGRAMS = $(am__EXEEXT_1)
 subdir = test
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -110,7 +111,8 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__EXEEXT_1 = 01-container.test$(EXEEXT) 02-package.test$(EXEEXT) \
-	03-media.test$(EXEEXT)
+	03-media.test$(EXEEXT) 04-image.test$(EXEEXT) \
+	05-geom.test$(EXEEXT)
 01_container_test_SOURCES = 01-container.cpp
 01_container_test_OBJECTS = 01-container.$(OBJEXT)
 01_container_test_LDADD = $(LDADD)
@@ -127,6 +129,13 @@ am__v_lt_1 =
 03_media_test_OBJECTS = 03-media.$(OBJEXT)
 03_media_test_LDADD = $(LDADD)
 03_media_test_DEPENDENCIES = $(top_builddir)/libepubutil.la
+04_image_test_SOURCES = 04-image.cpp
+04_image_test_OBJECTS = 04-image.$(OBJEXT)
+04_image_test_DEPENDENCIES = $(top_builddir)/src/image_ref.o
+05_geom_test_SOURCES = 05-geom.cpp
+05_geom_test_OBJECTS = 05-geom.$(OBJEXT)
+05_geom_test_LDADD = $(LDADD)
+05_geom_test_DEPENDENCIES = $(top_builddir)/libepubutil.la
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -143,7 +152,8 @@ DEFAULT_INCLUDES =
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = ./$(DEPDIR)/01-container.Po \
-	./$(DEPDIR)/02-package.Po ./$(DEPDIR)/03-media.Po
+	./$(DEPDIR)/02-package.Po ./$(DEPDIR)/03-media.Po \
+	./$(DEPDIR)/04-image.Po ./$(DEPDIR)/05-geom.Po
 am__mv = mv -f
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -163,8 +173,10 @@ AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-SOURCES = 01-container.cpp 02-package.cpp 03-media.cpp
-DIST_SOURCES = 01-container.cpp 02-package.cpp 03-media.cpp
+SOURCES = 01-container.cpp 02-package.cpp 03-media.cpp 04-image.cpp \
+	05-geom.cpp
+DIST_SOURCES = 01-container.cpp 02-package.cpp 03-media.cpp \
+	04-image.cpp 05-geom.cpp
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -544,7 +556,10 @@ AM_TEST_LOG_DRIVER_FLAGS = $(am__test_driver_flags_@AM_V@)
 am__test_driver_flags_ = $(am__test_driver_flags_@AM_DEFAULT_V@)
 am__test_driver_flags_0 = 
 am__test_driver_flags_1 = --comments
-EXTRA_DIST = tap.hpp pach1.xhtml pach2.xhtml pach3.xhtml
+EXTRA_DIST = tap.hpp pach1.xhtml pach2.xhtml pach3.xhtml	\
+             img_wrong_ext.gif
+
+04_image_test_LDADD = $(top_builddir)/src/image_ref.o
 all: all-am
 
 .SUFFIXES:
@@ -600,6 +615,14 @@ clean-checkPROGRAMS:
 	@rm -f 03-media.test$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(03_media_test_OBJECTS) $(03_media_test_LDADD) $(LIBS)
 
+04-image.test$(EXEEXT): $(04_image_test_OBJECTS) $(04_image_test_DEPENDENCIES) $(EXTRA_04_image_test_DEPENDENCIES) 
+	@rm -f 04-image.test$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(04_image_test_OBJECTS) $(04_image_test_LDADD) $(LIBS)
+
+05-geom.test$(EXEEXT): $(05_geom_test_OBJECTS) $(05_geom_test_DEPENDENCIES) $(EXTRA_05_geom_test_DEPENDENCIES) 
+	@rm -f 05-geom.test$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(05_geom_test_OBJECTS) $(05_geom_test_LDADD) $(LIBS)
+
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 
@@ -609,6 +632,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/01-container.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/02-package.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/03-media.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/04-image.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/05-geom.Po@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -934,6 +959,8 @@ distclean: distclean-am
 		-rm -f ./$(DEPDIR)/01-container.Po
 	-rm -f ./$(DEPDIR)/02-package.Po
 	-rm -f ./$(DEPDIR)/03-media.Po
+	-rm -f ./$(DEPDIR)/04-image.Po
+	-rm -f ./$(DEPDIR)/05-geom.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -982,6 +1009,8 @@ maintainer-clean: maintainer-clean-am
 		-rm -f ./$(DEPDIR)/01-container.Po
 	-rm -f ./$(DEPDIR)/02-package.Po
 	-rm -f ./$(DEPDIR)/03-media.Po
+	-rm -f ./$(DEPDIR)/04-image.Po
+	-rm -f ./$(DEPDIR)/05-geom.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
