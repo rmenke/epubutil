@@ -10,12 +10,13 @@ SUBDIRS = . test
 EXTRA_DIST = git-semver
 
 noinst_LTLIBRARIES = libepubutil.la
-libepubutil_la_SOURCES = container.hpp container.cpp epub_options.hpp	\
-                         file_metadata.hpp src/constants.hpp		\
-                         src/logging.hpp src/logging.cpp		\
-                         manifest_item.hpp media_type.hpp		\
-                         metadata.hpp metadata.cpp package.hpp		\
-                         xml.hpp xml.cpp minidom.hpp minidom.cpp
+libepubutil_la_SOURCES = src/compat.hpp container.hpp container.cpp	\
+                         epub_options.hpp file_metadata.hpp		\
+                         src/constants.hpp src/logging.hpp		\
+                         src/logging.cpp manifest_item.hpp		\
+                         media_type.hpp metadata.hpp metadata.cpp	\
+                         package.hpp xml.hpp xml.cpp minidom.hpp	\
+                         minidom.cpp
 
 bin_PROGRAMS = binder comic
 

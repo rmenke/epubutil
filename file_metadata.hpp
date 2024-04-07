@@ -4,6 +4,7 @@
 #include <map>
 #include <optional>
 #include <string>
+#include "src/compat.hpp"
 
 namespace epub {
 

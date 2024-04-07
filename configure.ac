@@ -22,7 +22,7 @@ AM_PROG_AR
 LT_INIT
 LT_LANG([C++])
 
-AX_CXX_COMPILE_STDCXX([20],[noext],[mandatory])
+AX_CXX_COMPILE_STDCXX([17],[noext],[mandatory])
 
 AC_REQUIRE_AUX_FILE([tap-driver.sh])
 
