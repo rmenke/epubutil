@@ -168,6 +168,7 @@ int main(int argc, char **argv) {
     c.package().metadata().pre_paginated();
     c.package().metadata().creators() = std::move(config->creators);
     c.package().metadata().collections() = std::move(config->collections);
+    c.package().metadata().description(config->description);
 
     if (!config->title.empty()) {
         c.package().metadata().title(
