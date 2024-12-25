@@ -37,12 +37,11 @@ int main(int argc, char **argv) {
         "omit-toc", [config] { config->omit_toc = true; },
         "do not include the ToC in the reading order");
 
-    auto args_begin = argv + 1;
-    auto args_end = argv + argc;
+    std::vector<std::string> args{argv + 1, argv + argc};
 
-    args_begin = opt.process(args_begin, args_end);
+    args.erase(args.begin(), opt.process(args.begin(), args.end()));
 
-    if (args_begin == args_end) {
+    if (args.empty()) {
         std::cerr << "error: no content files specified\n" << std::endl;
         opt.usage();
         exit(1);
@@ -62,8 +61,28 @@ int main(int argc, char **argv) {
     metadata.collections() = std::move(config->collections);
     metadata.description(std::move(config->description));
 
-    for (std::string_view arg :
-         std::ranges::subrange(args_begin, args_end)) {
+    for (auto iter = args.begin(); iter != args.end();) {
+        const std::string &arg = *iter;
+
+        if (!arg.starts_with('@')) {
+            ++iter;
+        }
+        else if (arg == "@") {
+            iter = args.erase(iter);
+            for (std::string str; getline(std::cin, str); ++iter) {
+                iter = args.insert(iter, std::move(str));
+            }
+        }
+        else {
+            std::ifstream in{arg.substr(1)};
+            iter = args.erase(iter);
+            for (std::string str; getline(in, str); ++iter) {
+                iter = args.insert(iter, std::move(str));
+            }
+        }
+    }
+
+    for (std::string_view arg : args) {
         std::filesystem::path source, local;
 
         if (auto pos = arg.rfind(':'); pos != arg.npos) {
