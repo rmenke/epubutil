@@ -11,6 +11,7 @@ namespace epub {
 constexpr std::u8string_view css_media_type = u8"text/css";
 constexpr std::u8string_view gif_media_type = u8"image/gif";
 constexpr std::u8string_view jpeg_media_type = u8"image/jpeg";
+constexpr std::u8string_view otf_media_type = u8"font/otf";
 constexpr std::u8string_view png_media_type = u8"image/png";
 constexpr std::u8string_view svg_media_type = u8"image/svg+xml";
 constexpr std::u8string_view webp_media_type = u8"image/webp";
@@ -18,10 +19,11 @@ constexpr std::u8string_view xhtml_media_type = u8"application/xhtml+xml";
 
 static inline const std::map<std::filesystem::path, std::u8string_view>
     core_media = {
-        {".css", css_media_type},   {".gif", gif_media_type},
-        {".jpeg", jpeg_media_type}, {".jpg", jpeg_media_type},
-        {".png", png_media_type},   {".svg", svg_media_type},
-        {".webp", webp_media_type}, {".xhtml", xhtml_media_type},
+        {".css", css_media_type},     {".gif", gif_media_type},
+        {".jpeg", jpeg_media_type},   {".jpg", jpeg_media_type},
+        {".otf", otf_media_type},     {".png", png_media_type},
+        {".svg", svg_media_type},     {".webp", webp_media_type},
+        {".xhtml", xhtml_media_type},
 };
 
 /// @brief Guess the MIME type based on the file extension.

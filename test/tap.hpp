@@ -6,45 +6,24 @@
 
 #include <cxxabi.h>
 
-#include <cmath>
-#include <cstdio>
-#include <exception>
-#include <functional>
 #include <iostream>
-#include <memory>
-#include <new>
 #include <regex>
 #include <sstream>
-#include <stdexcept>
-#include <string>
-#include <type_traits>
-#include <typeinfo>
-#include <utility>
 
 namespace tap {
 
-// Overload this for a custom value display (or overload the iostream
-// operator <<() instead).  All TAP functions use this for output.
-
-template <class Arg>
-inline void sprint_one(std::ostream &os, const Arg &arg) {
-    os << arg;
-}
-
-template <typename T>
-struct _free_deleter {
-    void operator()(T *ptr) const {
-        free(ptr);
-    }
-};
-
-template <typename T>
-using malloc_ptr = std::unique_ptr<T, _free_deleter<T>>;
+namespace __detail {
 
 inline std::string demangle(const std::string &mangled) {
     int status = 0;
 
-    malloc_ptr<char> result{__cxxabiv1::__cxa_demangle(
+    struct __free_deleter {
+        void operator()(char *ptr) const {
+            free(ptr); // NOLINT: use of free mandated by C++ ABI
+        }
+    };
+
+    std::unique_ptr<char, __free_deleter> result{__cxxabiv1::__cxa_demangle(
         mangled.c_str(), nullptr, nullptr, &status)};
 
     if (!result) {
@@ -73,14 +52,33 @@ inline void sprint_one(std::ostream &os, std::exception_ptr ptr) {
         std::rethrow_exception(ptr);
     }
     catch (const std::exception &ex) {
-        os << "exception " << demangle(typeid(ex).name()) << ": "
-           << ex.what();
+        auto &ti = typeid(ex);
+        os << "exception " << demangle(ti.name()) << ": " << ex.what();
     }
     catch (...) {
-        auto ti = __cxxabiv1::__cxa_current_exception_type();
+        auto *ti = __cxxabiv1::__cxa_current_exception_type();
         os << "exception " << demangle(ti->name());
     }
 }
+
+template <class Arg>
+inline void sprint_one(std::ostream &os, Arg &&arg) {
+    os << std::forward<Arg>(arg);
+}
+
+struct __sprint_one_fn {
+    template <class Arg>
+    void operator()(std::ostream &os, Arg &&arg) const {
+        sprint_one(os, std::forward<Arg>(arg));
+    }
+};
+
+} // namespace __detail
+
+// Niebloid for value displaying.  All TAP functions eventually use
+// this for output.  Use ADL for custom types.
+
+static inline constexpr __detail::__sprint_one_fn sprint_one;
 
 static inline void sprint(std::ostream &) {}
 
@@ -389,7 +387,7 @@ class todo {
     }
 };
 
-#define TODO(REASON) if (tap::todo __todo{REASON}; true)
+#define TODO(REASON) if (tap::todo __todo{REASON}; true) // NOLINT
 
 template <class... Args>
 [[noreturn]] static inline void bail_out(Args &&...args) {
