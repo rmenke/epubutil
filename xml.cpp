@@ -120,6 +120,12 @@ void write_metadata(node_ptr metadata_node, const class metadata &m) {
             new_child_node(metadata_node, nullptr, u8"meta", m.layout());
         set_attribute(meta, u8"property", u8"rendition:layout");
     }
+
+    {
+        auto meta =
+            new_child_node(metadata_node, nullptr, u8"meta", u8"true");
+        set_attribute(meta, u8"property", u8"ibooks:specified-fonts");
+    }
 }
 
 template <class Manifest>
@@ -169,6 +175,8 @@ void write_package(const std::filesystem::path &path, const package &p) {
 
     auto spine = new_child_node(root, opf_ns, u8"spine");
     write_spine(spine, p.spine());
+
+    set_attribute(root, u8"prefix", u8"ibooks: http://vocabulary.itunes.apple.com/rdf/ibooks/vocabulary-extensions-1.0/");
 
     save_file(path, doc, 1);
 }
