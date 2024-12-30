@@ -1,4 +1,6 @@
+#include <cstring>
 #include <iostream>
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wall"
 #pragma clang diagnostic ignored "-Wextra"

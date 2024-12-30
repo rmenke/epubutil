@@ -1,7 +1,7 @@
 #ifndef _epub_geom_hpp_
 #define _epub_geom_hpp_
 
-#include <concepts>
+#include <cmath>
 #include <ostream>
 
 inline namespace geom {
