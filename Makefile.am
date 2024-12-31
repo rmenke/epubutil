@@ -31,12 +31,11 @@ binder_SOURCES = src/binder.cpp src/options.hpp
 
 comic_LDADD = libepubutil.la
 
-comic_SOURCES = src/comic.cpp src/options.hpp imageinfo/imageinfo.hpp	\
-                src/book.hpp src/chapter.hpp src/geom.hpp		\
-                src/image_ref.cpp src/image_ref.hpp src/page.cpp	\
-                src/page.hpp
+comic_SOURCES = src/comic.cpp src/options.hpp src/book.hpp      \
+                src/chapter.hpp src/geom.hpp src/image_ref.cpp  \
+                src/image_ref.hpp src/page.cpp src/page.hpp
 
-AM_CPPFLAGS = $(LIBXML2_CPPFLAGS)
+AM_CPPFLAGS = $(LIBXML2_CPPFLAGS) -I$(top_srcdir)/imageinfo/include
 AM_CXXFLAGS =
 LIBS = $(LIBXML2_LIBS)
 
@@ -67,5 +66,8 @@ git-tag:
 clean-local: code-coverage-clean
 	@find "$(abs_top_srcdir)" -name '*~' -print0 | xargs -0t $(RM)
 
-imageinfo/imageinfo.hpp:
-	git submodule update imageinfo
+src/image_ref.cpp: imageinfo/include/imageinfo.hpp
+
+imageinfo/include/imageinfo.hpp:
+	git submodule init
+	git submodule update
