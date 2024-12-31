@@ -1,11 +1,11 @@
-TESTS = 01-container.test 02-package.test 03-media.test 04-image.test \
+TESTS = 01-container.test 02-package.test 03-media.test 04-image.test	\
         05-geom.test
 
 TEST_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) \
 	$(top_srcdir)/build-aux/tap-driver.sh
 
 AM_DEFAULT_SOURCE_EXT = .cpp
-AM_CPPFLAGS = -I$(top_srcdir) -DTESTDIR=\"$(abs_srcdir)\"
+AM_CPPFLAGS = -I$(top_srcdir)/src -DTESTDIR=\"$(abs_srcdir)\"
 AM_CXXFLAGS = -Wall -Wpedantic
 
 LDADD = $(top_builddir)/libepubutil.la

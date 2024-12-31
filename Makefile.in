@@ -121,17 +121,17 @@ PROGRAMS = $(bin_PROGRAMS)
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libepubutil_la_LIBADD =
 am__dirstamp = $(am__leading_dot)dirstamp
-am_libepubutil_la_OBJECTS = container.lo src/logging.lo metadata.lo \
-	xml.lo minidom.lo
+am_libepubutil_la_OBJECTS = src/container.lo src/logging.lo \
+	src/metadata.lo src/xml.lo src/minidom.lo
 libepubutil_la_OBJECTS = $(am_libepubutil_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
-am_binder_OBJECTS = binder.$(OBJEXT)
+am_binder_OBJECTS = src/binder.$(OBJEXT)
 binder_OBJECTS = $(am_binder_OBJECTS)
 binder_DEPENDENCIES = libepubutil.la
-am_comic_OBJECTS = comic.$(OBJEXT) src/image_ref.$(OBJEXT) \
+am_comic_OBJECTS = src/comic.$(OBJEXT) src/image_ref.$(OBJEXT) \
 	src/page.$(OBJEXT)
 comic_OBJECTS = $(am_comic_OBJECTS)
 comic_DEPENDENCIES = libepubutil.la
@@ -179,11 +179,11 @@ am__v_at_1 =
 DEFAULT_INCLUDES = 
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/binder.Po ./$(DEPDIR)/comic.Po \
-	./$(DEPDIR)/container.Plo ./$(DEPDIR)/metadata.Plo \
-	./$(DEPDIR)/minidom.Plo ./$(DEPDIR)/xml.Plo \
-	src/$(DEPDIR)/image_ref.Po src/$(DEPDIR)/logging.Plo \
-	src/$(DEPDIR)/page.Po
+am__depfiles_remade = src/$(DEPDIR)/binder.Po src/$(DEPDIR)/comic.Po \
+	src/$(DEPDIR)/container.Plo src/$(DEPDIR)/image_ref.Po \
+	src/$(DEPDIR)/logging.Plo src/$(DEPDIR)/metadata.Plo \
+	src/$(DEPDIR)/minidom.Plo src/$(DEPDIR)/page.Po \
+	src/$(DEPDIR)/xml.Plo
 am__mv = mv -f
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -481,19 +481,21 @@ ACLOCAL_AMFLAGS = -I m4 --install
 SUBDIRS = . test
 EXTRA_DIST = git-semver
 noinst_LTLIBRARIES = libepubutil.la
-libepubutil_la_SOURCES = container.hpp container.cpp epub_options.hpp	\
-                         file_metadata.hpp src/constants.hpp		\
-                         src/logging.hpp src/logging.cpp		\
-                         manifest_item.hpp media_type.hpp		\
-                         metadata.hpp metadata.cpp package.hpp		\
-                         xml.hpp xml.cpp minidom.hpp minidom.cpp
+libepubutil_la_SOURCES = src/container.hpp src/container.cpp		\
+                         src/epub_options.hpp src/file_metadata.hpp	\
+                         src/constants.hpp src/logging.hpp		\
+                         src/logging.cpp src/manifest_item.hpp		\
+                         src/media_type.hpp src/metadata.hpp		\
+                         src/metadata.cpp src/options.hpp		\
+                         src/package.hpp src/xml.hpp src/xml.cpp	\
+                         src/minidom.hpp src/minidom.cpp
 
 @HAVE_ZIP_TRUE@dist_bin_SCRIPTS = pack
 @HAVE_ZIP_TRUE@CLEANFILES = $(bin_SCRIPTS)
 binder_LDADD = libepubutil.la
-binder_SOURCES = binder.cpp options.hpp
+binder_SOURCES = src/binder.cpp src/options.hpp
 comic_LDADD = libepubutil.la
-comic_SOURCES = comic.cpp options.hpp imageinfo/imageinfo.hpp		\
+comic_SOURCES = src/comic.cpp src/options.hpp imageinfo/imageinfo.hpp	\
                 src/book.hpp src/chapter.hpp src/geom.hpp		\
                 src/image_ref.cpp src/image_ref.hpp src/page.cpp	\
                 src/page.hpp
@@ -610,14 +612,21 @@ src/$(am__dirstamp):
 src/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) src/$(DEPDIR)
 	@: > src/$(DEPDIR)/$(am__dirstamp)
+src/container.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
 src/logging.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/metadata.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/xml.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
+src/minidom.lo: src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
 
 libepubutil.la: $(libepubutil_la_OBJECTS) $(libepubutil_la_DEPENDENCIES) $(EXTRA_libepubutil_la_DEPENDENCIES) 
 	$(AM_V_CXXLD)$(CXXLINK)  $(libepubutil_la_OBJECTS) $(libepubutil_la_LIBADD) $(LIBS)
+src/binder.$(OBJEXT): src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
 
 binder$(EXEEXT): $(binder_OBJECTS) $(binder_DEPENDENCIES) $(EXTRA_binder_DEPENDENCIES) 
 	@rm -f binder$(EXEEXT)
 	$(AM_V_CXXLD)$(CXXLINK) $(binder_OBJECTS) $(binder_LDADD) $(LIBS)
+src/comic.$(OBJEXT): src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
 src/image_ref.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/page.$(OBJEXT): src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
@@ -669,15 +678,15 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/binder.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/comic.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/container.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/metadata.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/minidom.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xml.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/binder.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/comic.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/container.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/image_ref.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/logging.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/metadata.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/minidom.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/page.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/xml.Plo@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -1069,15 +1078,15 @@ clean-am: clean-binPROGRAMS clean-generic clean-libtool clean-local \
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-		-rm -f ./$(DEPDIR)/binder.Po
-	-rm -f ./$(DEPDIR)/comic.Po
-	-rm -f ./$(DEPDIR)/container.Plo
-	-rm -f ./$(DEPDIR)/metadata.Plo
-	-rm -f ./$(DEPDIR)/minidom.Plo
-	-rm -f ./$(DEPDIR)/xml.Plo
+		-rm -f src/$(DEPDIR)/binder.Po
+	-rm -f src/$(DEPDIR)/comic.Po
+	-rm -f src/$(DEPDIR)/container.Plo
 	-rm -f src/$(DEPDIR)/image_ref.Po
 	-rm -f src/$(DEPDIR)/logging.Plo
+	-rm -f src/$(DEPDIR)/metadata.Plo
+	-rm -f src/$(DEPDIR)/minidom.Plo
 	-rm -f src/$(DEPDIR)/page.Po
+	-rm -f src/$(DEPDIR)/xml.Plo
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-libtool distclean-tags
@@ -1125,15 +1134,15 @@ installcheck-am:
 maintainer-clean: maintainer-clean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-		-rm -f ./$(DEPDIR)/binder.Po
-	-rm -f ./$(DEPDIR)/comic.Po
-	-rm -f ./$(DEPDIR)/container.Plo
-	-rm -f ./$(DEPDIR)/metadata.Plo
-	-rm -f ./$(DEPDIR)/minidom.Plo
-	-rm -f ./$(DEPDIR)/xml.Plo
+		-rm -f src/$(DEPDIR)/binder.Po
+	-rm -f src/$(DEPDIR)/comic.Po
+	-rm -f src/$(DEPDIR)/container.Plo
 	-rm -f src/$(DEPDIR)/image_ref.Po
 	-rm -f src/$(DEPDIR)/logging.Plo
+	-rm -f src/$(DEPDIR)/metadata.Plo
+	-rm -f src/$(DEPDIR)/minidom.Plo
 	-rm -f src/$(DEPDIR)/page.Po
+	-rm -f src/$(DEPDIR)/xml.Plo
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

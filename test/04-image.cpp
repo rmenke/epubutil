@@ -1,5 +1,5 @@
-#include "src/image_ref.hpp"
-#include "src/geom.hpp"
+#include "image_ref.hpp"
+#include "geom.hpp"
 
 #include <exception>
 #include <filesystem>

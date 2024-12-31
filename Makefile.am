@@ -10,12 +10,14 @@ SUBDIRS = . test
 EXTRA_DIST = git-semver
 
 noinst_LTLIBRARIES = libepubutil.la
-libepubutil_la_SOURCES = container.hpp container.cpp epub_options.hpp	\
-                         file_metadata.hpp src/constants.hpp		\
-                         src/logging.hpp src/logging.cpp		\
-                         manifest_item.hpp media_type.hpp		\
-                         metadata.hpp metadata.cpp package.hpp		\
-                         xml.hpp xml.cpp minidom.hpp minidom.cpp
+libepubutil_la_SOURCES = src/container.hpp src/container.cpp		\
+                         src/epub_options.hpp src/file_metadata.hpp	\
+                         src/constants.hpp src/logging.hpp		\
+                         src/logging.cpp src/manifest_item.hpp		\
+                         src/media_type.hpp src/metadata.hpp		\
+                         src/metadata.cpp src/options.hpp		\
+                         src/package.hpp src/xml.hpp src/xml.cpp	\
+                         src/minidom.hpp src/minidom.cpp
 
 bin_PROGRAMS = binder comic
 
@@ -25,11 +27,11 @@ CLEANFILES = $(bin_SCRIPTS)
 endif
 
 binder_LDADD = libepubutil.la
-binder_SOURCES = binder.cpp options.hpp
+binder_SOURCES = src/binder.cpp src/options.hpp
 
 comic_LDADD = libepubutil.la
 
-comic_SOURCES = comic.cpp options.hpp imageinfo/imageinfo.hpp		\
+comic_SOURCES = src/comic.cpp src/options.hpp imageinfo/imageinfo.hpp	\
                 src/book.hpp src/chapter.hpp src/geom.hpp		\
                 src/image_ref.cpp src/image_ref.hpp src/page.cpp	\
                 src/page.hpp

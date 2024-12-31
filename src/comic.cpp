@@ -3,12 +3,12 @@
 #include "file_metadata.hpp"
 #include "minidom.hpp"
 #include "options.hpp"
-#include "src/book.hpp"
-#include "src/chapter.hpp"
-#include "src/geom.hpp"
-#include "src/image_ref.hpp"
-#include "src/logging.hpp"
-#include "src/page.hpp"
+#include "book.hpp"
+#include "chapter.hpp"
+#include "geom.hpp"
+#include "image_ref.hpp"
+#include "logging.hpp"
+#include "page.hpp"
 #include "xml.hpp"
 
 using epub::comic::book;

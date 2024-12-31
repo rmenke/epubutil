@@ -1,4 +1,4 @@
-#include "src/geom.hpp"
+#include "geom.hpp"
 
 #include "tap.hpp"
 
@@ -36,5 +36,4 @@ int main() {
     rect = geom::size{120, 80};
 
     eq(geom::rect{50, 75, 120, 80}, rect, "size assignment");
-
 }
