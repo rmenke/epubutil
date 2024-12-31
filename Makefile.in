@@ -479,7 +479,7 @@ top_srcdir = @top_srcdir@
 @CODE_COVERAGE_ENABLED_TRUE@AM_DISTCHECK_CONFIGURE_FLAGS := $(AM_DISTCHECK_CONFIGURE_FLAGS) --disable-code-coverage
 ACLOCAL_AMFLAGS = -I m4 --install
 SUBDIRS = . test
-EXTRA_DIST = git-semver
+EXTRA_DIST = git-semver imageinfo/LICENSE imageinfo/README.md
 noinst_LTLIBRARIES = libepubutil.la
 libepubutil_la_SOURCES = src/container.hpp src/container.cpp		\
                          src/epub_options.hpp src/file_metadata.hpp	\
@@ -495,12 +495,17 @@ libepubutil_la_SOURCES = src/container.hpp src/container.cpp		\
 binder_LDADD = libepubutil.la
 binder_SOURCES = src/binder.cpp src/options.hpp
 comic_LDADD = libepubutil.la
-comic_SOURCES = src/comic.cpp src/options.hpp imageinfo/imageinfo.hpp	\
-                src/book.hpp src/chapter.hpp src/geom.hpp		\
-                src/image_ref.cpp src/image_ref.hpp src/page.cpp	\
-                src/page.hpp
 
-AM_CPPFLAGS = $(LIBXML2_CPPFLAGS) $(CODE_COVERAGE_CPPFLAGS)
+# Depends on https://github.com/xiaozhuai/imageinfo.git.  The archive
+# does not contain the entire distribution, just the copyright notice
+# and documentation.
+comic_SOURCES = src/comic.cpp src/options.hpp src/book.hpp	\
+                src/chapter.hpp src/geom.hpp src/image_ref.cpp	\
+                src/image_ref.hpp src/page.cpp src/page.hpp	\
+                imageinfo/include/imageinfo.hpp
+
+AM_CPPFLAGS = $(LIBXML2_CPPFLAGS) -I$(top_srcdir)/imageinfo/include \
+	$(CODE_COVERAGE_CPPFLAGS)
 AM_CXXFLAGS = $(CODE_COVERAGE_CXXFLAGS)
 CODE_COVERAGE_IGNORE_PATTERN = "$(abspath $(abs_top_builddir)/test/*)" "$(abspath $(abs_top_builddir)/imageinfo/*)"
 CODE_COVERAGE_GENHTML_OPTIONS = --demangle-cpp $(CODE_COVERAGE_GENHTML_OPTIONS_DEFAULT)
@@ -1306,8 +1311,9 @@ git-tag:
 clean-local: code-coverage-clean
 	@find "$(abs_top_srcdir)" -name '*~' -print0 | xargs -0t $(RM)
 
-imageinfo/imageinfo.hpp:
-	git submodule update imageinfo
+imageinfo/include/imageinfo.hpp:
+	git submodule init
+	git submodule update
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

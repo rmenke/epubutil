@@ -4,7 +4,7 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wall"
 #pragma clang diagnostic ignored "-Wextra"
-#include "../imageinfo/imageinfo.hpp"
+#include "imageinfo.hpp"
 #pragma clang diagnostic pop
 
 #include "image_ref.hpp"
@@ -26,13 +26,15 @@ static inline std::string to_digits(unsigned n, unsigned d) {
 namespace epub::comic {
 
 image_info::image_info(const std::filesystem::path &path) {
-    auto info = getImageInfo<IIFilePathReader>(path, II_FORMAT_PNG);
+    auto info = imageinfo::parse<imageinfo::FilePathReader>(path);
 
     if (!info) throw std::runtime_error{"cannot read image file"};
 
-    media_type = reinterpret_cast<const char8_t *>(info.getMimetype());
-    extension.replace_extension(info.getExt());
-    size = geom::size(info.getWidth(), info.getHeight());
+    media_type = reinterpret_cast<const char8_t *>(info.mimetype());
+    extension.replace_extension(info.ext());
+
+    const auto &sz = info.size();
+    size = geom::size(sz.width, sz.height);
 }
 
 image_ref::image_ref(const std::filesystem::path &path,
