@@ -17,7 +17,7 @@ libepubutil_la_SOURCES = src/container.hpp src/container.cpp		\
                          src/media_type.hpp src/metadata.hpp		\
                          src/metadata.cpp src/options.hpp		\
                          src/package.hpp src/xml.hpp src/xml.cpp	\
-                         src/minidom.hpp src/minidom.cpp
+                         src/minidom.hpp src/minidom.cpp src/uri.hpp
 
 bin_PROGRAMS = binder comic
 

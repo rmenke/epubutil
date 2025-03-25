@@ -1,5 +1,5 @@
-TESTS = 01-container.test 02-package.test 03-media.test 04-image.test	\
-        05-geom.test
+TESTS = 01-container.test 02-package.test 03-media.test 04-image.test \
+        05-geom.test 06-uri.test
 
 TEST_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) \
 	$(top_srcdir)/build-aux/tap-driver.sh

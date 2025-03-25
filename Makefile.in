@@ -488,7 +488,7 @@ libepubutil_la_SOURCES = src/container.hpp src/container.cpp		\
                          src/media_type.hpp src/metadata.hpp		\
                          src/metadata.cpp src/options.hpp		\
                          src/package.hpp src/xml.hpp src/xml.cpp	\
-                         src/minidom.hpp src/minidom.cpp
+                         src/minidom.hpp src/minidom.cpp src/uri.hpp
 
 @HAVE_ZIP_TRUE@dist_bin_SCRIPTS = pack
 @HAVE_ZIP_TRUE@CLEANFILES = $(bin_SCRIPTS)

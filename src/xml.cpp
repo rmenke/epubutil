@@ -3,6 +3,7 @@
 #include "container.hpp"
 #include "minidom.hpp"
 #include "package.hpp"
+#include "uri.hpp"
 
 #include <sstream>
 
@@ -134,7 +135,7 @@ void write_manifest(node_ptr manifest_node, Manifest &&manifest) {
         auto node = new_child_node(manifest_node, nullptr, u8"item");
 
         set_attribute(node, u8"id", item.id);
-        set_attribute(node, u8"href", item.path.u8string());
+        set_attribute(node, u8"href", uri_encoding(item.path.u8string()));
         set_attribute(node, u8"media-type",
                       item.metadata.at(u8"media-type"));
 
@@ -176,7 +177,10 @@ void write_package(const std::filesystem::path &path, const package &p) {
     auto spine = new_child_node(root, opf_ns, u8"spine");
     write_spine(spine, p.spine());
 
-    set_attribute(root, u8"prefix", u8"ibooks: http://vocabulary.itunes.apple.com/rdf/ibooks/vocabulary-extensions-1.0/");
+    set_attribute(root, u8"prefix",
+                  u8"ibooks: "
+                  u8"http://vocabulary.itunes.apple.com/rdf/ibooks/"
+                  u8"vocabulary-extensions-1.0/");
 
     save_file(path, doc, 1);
 }
@@ -204,7 +208,7 @@ void write_navigation(const std::filesystem::path &path,
         auto ss_link = new_child_node(head, h_ns, u8"link");
         set_attribute(ss_link, u8"rel", u8"stylesheet");
         set_attribute(ss_link, u8"type", u8"text/css");
-        set_attribute(ss_link, u8"href", ss.u8string());
+        set_attribute(ss_link, u8"href", uri_encoding(ss.u8string()));
     }
 
     new_child_node(body, h_ns, u8"h1", u8"Table of Contents");
@@ -217,7 +221,7 @@ void write_navigation(const std::filesystem::path &path,
 
     for (auto &&item : std::forward<Navigation>(navigation)) {
         const auto &title = item.metadata.at(u8"title");
-        auto href = item.path.u8string();
+        auto href = uri_encoding(item.path.u8string());
 
         auto li = new_child_node(ol, h_ns, u8"li");
         auto a = new_child_node(li, h_ns, u8"a", title);
