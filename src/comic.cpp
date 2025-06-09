@@ -166,6 +166,7 @@ int main(int argc, char **argv) {
     epub::container c{epub::container::options::omit_toc};
 
     c.package().metadata().pre_paginated();
+    c.package().metadata().orientation(config->orientation);
     c.package().metadata().creators() = std::move(config->creators);
     c.package().metadata().collections() = std::move(config->collections);
     c.package().metadata().description(config->description);

@@ -5,6 +5,7 @@
 #include <chrono>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <system_error>
 #include <vector>
 
@@ -159,6 +160,14 @@ class collection {
     }
 };
 
+/// @brief Rendering orientation.
+///
+enum class orientation {
+    automatic, ///< No constraint on orientation.
+    landscape, ///< Render in landscape orientation.
+    portrait,  ///< Render in portrait orientation.
+};
+
 /// @brief The metadata component of the package document.
 ///
 /// This class covers all the information that describes the
@@ -178,6 +187,7 @@ class metadata {
     std::vector<collection> _collections;
 
     bool _pre_paginated = false;
+    orientation _orientation = orientation::automatic;
 
   public:
     metadata()
@@ -262,9 +272,50 @@ class metadata {
     std::u8string layout() const {
         static constexpr std::u8string_view pre_paginated =
             u8"pre-paginated";
-        static constexpr std::u8string_view reflowable =
-            u8"reflowable";
+        static constexpr std::u8string_view reflowable = u8"reflowable";
         return std::u8string(_pre_paginated ? pre_paginated : reflowable);
+    }
+
+    /// @brief Select the rendition orientation.
+    ///
+    /// Calling this will tell the reading system to render the
+    /// content in landscape orientation.
+    ///
+    void landscape() {
+        orientation(orientation::landscape);
+    }
+
+    /// @brief Select the rendition orientation.
+    ///
+    /// Calling this will tell the reading system to render the
+    /// content in portrait orientation.
+    ///
+    void portrait() {
+        orientation(orientation::portrait);
+    }
+
+    /// @brief Select the rendition orientation.
+    ///
+    /// @param o the orientation to use
+    /// @sa epub::orientation
+    void orientation(enum orientation o) {
+        _orientation = o;
+    }
+
+    /// @brief The rendition orientation type.
+    ///
+    /// @return a string with the appropriate value for the @c
+    /// rendition:orientation property
+    ///
+    std::u8string orientation() const {
+        switch (_orientation) {
+            case orientation::landscape:
+                return u8"landscape";
+            case orientation::portrait:
+                return u8"portrait";
+            default:
+                return u8"auto";
+        }
     }
 };
 

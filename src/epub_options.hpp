@@ -22,6 +22,7 @@ struct configuration { // NOLINT
     std::vector<epub::collection> collections;
     std::u8string description;
     std::filesystem::path cover_image;
+    epub::orientation orientation = epub::orientation::automatic;
 
     configuration() = default;
 
@@ -178,6 +179,12 @@ void common_options(cli::option_processor &opt,
     opt.add_option("cover-image", [config](const std::string &arg) {
         config->cover_image = arg;
     }, "image for cover of publication");
+    opt.add_flag("landscape", [config] {
+        config->orientation = epub::orientation::landscape;
+    }, "force content to be rendered in landscape orientation");
+    opt.add_flag("portrait", [config] {
+        config->orientation = epub::orientation::portrait;
+    }, "force content to be rendered in portrait orientation");
 }
 
 } // namespace epub

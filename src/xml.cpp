@@ -116,17 +116,18 @@ void write_metadata(node_ptr metadata_node, const class metadata &m) {
         if (!id.empty()) set_attribute(meta, u8"id", id);
     }
 
-    {
-        auto meta =
-            new_child_node(metadata_node, nullptr, u8"meta", m.layout());
-        set_attribute(meta, u8"property", u8"rendition:layout");
+    auto meta =
+        new_child_node(metadata_node, nullptr, u8"meta", m.layout());
+    set_attribute(meta, u8"property", u8"rendition:layout");
+
+    if (m.orientation() != u8"auto") {
+        meta = new_child_node(metadata_node, nullptr, u8"meta",
+                              m.orientation());
+        set_attribute(meta, u8"property", u8"rendition:orientation");
     }
 
-    {
-        auto meta =
-            new_child_node(metadata_node, nullptr, u8"meta", u8"true");
-        set_attribute(meta, u8"property", u8"ibooks:specified-fonts");
-    }
+    meta = new_child_node(metadata_node, nullptr, u8"meta", u8"true");
+    set_attribute(meta, u8"property", u8"ibooks:specified-fonts");
 }
 
 template <class Manifest>

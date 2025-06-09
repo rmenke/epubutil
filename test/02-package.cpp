@@ -54,6 +54,9 @@ int main(int, const char **argv) {
 
         p.metadata().collections().push_back(collection);
 
+        p.metadata().pre_paginated();
+        p.metadata().portrait();
+
         epub::manifest_item item = {
             .id = u8"nav",
             .path = "nav.xhtml",
