@@ -30,7 +30,7 @@ void page::layout(separation_mode mode) {
     float origin_y, y_spacing; // NOLINT
 
     switch (mode) {
-        case separation_mode::external:
+        case separation_mode::internal:
             origin_y = 0;
             y_spacing = static_cast<float>(page_size.h - content_height) /
                         static_cast<float>(size() - 1);
@@ -40,7 +40,7 @@ void page::layout(separation_mode mode) {
                 static_cast<float>(page_size.h - content_height) /
                 static_cast<float>(size() + 1);
             break;
-        case separation_mode::internal:
+        case separation_mode::external:
             origin_y = static_cast<float>(page_size.h - content_height) / 2;
             y_spacing = 0;
             break;
