@@ -187,7 +187,7 @@ class metadata {
     std::vector<collection> _collections;
 
     bool _pre_paginated = false;
-    orientation _orientation = orientation::automatic;
+    epub::orientation _orientation = orientation::automatic;
 
   public:
     metadata()
@@ -298,7 +298,7 @@ class metadata {
     ///
     /// @param o the orientation to use
     /// @sa epub::orientation
-    void orientation(enum orientation o) {
+    void orientation(enum epub::orientation o) {
         _orientation = o;
     }
 
