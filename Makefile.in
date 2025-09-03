@@ -272,10 +272,10 @@ am__DIST_COMMON = $(srcdir)/Doxyfile.in $(srcdir)/Makefile.in \
 	$(top_srcdir)/build-aux/install-sh \
 	$(top_srcdir)/build-aux/ltmain.sh \
 	$(top_srcdir)/build-aux/missing \
-	$(top_srcdir)/build-aux/tap-driver.sh build-aux/ar-lib \
-	build-aux/compile build-aux/config.guess build-aux/config.sub \
-	build-aux/depcomp build-aux/install-sh build-aux/ltmain.sh \
-	build-aux/missing
+	$(top_srcdir)/build-aux/tap-driver.sh README.md \
+	build-aux/ar-lib build-aux/compile build-aux/config.guess \
+	build-aux/config.sub build-aux/depcomp build-aux/install-sh \
+	build-aux/ltmain.sh build-aux/missing
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -479,7 +479,8 @@ top_srcdir = @top_srcdir@
 @CODE_COVERAGE_ENABLED_TRUE@AM_DISTCHECK_CONFIGURE_FLAGS := $(AM_DISTCHECK_CONFIGURE_FLAGS) --disable-code-coverage
 ACLOCAL_AMFLAGS = -I m4 --install
 SUBDIRS = . test
-EXTRA_DIST = git-semver imageinfo/LICENSE imageinfo/README.md
+EXTRA_DIST = git-semver LICENSE README.md imageinfo/LICENSE \
+	imageinfo/README.md
 noinst_LTLIBRARIES = libepubutil.la
 libepubutil_la_SOURCES = src/container.hpp src/container.cpp		\
                          src/epub_options.hpp src/file_metadata.hpp	\
@@ -507,8 +508,12 @@ comic_SOURCES = src/comic.cpp src/options.hpp src/book.hpp	\
 AM_CPPFLAGS = $(LIBXML2_CPPFLAGS) -I$(top_srcdir)/imageinfo/include \
 	$(CODE_COVERAGE_CPPFLAGS)
 AM_CXXFLAGS = $(CODE_COVERAGE_CXXFLAGS)
-CODE_COVERAGE_IGNORE_PATTERN = "$(abspath $(abs_top_builddir)/test/*)" "$(abspath $(abs_top_builddir)/imageinfo/*)"
-CODE_COVERAGE_GENHTML_OPTIONS = --demangle-cpp $(CODE_COVERAGE_GENHTML_OPTIONS_DEFAULT)
+CODE_COVERAGE_IGNORE_PATTERN = "$(abspath $(abs_top_builddir)/test/*)" \
+                               "$(abspath $(abs_top_builddir)/imageinfo/*)"
+
+CODE_COVERAGE_GENHTML_OPTIONS = --demangle-cpp \
+                                $(CODE_COVERAGE_GENHTML_OPTIONS_DEFAULT)
+
 all: all-recursive
 
 .SUFFIXES:
