@@ -40,7 +40,7 @@ comic_SOURCES = src/comic.cpp src/options.hpp src/book.hpp	\
                 src/image_ref.hpp src/page.cpp src/page.hpp	\
                 imageinfo/include/imageinfo.hpp
 
-EXTRA_DIST += imageinfo/LICENSE imageinfo/README.md
+EXTRA_DIST += LICENSE README.md imageinfo/LICENSE imageinfo/README.md
 
 AM_CPPFLAGS = $(LIBXML2_CPPFLAGS) -I$(top_srcdir)/imageinfo/include
 AM_CXXFLAGS =
@@ -50,8 +50,10 @@ AM_CPPFLAGS += $(CODE_COVERAGE_CPPFLAGS)
 AM_CXXFLAGS += $(CODE_COVERAGE_CXXFLAGS)
 LIBS += $(CODE_COVERAGE_LIBS)
 
-CODE_COVERAGE_IGNORE_PATTERN = "$(abspath $(abs_top_builddir)/test/*)" "$(abspath $(abs_top_builddir)/imageinfo/*)"
-CODE_COVERAGE_GENHTML_OPTIONS = --demangle-cpp $(CODE_COVERAGE_GENHTML_OPTIONS_DEFAULT)
+CODE_COVERAGE_IGNORE_PATTERN = "$(abspath $(abs_top_builddir)/test/*)" \
+                               "$(abspath $(abs_top_builddir)/imageinfo/*)"
+CODE_COVERAGE_GENHTML_OPTIONS = --demangle-cpp \
+                                $(CODE_COVERAGE_GENHTML_OPTIONS_DEFAULT)
 
 git-add:
 	$(MAKE) distdir
